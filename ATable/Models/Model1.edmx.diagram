@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3fb3dd4b5e954387aca8acbbb6cba47c" Name="Diagram1" ZoomLevel="94">
+        <EntityTypeShape EntityType="AfpEatModel.Categorie" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.Commande" Width="1.5" PointX="11.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.CommandeProduit" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.EtatCommande" Width="1.5" PointX="9" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.Menu" Width="1.5" PointX="13.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.Operation" Width="1.5" PointX="11.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.Photo" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.Produit" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.Restaurant" Width="1.5" PointX="6" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.TypeCuisine" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.TypeVersement" Width="1.5" PointX="9" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AfpEatModel.Utilisateur" Width="1.5" PointX="9" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="AfpEatModel.FK_Produit_Categorie" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_Commande_EtatCommande" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_Commande_Restaurant" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_Commande_Utilisateur" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_CommandeProduit_Commande" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_CommandeProduit_Produit" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_Operation_TypeVersement" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_Operation_Utilisateur" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_Produit_Restaurant" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.FK_Restaurant_TypeCuisine" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.CommandeProduitMenu" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.MenuCategorie" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.ProduitPhoto" ManuallyRouted="false" />
+        <AssociationConnector Association="AfpEatModel.RestaurantPhoto" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AfpEatModel.SessionUtilisateur" Width="1.5" PointX="3.375" PointY="8.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

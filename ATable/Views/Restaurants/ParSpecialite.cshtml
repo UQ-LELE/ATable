@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Cuisine";
+
+    List<ATable.Models.Restaurant> restaurants = ViewBag.RestoByCuisine;
+    ATable.Models.TypeCuisine typeCuisine = ViewBag.TypeCuisine;
+
+    int nbRestultat = restaurants.Count();
+
+}
+
+<div class="container body-content">
+    <h3>Une envie de... <span class="courgette">@typeCuisine.Nom</span> ?</h3>
+    <div class="divider"></div>
+    <div class="box">
+        <h5>Voici les résultats : (@nbRestultat.ToString() restaurants au total)</h5>
+
+        <div class="row">
+            @foreach (var item in restaurants)
+            {
+                <div class="col s12 m6">
+                    <div class="card sticky-action hoverable small">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="~/Images/Aubergeade.jpg">
+                            <span class="card-title">
+                                @item.Nom
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            @item.TypeCuisine.Nom
+                            @item.Budget
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="@Url.Action("Details", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Voir la carte</a>
+                        </div>
+                        <div class="card-reveal" style="display: none; transform: translateY(0%);">
+                            <span class="card-title grey-text text-darken-4">
+                                @item.Nom
+                                <i class="material-icons right">close</i>
+                            </span>
+                            @item.TypeCuisine.Nom
+                            <br />
+                            @item.Description
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

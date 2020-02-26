@@ -1,0 +1,225 @@
+﻿/*Importation Fonts*/
+@font-face {
+    font-family: Roboto;
+    src: url('materialize/fonts/roboto/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: Courgette;
+    src: url('fonts/Courgette-regular.ttf');
+}
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(materialize/font/material-design-icons/Material-Design-Icons.eot); /* For IE6-8 */
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(materialize/font/material-design-icons/Material-Design-Icons.woff2) format('woff2'), url(materialize/font/material-design-icons/Material-Design-Icons.woff) format('woff'), url(materialize/font/material-design-icons/Material-Design-Icons.ttf) format('truetype');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+/*Disposion page*/
+
+body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+main {
+    padding-top: 10px;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/*Style Navbar*/
+
+.nav-wrapper .brand-logo {
+    font-family: Courgette, sans-serif;
+}
+
+nav ul a {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.dropdown-content {
+    min-width: 150px;
+}
+
+#dropdown1 {
+    margin-top: 64px;
+}
+
+.navPanier  {
+    background-color: #2bbbad;
+    letter-spacing: .5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    text-transform: uppercase;
+    vertical-align: baseline;
+}
+
+    .navPanier:hover {
+        background-color: #F44336;
+    }
+
+/*Style Images*/
+.lightbox {
+    transition: 0.3s;
+}
+
+    .lightbox:hover {
+        opacity: 0.7;
+    }
+
+/*Box*/
+
+.box {
+    margin: 15px;
+}
+
+/*Responsive mobile*/
+
+@media (max-width: 978px) {
+    .box {
+        margin: 2px;
+    }
+}
+
+@media (min-width: 1700px) {
+    .side-nav-menu {
+        width: 300px;
+    }
+}
+
+@media (max-width: 1700px) {
+    .side-nav-menu {
+        width: 250px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .side-nav-menu {
+        width: 200px;
+    }
+}
+
+
+
+
+/*Text & Title*/
+
+.courgette {
+    font-family: Courgette, sans-serif;
+}
+
+/*Menu & SideNav Menu*/
+
+
+
+.side-nav li {
+    line-height: 20px;
+}
+
+.user-li {
+    background-color: #26a69a !important;
+    color: #FFFFFF !important;
+}
+
+.sidePanier {
+    background-color: #F44336;
+    text-transform:uppercase;
+}
+
+.side-nav a:hover {
+    background-color: #F44336;
+}
+
+.btn-li {
+    background-color: #ee6e73 !important;
+}
+
+.menu .side-nav a, .menu .side-nav.fixed a {
+    color: #FFFFFF !important;
+}
+
+.btn-mini {
+    height: 18px;
+    width: 18px;
+    line-height: 14px;
+    padding: 0 0.5rem;
+}
+
+.article {
+    margin-top: 20px;
+}
+
+.ml-0 {
+    margin-left: 0px;
+}
+
+/*Importé de sidenav codepen, à filtrer*/
+#slide-out {
+    margin-top: 64px;
+}
+
+
+
+.dropdown-content li > a {
+    color: #00bcd4 !important;
+}
+
+/*.side-nav li.active {
+    background-color: #00bcd4 !important;
+}
+
+.side-nav li.user-li.active {
+    background-color: #ac3973 !important;
+}*/
+
+
+
+.side-nav li.active.lone a, .side-nav li.active ul li:first-child, .side-nav li.active.lone a svg, .side-nav li.active ul li div.collapsible-header p svg {
+    color: #FFFFFF !important;
+}
+
+
+
+
+/*.my-icon {
+    font-size: 1.5em;
+    margin-right: 14px;
+    color: #666666;
+}*/
+.changed {
+    margin-left: 5px;
+    color: #666666;
+}
+
+.no-margin {
+    margin: 0px;
+    !important
+}

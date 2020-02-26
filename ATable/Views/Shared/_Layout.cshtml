@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewBag.Title - Mon application ASP.NET</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/fontawesome")
+    @Scripts.Render("~/bundles/materialize")
+
+    <script>
+        $(document).ready(function () {
+            //JS SideNav mobile
+            $(".button-collapse").sideNav({
+            });
+            //JS SideNav panier
+            $('.sidenav').sideNav();
+
+            //JS DropDown Navar
+
+            $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrainWidth: false, // Does not change width of dropdown to that of the activator
+                hover: true, // Activate on hover
+                gutter: 0, // Spacing from edge
+                belowOrigin: false, // Displays dropdown below the button
+                alignment: 'left', // Displays dropdown with edge aligned to the left of button
+                stopPropagation: false // Stops event propagation
+            }
+            );
+            //Button back mobile
+            function goBack() {
+                window.history.back();
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <header>
+        <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="#"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Compte</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i>&nbsp;&nbsp;Paramètres</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Deconnexion</a></li>
+        </ul>
+
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="@Url.Action("Index", "Restaurants")" class="brand-logo">&nbsp;&nbsp;<i class="fas fa-utensils fa-lg"></i>&nbsp;&nbsp;A'&nbsp;Table !</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons">menu</i></a>
+                    <a href="#" onclick="goBack()" class="button-collapse left"><i class="material-icons">arrow_back</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="@Url.Action("Connexion", "Utilisateurs")">Se Connecter</a></li>
+                        <li><a href="@Url.Action("Create", "Utilisateurs")">S'inscrire</a></li>
+                        <li><a href="@Url.Action("Create", "Utilisateurs")">Besoin d'aide ?</a></li>
+                        <li><a class="waves-effect waves-light navPanier" href="@Url.Action("Panier", "Commandes")"><span class="total" style="font-size:20px;">0</span>€&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-basket fa-2x"></i></a></li>
+                        <li><a href="#"><i class="material-icons dropdown-button" data-activates="dropdown1">account_circle</i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
+        <ul class="side-nav" id="mobile-demo">
+            <li><a href="@Url.Action("Connexion", "Utilisateurs")"><i class="material-icons">account_circle</i>&nbsp;&nbsp;&nbsp;Se Connecter</a></li>
+            <li><a href="@Url.Action("Create", "Utilisateurs")"><i class="material-icons">person_add</i>&nbsp;&nbsp;&nbsp;S'inscrire</a></li>
+            <li><a href="@Url.Action("Create", "Utilisateurs")"><i class="material-icons">help_outline</i>&nbsp;&nbsp;&nbsp;Besoin d'aide ?</a></li>
+            <li><a href="@Url.Action("Index", "Commande")"><i class="material-icons">shopping_basket</i>&nbsp;&nbsp;&nbsp;Mon Panier</a></li>
+        </ul>
+
+    </header>
+
+    <main>
+        <div class="">
+            @RenderBody()
+            @*<hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Mon application ASP.NET</p>
+                </footer>*@
+        </div>
+    </main>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+
+
+    <script>
+
+
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

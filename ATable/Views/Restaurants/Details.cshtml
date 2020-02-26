@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "Details";
+
+    List<ATable.Models.Produit> entree = ViewBag.Entree;
+    List<ATable.Models.Produit> plat = ViewBag.Plat;
+    List<ATable.Models.Produit> dessert = ViewBag.Dessert;
+    ATable.Models.Restaurant restaurant = ViewBag.Restaurant;
+    ATable.Models.Utilisateur user = ViewBag.User;
+}
+
+
+<div class="menu">
+    <ul id="slide-out" class="side-nav fixed main-side side-nav-menu">
+        <li class="user-li">
+            <div class="user-view">
+                <div class="background">
+                </div>
+                @if (user != null)
+                {
+                    <p class="no-margin"><span class="white-text name">John Doe</span></p>
+                    <p class="no-margin"><span class="white-text email">Administrator</span></p>
+                }
+                else
+                {
+                    <div class="center-align">
+                        <a href="@Url.Action("Connexion", "Utilisateurs")"><i class="fas fa-sign-in-alt fa-lg"></i>&nbsp;&nbsp;Se Connecter</a>
+                    </div>
+                }
+            </div>
+        </li>
+        <li class="btn-li center-align">
+            <a class="waves-effect waves-light navPanier" href=@Url.Action("Panier", "Commandes", new { id = restaurant.IdRestaurant })>
+                <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Panier :&nbsp;&nbsp;<span class="total" style="font-size:20px;">0</span>€<sup>&nbsp;TTC</sup>
+            </a>
+        </li>
+        <li id="sidePanier" class="lone">
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col s12 m12 l9 offset-l2 xl10 offset-xl2">
+        <h2 class="courgette" style="text-decoration:underline;">@restaurant.Nom</h2>
+        <div class="box">
+
+            <table class="bordered">
+                <tbody>
+                    <tr>
+                        <td><h3>Entrées</h3></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var item in entree)
+                    {
+                        <tr>
+                            <td>
+                                @item.Nom
+                            </td>
+                            <td class="hide-on-small-and-down">
+                                @item.Description
+                            </td>
+                            <td class="hide-on-small-and-down">
+                                @item.Prix €
+                            </td>
+                            <td class="right">
+                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td><h3>Plats</h3></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var item in plat)
+                    {
+                        <tr>
+                            <td>
+                                @item.Nom
+                            </td>
+                            <td class="hide-on-small-and-down">
+                                @item.Description
+                            </td>
+                            <td class="hide-on-small-and-down">
+                                @item.Prix €
+                            </td>
+                            <td class="right">
+                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td><h3>Desserts</h3></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var item in dessert)
+                    {
+                        <tr>
+                            <td>
+                                @item.Nom
+                            </td>
+                            <td class="hide-on-small-and-down">
+                                @item.Description
+                            </td>
+                            <td class="hide-on-small-and-down">
+                                @item.Prix €
+                            </td>
+                            <td class="right">
+                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.side-nav li').click(function () {
+                $('.side-nav li.active').removeClass('active');
+                $(this).closest('li').addClass('active');
+            });
+
+            $(".add").click(function () {
+
+                var data = { 'idProduit' : $(this).data('idproduit'), 'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("AddProduit", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('#sidePanier').html(data.panier);
+                        $('.total').html(data.total);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            });             
+        });
+
+        function deleteProduit(idProduit) {
+            var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("DeleteProduit", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('#sidePanier').html(data.panier);
+                        $('.total').html(data.total);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+        }
+
+    </script>
+}

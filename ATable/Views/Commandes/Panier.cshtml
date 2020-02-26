@@ -1,0 +1,141 @@
+﻿@model IEnumerable<ATable.Models.ProduitPanier>
+
+@{
+    ViewBag.Title = "Panier";
+
+    string isConnected = Session["Utilisateur"] != null ? "true" : "false";
+
+}
+
+<h2>Panier</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Photo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantite)
+        </th>
+        <th></th>
+    </tr>
+
+    @if (Model != null && Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Photo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prix)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantite)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<a class="waves-effect waves-light btn" id="payer">
+    <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
+</a>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+        <input type="text" />
+        <input type="password" />
+        <input type="submit" />
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#payer").click(function () {
+                if (@isConnected) {
+                    SaveCommandeWS();
+                } else {
+                    $('.modal').openModal();
+                }
+            });
+        });
+
+        function SaveCommandeWS() {
+            var data = { 'idSession': '@Session.SessionID' };
+
+            $.ajax({
+                    url: '@Url.Action("SaveCommande", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+
+                        @Url.Action("Scooter", "");
+                        //show message success
+                    },
+                    error: function () {
+                        //show message error
+                        alert('Error');
+                    }
+            });
+        }
+
+        function LoginWS() {
+            var matricule = $('#matricule').val();
+            var password = $('#password').val();
+
+            if (matricule != "" && password != "") {
+
+                var data = { 'idSession': '@Session.SessionID', 'matricule': matricule, 'password': password };
+
+                $.ajax({
+                        url: '@Url.Action("Login", "WebService")',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json; charset=utf-8',
+                        DataType: 'json',
+                    success: function (data) {
+                        if (data.error == 1) {
+                           $('.modal').close();
+                        }
+                            //show message success
+                        },
+                        error: function () {
+                            //show message error
+                            alert('Error');
+                        }
+                });
+            }
+        }
+
+    </script>
+}
+
+

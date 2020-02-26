@@ -1,0 +1,85 @@
+﻿
+@{
+    List<ATable.Models.Restaurant> restaurants = ViewBag.Restaurants;
+    List<ATable.Models.TypeCuisine> typeCuisines = ViewBag.TypeCuisines;
+}
+
+    <div class="container body-content">
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">search</i>
+                        <input id="icon_prefix2" type="text" class="validate">
+                        <label for="icon_prefix2">Envie de manger...</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--Tabs-->
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a class="active" href="#ParSpecialite">Par Specialité</a></li>
+                    <li class="tab col s3"><a href="#ParRestaurant">Par Restaurant</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--ParSpecialite-->
+        <div id="ParSpecialite">
+            <div class="row">
+                @foreach (var item in typeCuisines)
+                {
+                    <div class="col s12 m6 ">
+                        <div class="card z-depth-1 hoverable">
+                            <div class="card-image">
+                                <a href=@Url.Action("ParSpecialite","Restaurants", new {id = item.IdTypeCuisine })>
+                                    <img class="lightbox" style="max-height:280px;" src=@item.Photo alt=@item.Nom>
+                                    <span class="card-title">@item.Nom</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        <!--ParRestaurant-->
+        <div id="ParRestaurant">
+            <div class="row">
+                @foreach (var item in restaurants)
+                {
+                    <div class="col s12 m6">
+                        <div class="card sticky-action hoverable small">
+                            <div class="card-image waves-effect waves-block waves-light" >
+                                <img class="activator" src="~/Images/Aubergeade.jpg">
+                                <span class="card-title">
+                                    @item.Nom
+                                </span>
+                            </div>
+                            <div class="card-content">
+                                @item.TypeCuisine.Nom
+                                @item.Budget
+                            </div>
+                            <div class="card-action center-align">
+                                <a href="@Url.Action("Details", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
+                            </div>
+                            <div class="card-reveal" style="display: none; transform: translateY(0%);">
+                                <span class="card-title grey-text text-darken-4">
+                                    @item.Nom
+                                    <i class="material-icons right">close</i>
+                                </span>
+                                @item.TypeCuisine.Nom
+                                <br />
+                                @item.Description
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
