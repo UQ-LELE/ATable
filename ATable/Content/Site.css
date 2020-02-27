@@ -127,18 +127,19 @@ nav ul a {
     }
 }
 
-
+@media (max-width: 600px) {
+    .no-mobile {
+        display: none;
+    }
+}
 
 
 /*Text & Title*/
-
 .courgette {
     font-family: Courgette, sans-serif;
 }
 
 /*Menu & SideNav Menu*/
-
-
 
 .side-nav li {
     line-height: 20px;

@@ -24,6 +24,7 @@ namespace ATable.Controllers
             return View();
         }
 
+
         public ActionResult ParSpecialite(int id)
         {
 
