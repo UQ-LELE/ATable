@@ -31,8 +31,8 @@ namespace ATable.Controllers
                 if (user != null)
                 {
                     user.IdSession = Session.SessionID;
-                    Session["Utilisateur"] = utilisateur;
-                    return RedirectToAction("Index", "Home");
+                    Session["Utilisateur"] = user;
+                    return RedirectToAction("Index", "Restaurants");
                 }
             }
             return View();

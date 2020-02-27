@@ -56,15 +56,7 @@ namespace ATable.Controllers
             ViewBag.Dessert = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 3).ToList();
             ViewBag.Restaurant = db.Restaurants.Where(p => p.IdRestaurant == id).SingleOrDefault();
 
-            if(Session["User"] != null)
-            {
-                ViewBag.User = Session["User"];
-            }
-            else
-            {
-                ViewBag.User = null;
-            }
-
+            ViewBag.User =  Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
 
             return View();
         }

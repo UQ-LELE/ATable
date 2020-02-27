@@ -7,60 +7,54 @@
 
 }
 
-<h2>Panier</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Photo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Prix)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantite)
-        </th>
-        <th></th>
-    </tr>
+<div class="container body-content">
+    <div class="row valign-wrapper center-align">
+        <div class="col s12 m10 offset-m1 valign">
+            <h2 class="courgette">Votre panier</h2>
+            <table class="table table-panier">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                <tr class="card-panel">
 
-    @if (Model != null && Model.Count() > 0)
-    {
-        foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Photo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prix)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantite)
-                </td>
-                <td>
-                    <button class="btn-floating btn-mini waves-effect waves-light red delete" onclick="deleteProduit(@item.Quantite)">-</button>;
-                </td>
-            </tr>
-        }
-    }
-</table>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Photo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nom)
+                    </td>
 
-<a class="waves-effect waves-light btn" id="payer">
-    <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
-</a>
+                    <td class="hide-on-small-and-down">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @(item.Prix * item.Quantite)&nbsp;€
+                    </td>
+                    <td class="center-align">
+                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                    </td>
+                    <td class="center-align">
+                        @Html.DisplayFor(modelItem => item.Quantite)
+                    </td>
+                    <td class="center-align">
+                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">remove</i></button>
+                    </td>
+                </tr>
 
+                    }
+                }
+            </table>
+
+            <a class="waves-effect waves-light btn-large col s12 m6 offset-m3" id="payer">
+                <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--Modal connexion-->
 <div id="modal1" class="modal">
     <div class="modal-content">
         <h4>Modal Header</h4>

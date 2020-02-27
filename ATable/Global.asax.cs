@@ -18,14 +18,11 @@ namespace ATable
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-
             AfpEatEntities db = new AfpEatEntities();
 
             List<SessionUtilisateur> sessions = db.SessionUtilisateurs.ToList();
-            //db.SessionUtilisateurs.RemoveRange(sessions);
-            //db.SaveChanges();
-
-
+            db.SessionUtilisateurs.RemoveRange(sessions);
+            db.SaveChanges();
         }
 
         protected void Application_End()
@@ -41,7 +38,6 @@ namespace ATable
             sessionUtilisateur.DateSession = DateTime.Now;
             db.SessionUtilisateurs.Add(sessionUtilisateur);
             db.SaveChanges();
-
         }
 
         protected void Session_End()

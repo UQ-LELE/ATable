@@ -154,6 +154,7 @@ nav ul a {
     padding: 10px;
     opacity: 0.9;
 }
+
 /*Menu & SideNav Menu*/
 .side-nav li {
     line-height: 20px;
@@ -190,6 +191,14 @@ nav ul a {
 .ml-0 {
     margin-left: 0px;
 }
+
+/*Votre Panier*/
+.table-panier {
+    border-collapse: separate; /* allow spacing between cell borders */
+    border-spacing: 0 20px;
+}
+
+
 
 /*Importé de sidenav codepen, à filtrer*/
 #slide-out {

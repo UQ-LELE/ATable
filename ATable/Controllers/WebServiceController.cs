@@ -14,11 +14,8 @@ namespace ATable.Controllers
 
         //GET: SW
         public JsonResult AddProduit(int idProduit, string idSession)
-        {
-     
-
+        {   
             PanierHtml panierHtml = new PanierHtml();
-
 
             SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
 
@@ -61,7 +58,6 @@ namespace ATable.Controllers
                 HttpContext.Application[idSession] = panier;
 
                 panierHtml = ShowPanier(panier);
-
             }
 
             return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
@@ -84,6 +80,7 @@ namespace ATable.Controllers
                     panier = (List<ProduitPanier>)HttpContext.Application[idSession];
                 }
 
+                
                 ProduitPanier produitPanier = panier.Where(p => p.IdProduit == idProduit).First();
 
                 if (produitPanier.Quantite == 1)
