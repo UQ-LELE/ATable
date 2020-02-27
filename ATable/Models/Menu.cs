@@ -31,5 +31,6 @@ namespace ATable.Models
         public virtual ICollection<CommandeProduit> CommandeProduits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Categorie> Categories { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
     }
 }

@@ -261,6 +261,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Menu_Restaurant">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="IdRestaurant" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="IdRestaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MenuCategorie_Categorie">
           <End Role="Categorie" Type="Self.Categorie" Multiplicity="1" />
           <End Role="MenuCategorie" Type="Self.MenuCategorie" Multiplicity="*" />
@@ -440,6 +452,10 @@
             <End Role="Menu" EntitySet="Menu" />
             <End Role="CommandeProduitMenu" EntitySet="CommandeProduitMenu" />
           </AssociationSet>
+          <AssociationSet Name="FK_Menu_Restaurant" Association="Self.FK_Menu_Restaurant">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
           <AssociationSet Name="FK_MenuCategorie_Categorie" Association="Self.FK_MenuCategorie_Categorie">
             <End Role="Categorie" EntitySet="Categorie" />
             <End Role="MenuCategorie" EntitySet="MenuCategorie" />
@@ -546,6 +562,7 @@
           <Property Name="IdRestaurant" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CommandeProduits" Relationship="Self.CommandeProduitMenu" FromRole="Menu" ToRole="CommandeProduit" />
           <NavigationProperty Name="Categories" Relationship="Self.MenuCategorie" FromRole="Menu" ToRole="Categorie" />
+          <NavigationProperty Name="Restaurant" Relationship="AfpEatModel.FK_Menu_Restaurant" FromRole="Menu" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="Operation">
           <Key>
@@ -606,6 +623,7 @@
           <NavigationProperty Name="Produits" Relationship="Self.FK_Produit_Restaurant" FromRole="Restaurant" ToRole="Produit" />
           <NavigationProperty Name="TypeCuisine" Relationship="Self.FK_Restaurant_TypeCuisine" FromRole="Restaurant" ToRole="TypeCuisine" />
           <NavigationProperty Name="Photos" Relationship="Self.RestaurantPhoto" FromRole="Restaurant" ToRole="Photo" />
+          <NavigationProperty Name="Menus" Relationship="AfpEatModel.FK_Menu_Restaurant" FromRole="Restaurant" ToRole="Menu" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -857,6 +875,10 @@
             <End Role="Restaurant" EntitySet="Restaurants" />
           </AssociationSet>
           <EntitySet Name="SessionUtilisateurs" EntityType="AfpEatModel.SessionUtilisateur" />
+          <AssociationSet Name="FK_Menu_Restaurant" Association="AfpEatModel.FK_Menu_Restaurant">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SessionUtilisateur">
           <Key>
@@ -865,6 +887,18 @@
           <Property Name="IdSession" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DateSession" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <Association Name="FK_Menu_Restaurant">
+          <End Type="AfpEatModel.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="AfpEatModel.Menu" Role="Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="IdRestaurant" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="IdRestaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

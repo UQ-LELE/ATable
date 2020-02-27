@@ -134,6 +134,8 @@ namespace ATable.Controllers
             if(panier != null && panier.Count > 0)
             {
                 //faire une redirection vers actual page avec message d'erreur panier vide
+                
+
                 return View(panier);
             }
             return RedirectToAction("Index", "Restaurants");

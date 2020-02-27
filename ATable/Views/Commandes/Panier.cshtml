@@ -50,7 +50,7 @@
                     @Html.DisplayFor(modelItem => item.Quantite)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <button class="btn-floating btn-mini waves-effect waves-light red delete" onclick="deleteProduit(@item.Quantite)">-</button>;
                 </td>
             </tr>
         }
@@ -134,6 +134,26 @@
                 });
             }
         }
+
+        @*function deleteProduit(idProduit) {
+            var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("DeleteProduit", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('#Panier').html(data.panier);
+                        $('.total').html(data.total);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+        }*@
+
 
     </script>
 }

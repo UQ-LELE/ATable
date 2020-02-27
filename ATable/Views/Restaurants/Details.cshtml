@@ -42,7 +42,7 @@
     <div class="col s12 m12 l9 offset-l2 xl10 offset-xl2">
         <h2 class="courgette" style="text-decoration:underline;">@restaurant.Nom</h2>
         <div class="box">
-
+            
             <table class="bordered">
                 <tbody>
                     <tr>
@@ -123,6 +123,24 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+
+            var data = {'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("GetPanierHtml", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                           $('#sidePanier').html(data.panier);
+                        
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+
             $('.side-nav li').click(function () {
                 $('.side-nav li.active').removeClass('active');
                 $(this).closest('li').addClass('active');
@@ -139,6 +157,7 @@
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
                     success: function (data) {
+                        test = data.panier;
                         $('#sidePanier').html(data.panier);
                         $('.total').html(data.total);
                     },

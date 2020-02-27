@@ -56,7 +56,8 @@
             <nav>
                 <div class="nav-wrapper">
                     <a href="@Url.Action("Index", "Restaurants")" class="brand-logo">&nbsp;&nbsp;<i class="fas fa-utensils fa-lg"></i>&nbsp;&nbsp;A'&nbsp;Table !</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons">menu</i></a>
+                    <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">menu</i></a>
+                    <a href="#" data-activates="mobile-panier" class="button-collapse right"><i class="fas fa-shopping-basket fa-2x"></i></a>
                     <a href="#" onclick="goBack()" class="button-collapse left"><i class="material-icons">arrow_back</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a href="@Url.Action("Connexion", "Utilisateurs")">Se Connecter</a></li>
@@ -70,11 +71,27 @@
         </div>
 
 
-        <ul class="side-nav" id="mobile-demo">
+        <ul class="side-nav" id="mobile-menu">
             <li><a href="@Url.Action("Connexion", "Utilisateurs")"><i class="material-icons">account_circle</i>&nbsp;&nbsp;&nbsp;Se Connecter</a></li>
             <li><a href="@Url.Action("Create", "Utilisateurs")"><i class="material-icons">person_add</i>&nbsp;&nbsp;&nbsp;S'inscrire</a></li>
             <li><a href="@Url.Action("Create", "Utilisateurs")"><i class="material-icons">help_outline</i>&nbsp;&nbsp;&nbsp;Besoin d'aide ?</a></li>
             <li><a href="@Url.Action("Index", "Commande")"><i class="material-icons">shopping_basket</i>&nbsp;&nbsp;&nbsp;Mon Panier</a></li>
+        </ul>
+
+        <ul class="side-nav side-nav-panier" id="mobile-panier">
+            <li class="user-li">
+                <div class="user-view">
+                    <div class="background">
+                    </div>
+                    <p class="no-margin"><span class="white-text name">John Doe</span></p>
+                    <p class="no-margin"><span class="white-text email">Administrator</span></p>
+                </div>
+            </li>
+            <li class="btn-li center-align">
+
+            </li>
+            <li id="sidePanier" class="lone">
+            </li>
         </ul>
 
     </header>
@@ -94,12 +111,27 @@
 
 
     <script>
-
-
-
         function goBack() {
             window.history.back();
         }
+
+        $(document).ready(function () {
+            var data = {'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("GetPanierHtml", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                       $('.total').html(data.total);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+        });
     </script>
 </body>
 </html>

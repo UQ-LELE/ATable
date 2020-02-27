@@ -15,8 +15,10 @@ namespace ATable.Controllers
         //GET: SW
         public JsonResult AddProduit(int idProduit, string idSession)
         {
-            string html = "";
-            decimal total = 0;
+     
+
+            PanierHtml panierHtml = new PanierHtml();
+
 
             SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
 
@@ -58,20 +60,16 @@ namespace ATable.Controllers
 
                 HttpContext.Application[idSession] = panier;
 
-                foreach (ProduitPanier item in panier)
-                {
-                    html += ShowPanier(item);
-                    total += item.Prix * item.Quantite;
-                }
+                panierHtml = ShowPanier(panier);
+
             }
 
-            return Json(new {panier = html, total = string.Format("{0:0.00}", total) }, JsonRequestBehavior.AllowGet);
+            return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeleteProduit(int idProduit, string idSession)
         {
-            string html = "";
-            decimal total = 0;
+            PanierHtml panierHtml = null;
 
             SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
 
@@ -86,7 +84,6 @@ namespace ATable.Controllers
                     panier = (List<ProduitPanier>)HttpContext.Application[idSession];
                 }
 
-
                 ProduitPanier produitPanier = panier.Where(p => p.IdProduit == idProduit).First();
 
                 if (produitPanier.Quantite == 1)
@@ -98,31 +95,35 @@ namespace ATable.Controllers
                     produitPanier.Quantite -= 1;
                 }
 
-                HttpContext.Application[idSession] = panier;
 
-                foreach (ProduitPanier item in panier)
-                {
-                    html += ShowPanier(item);
-                    total += item.Prix * item.Quantite;
-                }
+                panierHtml = ShowPanier(panier);
+
+                HttpContext.Application[idSession] = panier;
 
             }
 
-            return Json(new { panier = html, total = string.Format("{0:0.00}", total) }, JsonRequestBehavior.AllowGet);
+            return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
         }
 
-        public string ShowPanier(ProduitPanier item)
-        {          
-            string html = "";
-            html += "<div class='row article valign-wrapper'>";
-            html += "<div class='col m2' style='margin-left:0px;'>";
-            html += "<button class='btn-floating btn-mini waves-effect waves-light red delete' onclick='deleteProduit(\""+ item.IdProduit +"\")'>-</button>";
-            html += "</div>";
-            html += "<div class='col m6' style='margin-left:0px;'><strong><span>" + item.Quantite + "&nbsp;&nbsp;x</span>&nbsp;&nbsp;" + item.Nom + "</strong></div>";
-            html += "<div class='col m4' style='margin-left:0px;'>" + item.Prix * item.Quantite + " €</div>";
-            html += "</div>";
-            html += "<div class='divider'></div>";
-            return html;
+        public PanierHtml ShowPanier(List<ProduitPanier> panier)
+        {
+            PanierHtml panierHtml = new PanierHtml();
+
+            panierHtml.hmtl = "";
+            panierHtml.total = 0;
+            foreach (ProduitPanier item in panier)
+            {
+                panierHtml.hmtl += "<div class='row article valign-wrapper'>";
+                panierHtml.hmtl += "<div class='col m2' style='margin-left:0px;'>";
+                panierHtml.hmtl += "<button class='btn-floating btn-mini waves-effect waves-light red delete' onclick='deleteProduit(\"" + item.IdProduit + "\")'>-</button>";
+                panierHtml.hmtl += "</div>";
+                panierHtml.hmtl += "<div class='col m6' style='margin-left:0px;'><strong><span>" + item.Quantite + "&nbsp;&nbsp;x</span>&nbsp;&nbsp;" + item.Nom + "</strong></div>";
+                panierHtml.hmtl += "<div class='col m4' style='margin-left:0px;'>" + item.Prix * item.Quantite + " €</div>";
+                panierHtml.hmtl += "</div>";
+                panierHtml.hmtl += "<div class='divider'></div>";
+                panierHtml.total += item.Prix * item.Quantite;
+            }
+            return panierHtml;
         }
 
         public JsonResult GetPanier(string idSession)
@@ -142,6 +143,27 @@ namespace ATable.Controllers
                 }
             }
             return Json(panier, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPanierHtml(string idSession)
+        {
+            List<ProduitPanier> panier = null;
+
+            PanierHtml panierHtml = new PanierHtml();
+            panierHtml.hmtl = "";
+
+            SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
+
+            if (sessionUtilisateur != null)
+            {
+                if (HttpContext.Application[idSession] != null)
+                {
+                    panier = (List<ProduitPanier>)HttpContext.Application[idSession];
+
+                    panierHtml = ShowPanier(panier);
+                }
+            }
+            return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SaveCommande(string idSession)

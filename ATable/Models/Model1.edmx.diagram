@@ -33,6 +33,7 @@
         <AssociationConnector Association="AfpEatModel.ProduitPhoto" ManuallyRouted="false" />
         <AssociationConnector Association="AfpEatModel.RestaurantPhoto" ManuallyRouted="false" />
         <EntityTypeShape EntityType="AfpEatModel.SessionUtilisateur" Width="1.5" PointX="3.375" PointY="8.75" />
+        <AssociationConnector Association="AfpEatModel.FK_Menu_Restaurant" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
