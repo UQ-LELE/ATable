@@ -33,7 +33,7 @@
                 <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Panier :&nbsp;&nbsp;<span class="total" style="font-size:20px;">0</span>€<sup>&nbsp;TTC</sup>
             </a>
         </li>
-        <li id="sidePanier" class="lone">
+        <li class="lone sidePanier">
         </li>
     </ul>
 </div>
@@ -133,7 +133,7 @@
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
                     success: function (data) {
-                           $('#sidePanier').html(data.panier);
+                           $('.sidePanier').html(data.panier);
                         
                     },
                     error: function () {
@@ -157,8 +157,7 @@
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
                     success: function (data) {
-                        test = data.panier;
-                        $('#sidePanier').html(data.panier);
+                        $('.sidePanier').html(data.panier);
                         $('.total').html(data.total);
                     },
                     error: function () {

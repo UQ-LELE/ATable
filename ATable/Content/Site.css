@@ -139,12 +139,20 @@ nav ul a {
     font-family: Courgette, sans-serif;
 }
 
-.card .card-title {
+.card .card-title-custom {
     font-size: 34px;
     font-family: Courgette, sans-serif;
-    background-color: blue;
-    font-weight: 400;
+    background-color: #26a69a;
+    font-weight: 300;
 }
+
+.card .card-image .card-title-custom {
+    color: #fff;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding: 10px;
+    opacity: 0.9;
 }
 /*Menu & SideNav Menu*/
 .side-nav li {
@@ -154,11 +162,6 @@ nav ul a {
 .user-li {
     background-color: #26a69a !important;
     color: #FFFFFF !important;
-}
-
-.sidePanier {
-    background-color: #F44336;
-    text-transform:uppercase;
 }
 
 .side-nav a:hover {
