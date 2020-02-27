@@ -236,12 +236,5 @@ namespace ATable.Controllers
             return Json(new { error = 1, message = "Connexion échouée" }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Search(string search)
-        {
-            if (!String.IsNullOrEmpty(search))
-            {
-
-            }
-        }
     }
 }

@@ -139,8 +139,14 @@ nav ul a {
     font-family: Courgette, sans-serif;
 }
 
+.card .card-title {
+    font-size: 34px;
+    font-family: Courgette, sans-serif;
+    background-color: blue;
+    font-weight: 400;
+}
+}
 /*Menu & SideNav Menu*/
-
 .side-nav li {
     line-height: 20px;
 }
