@@ -55,7 +55,7 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="@Url.Action("Index", "Restaurants")" class="brand-logo">&nbsp;&nbsp;<i class="fas fa-utensils fa-lg"></i><span class="no-mobile">&nbsp;&nbsp;A'&nbsp;Table !</span></a>
+                    <a href="@Url.Action("Index", "Restaurants")" class="brand-logo">&nbsp;&nbsp;<i class="fas fa-utensils fa-lg"></i><span class="hide-on-small-and-down">&nbsp;&nbsp;A'&nbsp;Table !</span></a>
                     <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">&nbsp;menu</i></a>
                     <a href="#" data-activates="mobile-panier" class="button-collapse right navPanier">&nbsp;<i class="fas fa-shopping-basket fa-2x"></i>&nbsp;</a>
                     <a href="#" onclick="goBack()" class="button-collapse left"><i class="material-icons">arrow_back</i></a>
@@ -99,10 +99,11 @@
     <main>
         <div class="">
             @RenderBody()
+
             @*<hr />
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - Mon application ASP.NET</p>
-                </footer>*@
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mon application ASP.NET</p>
+        </footer>*@
         </div>
     </main>
 
@@ -131,6 +132,7 @@
                         alert('Error');
                     }
                 });
+
         });
     </script>
 </body>

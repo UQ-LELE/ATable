@@ -95,10 +95,20 @@ nav ul a {
         opacity: 0.7;
     }
 
-/*Box*/
+.card .card-image img {
+    height: 100%;   
+}
 
+
+/*containers*/
 .box {
     margin: 15px;
+}
+
+.card.horizontal {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
 }
 
 /*Responsive mobile*/
@@ -127,11 +137,6 @@ nav ul a {
     }
 }
 
-@media (max-width: 600px) {
-    .no-mobile {
-        display: none;
-    }
-}
 
 
 /*Text & Title*/
@@ -192,6 +197,9 @@ nav ul a {
     margin-left: 0px;
 }
 
+.mt-0 {
+    margin-top: 0px;
+}
 /*Votre Panier*/
 .table-panier {
     border-collapse: separate; /* allow spacing between cell borders */

@@ -11,37 +11,37 @@
 <div class="container body-content">
     <div class="row valign-wrapper center-align">
         <div class="col s12 m10 offset-m1 valign">
-            <h2 class="courgette">Votre panier</h2>
+            <h2 class="courgette">Récapitulatif de votre panier</h2>
             <table class="table table-panier">
                 @if (Model != null && Model.Count() > 0)
                 {
                     foreach (var item in Model)
                     {
-                <tr class="card-panel">
+                        <tr class="card-panel">
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Photo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nom)
-                    </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Photo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nom)
+                            </td>
 
-                    <td class="hide-on-small-and-down">
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @(item.Prix * item.Quantite)&nbsp;€
-                    </td>
-                    <td class="center-align">
-                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
-                    </td>
-                    <td class="center-align">
-                        @Html.DisplayFor(modelItem => item.Quantite)
-                    </td>
-                    <td class="center-align">
-                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">remove</i></button>
-                    </td>
-                </tr>
+                            <td class="hide-on-small-and-down">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @(item.Prix * item.Quantite)&nbsp;€
+                            </td>
+                            <td class="center-align">
+                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                            </td>
+                            <td class="center-align">
+                                <span id="@item.IdProduit">@item.Quantite</span>
+                            </td>
+                            <td class="center-align">
+                                <button class="btn-floating btn-small waves-effect waves-light red delete" data-idproduit=@item.IdProduit><i class="material-icons">remove</i></button>
+                            </td>
+                        </tr>
 
                     }
                 }
@@ -91,7 +91,7 @@
                     DataType: 'json',
                     success: function (data) {
 
-                        @Url.Action("Scooter", "");
+                        @*@Url.Action("Scooter", "");*@
                         //show message success
                     },
                     error: function () {
@@ -129,7 +129,35 @@
             }
         }
 
-        @*function deleteProduit(idProduit) {
+        $(".add").click(function () {
+                 var idProduit = $(this).data('idproduit');
+
+                 var Qte = $('#'+idProduit).html();
+
+            var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("AddProduit", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        var Quantite = parseInt(Qte) + 1;
+                        $('#' + idProduit).html(Quantite);
+                        $('.total').html(data.total);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            });
+
+            $(".delete").click(function () {
+                 var idProduit = $(this).data('idproduit');
+
+                 var Qte = $('#'+idProduit).html();
+
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
                 $.ajax({
@@ -139,17 +167,22 @@
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
                     success: function (data) {
-                        $('#Panier').html(data.panier);
+                        var Quantite = parseInt(Qte) - 1;
+                        $('#' + idProduit).html(Quantite);
                         $('.total').html(data.total);
                     },
                     error: function () {
                         alert('Error');
                     }
                 });
-        }*@
-
-
+            });
     </script>
 }
 
 
+ if ($('#amount').val()) {
+                    parseInt(amount);
+                    amount = amount + parseInt($('#amount').val());
+                }
+                $('#amount').val(amount);
+                alert('Amount: ' + $('#amount').val());
