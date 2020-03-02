@@ -39,6 +39,7 @@ namespace ATable.Controllers
         }
 
 
+
         // GET: Utilisateurs
         public ActionResult Index()
         {
@@ -46,18 +47,32 @@ namespace ATable.Controllers
         }
 
         // GET: Utilisateurs/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult MonCompte(int? id)
         {
-            if (id == null)
+            Utilisateur utilisateur = new Utilisateur();
+
+            if (Session["Utilisateur"] != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Utilisateur user = (Utilisateur)Session["Utilisateur"];
+
+                utilisateur = db.Utilisateurs.Find(id);
+
+                if (utilisateur == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if(user.Matricule == utilisateur.Matricule && user.Password == utilisateur.Password)
+                {
+                    return View(utilisateur);
+                }
             }
-            Utilisateur utilisateur = db.Utilisateurs.Find(id);
-            if (utilisateur == null)
-            {
-                return HttpNotFound();
-            }
-            return View(utilisateur);
+            return RedirectToAction("Index", "Restaurants");
         }
 
         // GET: Utilisateurs/Create

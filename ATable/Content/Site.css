@@ -188,6 +188,10 @@ nav ul a {
     background-color: #F44336;
 }
 
+.side-nav.fixed a, .side-nav a {
+    padding: 0;
+}
+
 .btn-li {
     background-color: #ee6e73 !important;
 }

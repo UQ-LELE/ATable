@@ -1,5 +1,5 @@
 ﻿@{
-    var utilisateur = Session["Utilisateur"];
+    var utilisateur = (ATable.Models.Utilisateur)Session["Utilisateur"];
     var connexion = "NotConnected";
 
     if (utilisateur != null)
@@ -20,6 +20,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryUI")
     @Scripts.Render("~/bundles/fontawesome")
     @Scripts.Render("~/bundles/materialize")
 

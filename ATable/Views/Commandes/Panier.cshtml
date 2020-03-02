@@ -12,10 +12,12 @@
     <div class="row valign-wrapper center-align">
         <div class="col s12 m10 offset-m1 valign">
             <h2 class="courgette">Récapitulatif de votre panier</h2>
-            <table class="table table-panier">
-                @if (Model != null && Model.Count() > 0)
-                {
-                    foreach (var item in Model)
+
+            @if (Model != null && Model.Count() > 0)
+            {
+                <table class="table table-panier">
+
+                    @foreach (var item in Model)
                     {
                         <tr class="card-panel @item.IdProduit">
 
@@ -47,18 +49,21 @@
                     <tr class="card-panel">
                         <td></td>
                         <td class="hide-on-small-and-down"></td>
-                        <td class="right"><strong>TOTAL :</strong></td>
-                        <td><span class="total"></span>&nbsp;€</td>
+                        <td class="right red lighten-1"><h5 style="color:white;"><strong>TOTAL :</strong></h5></td>
+                        <td class="red lighten-1"><h5 style="color:white;"><span class="total"></span>&nbsp;€<sup>&nbsp;TTC</sup></h5></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-                }
-            </table>
 
-            <a class="waves-effect waves-light btn-large col s12 m6 offset-m3" id="payer">
-                <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
-            </a>
+
+                </table>
+                <a class="waves-effect waves-light btn-large col s12 m6 offset-m3" id="payer">
+                    <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
+                </a>
+            }
+
+
         </div>
     </div>
 </div>
@@ -94,12 +99,6 @@
 
         <div class="row center">
             <input type="submit" value="Se connecter" class="btn btn-default" />
-        </div>
-
-        <div class="modal-footer">
-            <div class="row center-align">
-                Vous n'avez pas de compte ?<a href="@Url.Action("Create", "Utilisateurs")">&nbsp;Inscription</a>
-            </div>
         </div>
 
         @*<div class="modal-footer">
@@ -213,7 +212,10 @@
                         } else {
                             $('tr.' + idProduit).remove('tr.' + idProduit);
                         }
-                        $('.total').html(data.total);
+                         $('.total').html(data.total);
+                        if ($('.total').html() == "0,00") {
+                            $('a#payer').remove('a#payer');
+                        }                       
                     },
                     error: function () {
                         alert('Error');

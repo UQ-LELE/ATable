@@ -18,7 +18,7 @@
                 @if (utilisateur != null)
                 {
                     <div class="center-align">
-                        <a>@utilisateur.Prenom&nbsp;@utilisateur.Nom</a>
+                        <a href="@Url.Action("MonCompte", "Utilisateurs", new { id = utilisateur.IdUtilisateur })"><i class="fas fa-user fa-lg"></i>&nbsp;&nbsp;@utilisateur.Prenom&nbsp;@utilisateur.Nom</a>
                     </div>
                 }
                 else

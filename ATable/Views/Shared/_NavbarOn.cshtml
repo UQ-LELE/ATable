@@ -1,6 +1,11 @@
-﻿        <!-- Dropdown Structure -->
+﻿@{
+    var utilisateur = (ATable.Models.Utilisateur)Session["Utilisateur"];
+
+}
+
+<!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
-    <li><a href="#"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Compte</a></li>
+    <li><a href="@Url.Action("MonCompte", "Utilisateurs", new { id = utilisateur.IdUtilisateur })"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Compte</a></li>
     <li><a href="#"><i class="fas fa-cog"></i>&nbsp;&nbsp;Paramètres</a></li>
     <li class="divider"></li>
     <li><a href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Deconnexion</a></li>
@@ -33,8 +38,7 @@
         <div class="user-view">
             <div class="background">
             </div>
-            <p class="no-margin"><span class="white-text name">John Doe</span></p>
-            <p class="no-margin"><span class="white-text email">Administrator</span></p>
+            <p class="no-margin"><span class="white-text name">@utilisateur.Prenom&nbsp;@utilisateur.Nom</span></p>
         </div>
     </li>
     <li class="btn-li center-align">
