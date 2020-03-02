@@ -47,13 +47,26 @@ body {
 }
 
 main {
-    padding-top: 10px;
+    padding-top: 20px;
 }
 
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+.ml-0 {
+    margin-left: 0px;
+}
+
+.mt-0 {
+    margin-top: 0px;
+}
+
+.pl-0 {
+    padding-left: 0px !important;
+}
+
 
 /*Style Navbar*/
 
@@ -194,13 +207,7 @@ nav ul a {
     margin-top: 20px;
 }
 
-.ml-0 {
-    margin-left: 0px;
-}
 
-.mt-0 {
-    margin-top: 0px;
-}
 /*Votre Panier*/
 .table-panier {
     border-collapse: separate; /* allow spacing between cell borders */

@@ -17,7 +17,7 @@
                 {
                     foreach (var item in Model)
                     {
-                        <tr class="card-panel">
+                        <tr class="card-panel @item.IdProduit">
 
                             <td>
                                 @Html.DisplayFor(modelItem => item.Photo)
@@ -103,8 +103,8 @@
         </div>
 
         @*<div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
-        </div>*@
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
+            </div>*@
     </div>
 </div>
 
@@ -194,9 +194,9 @@
             });
 
             $(".delete").click(function () {
-                 var idProduit = $(this).data('idproduit');
+            var idProduit = $(this).data('idproduit');
 
-                 var Qte = $('#'+idProduit).html();
+            var Qte = $('#'+idProduit).html();
 
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
@@ -208,7 +208,11 @@
                     DataType: 'json',
                     success: function (data) {
                         var Quantite = parseInt(Qte) - 1;
-                        $('#' + idProduit).html(Quantite);
+                        if (Quantite > 0) {
+                           $('#' + idProduit).html(Quantite);
+                        } else {
+                            $('tr.' + idProduit).remove('tr.' + idProduit);
+                        }
                         $('.total').html(data.total);
                     },
                     error: function () {

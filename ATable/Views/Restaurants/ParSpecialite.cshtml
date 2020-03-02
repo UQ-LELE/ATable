@@ -18,7 +18,33 @@
         <div class="row">
             @foreach (var item in restaurants)
             {
-                <div class="col s12 m6">
+                <div class="col s12 search hide-on-small-and-down">
+                    <div class="row card card-small horizontal">
+                        <div class="card-image col s4 pl-0">
+                            <img src="~/Images/Aubergeade.jpg" class="imgtest">
+                        </div>
+                        <div class="card-stacked col s8">
+                            <div class="card-content">
+                                <h4 class="courgette mt-0">@item.Nom</h4>
+                                <hr />
+                                <div class="row">
+                                    <div class="chip  deep-orange lighten-3 left">
+                                        @item.TypeCuisine.Nom
+                                    </div>
+                                    <div class="chip  teal lighten-3 right">
+                                        @item.Budget
+                                    </div>
+                                </div>
+                                <p>@item.Description</p>
+                            </div>
+                            <div class="card-action center-align">
+                                <a href="@Url.Action("Details", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l3 search hide-on-med-and-up">
                     <div class="card sticky-action hoverable small">
                         <div class="card-image waves-effect waves-block waves-light">
                             <img class="activator" src="~/Images/Aubergeade.jpg">
@@ -31,7 +57,7 @@
                             @item.Budget
                         </div>
                         <div class="card-action center-align">
-                            <a href="@Url.Action("Details", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;Voir la carte</a>
+                            <a href="@Url.Action("Details", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
                         </div>
                         <div class="card-reveal" style="display: none; transform: translateY(0%);">
                             <span class="card-title grey-text text-darken-4">
