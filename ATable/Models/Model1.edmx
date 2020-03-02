@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AfpEatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="AfpEatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categorie">
           <Key>
             <PropertyRef Name="IdCategorie" />
@@ -96,6 +96,14 @@
           <Property Name="Description" Type="varchar" MaxLength="300" Nullable="false" />
           <Property Name="Quantite" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ProduitCompose">
+          <Key>
+            <PropertyRef Name="IdProduit" />
+            <PropertyRef Name="IdProduitPere" />
+          </Key>
+          <Property Name="IdProduit" Type="int" Nullable="false" />
+          <Property Name="IdProduitPere" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ProduitPhoto">
           <Key>
             <PropertyRef Name="IdProduit" />
@@ -111,7 +119,7 @@
           <Property Name="IdRestaurant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IdTypeCuisine" Type="int" Nullable="false" />
-          <Property Name="Budget" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Budget" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="300" Nullable="false" />
           <Property Name="Responsable" Type="varchar" MaxLength="30" />
           <Property Name="Adresse" Type="varchar" MaxLength="100" Nullable="false" />
@@ -345,6 +353,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProduitCompose_Produit">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1" />
+          <End Role="ProduitCompose" Type="Self.ProduitCompose" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="IdProduit" />
+            </Principal>
+            <Dependent Role="ProduitCompose">
+              <PropertyRef Name="IdProduit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProduitCompose_Produit1">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1" />
+          <End Role="ProduitCompose" Type="Self.ProduitCompose" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="IdProduit" />
+            </Principal>
+            <Dependent Role="ProduitCompose">
+              <PropertyRef Name="IdProduitPere" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProduitPhoto_Photo">
           <End Role="Photo" Type="Self.Photo" Multiplicity="1" />
           <End Role="ProduitPhoto" Type="Self.ProduitPhoto" Multiplicity="*" />
@@ -416,6 +448,7 @@
           <EntitySet Name="Operation" EntityType="Self.Operation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Produit" EntityType="Self.Produit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProduitCompose" EntityType="Self.ProduitCompose" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProduitPhoto" EntityType="Self.ProduitPhoto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RestaurantPhoto" EntityType="Self.RestaurantPhoto" Schema="dbo" store:Type="Tables" />
@@ -480,6 +513,14 @@
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="Produit" EntitySet="Produit" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProduitCompose_Produit" Association="Self.FK_ProduitCompose_Produit">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="ProduitCompose" EntitySet="ProduitCompose" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProduitCompose_Produit1" Association="Self.FK_ProduitCompose_Produit1">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="ProduitCompose" EntitySet="ProduitCompose" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProduitPhoto_Photo" Association="Self.FK_ProduitPhoto_Photo">
             <End Role="Photo" EntitySet="Photo" />
             <End Role="ProduitPhoto" EntitySet="ProduitPhoto" />
@@ -501,7 +542,8 @@
             <End Role="RestaurantPhoto" EntitySet="RestaurantPhoto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AfpEatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -560,9 +602,9 @@
           <Property Name="Statut" Type="Boolean" Nullable="false" />
           <Property Name="Prix" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="IdRestaurant" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Restaurant" Relationship="Self.FK_Menu_Restaurant" FromRole="Menu" ToRole="Restaurant" />
           <NavigationProperty Name="CommandeProduits" Relationship="Self.CommandeProduitMenu" FromRole="Menu" ToRole="CommandeProduit" />
           <NavigationProperty Name="Categories" Relationship="Self.MenuCategorie" FromRole="Menu" ToRole="Categorie" />
-          <NavigationProperty Name="Restaurant" Relationship="AfpEatModel.FK_Menu_Restaurant" FromRole="Menu" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="Operation">
           <Key>
@@ -599,6 +641,8 @@
           <NavigationProperty Name="Categorie" Relationship="Self.FK_Produit_Categorie" FromRole="Produit" ToRole="Categorie" />
           <NavigationProperty Name="CommandeProduits" Relationship="Self.FK_CommandeProduit_Produit" FromRole="Produit" ToRole="CommandeProduit" />
           <NavigationProperty Name="Restaurant" Relationship="Self.FK_Produit_Restaurant" FromRole="Produit" ToRole="Restaurant" />
+          <NavigationProperty Name="Produit1" Relationship="Self.ProduitCompose" FromRole="Produit" ToRole="Produit1" />
+          <NavigationProperty Name="Produits" Relationship="Self.ProduitCompose" FromRole="Produit1" ToRole="Produit" />
           <NavigationProperty Name="Photos" Relationship="Self.ProduitPhoto" FromRole="Produit" ToRole="Photo" />
         </EntityType>
         <EntityType Name="Restaurant">
@@ -608,7 +652,7 @@
           <Property Name="IdRestaurant" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IdTypeCuisine" Type="Int32" Nullable="false" />
-          <Property Name="Budget" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Budget" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Responsable" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Adresse" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
@@ -620,10 +664,17 @@
           <Property Name="Login" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Commandes" Relationship="Self.FK_Commande_Restaurant" FromRole="Restaurant" ToRole="Commande" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_Menu_Restaurant" FromRole="Restaurant" ToRole="Menu" />
           <NavigationProperty Name="Produits" Relationship="Self.FK_Produit_Restaurant" FromRole="Restaurant" ToRole="Produit" />
           <NavigationProperty Name="TypeCuisine" Relationship="Self.FK_Restaurant_TypeCuisine" FromRole="Restaurant" ToRole="TypeCuisine" />
           <NavigationProperty Name="Photos" Relationship="Self.RestaurantPhoto" FromRole="Restaurant" ToRole="Photo" />
-          <NavigationProperty Name="Menus" Relationship="AfpEatModel.FK_Menu_Restaurant" FromRole="Restaurant" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="SessionUtilisateur">
+          <Key>
+            <PropertyRef Name="IdSession" />
+          </Key>
+          <Property Name="IdSession" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateSession" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -664,9 +715,9 @@
           <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Statut" Type="Boolean" Nullable="false" />
           <Property Name="Solde" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="IdSession" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Commandes" Relationship="Self.FK_Commande_Utilisateur" FromRole="Utilisateur" ToRole="Commande" />
           <NavigationProperty Name="Operations" Relationship="Self.FK_Operation_Utilisateur" FromRole="Utilisateur" ToRole="Operation" />
-          <Property Name="IdSession" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Produit_Categorie">
           <End Role="Categorie" Type="Self.Categorie" Multiplicity="1" />
@@ -740,6 +791,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Menu_Restaurant">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="IdRestaurant" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="IdRestaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Operation_TypeVersement">
           <End Role="TypeVersement" Type="Self.TypeVersement" Multiplicity="1" />
           <End Role="Operation" Type="Self.Operation" Multiplicity="*" />
@@ -796,6 +859,10 @@
           <End Role="Categorie" Type="Self.Categorie" Multiplicity="*" />
           <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
         </Association>
+        <Association Name="ProduitCompose">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="*" />
+          <End Role="Produit1" Type="Self.Produit" Multiplicity="*" />
+        </Association>
         <Association Name="ProduitPhoto">
           <End Role="Photo" Type="Self.Photo" Multiplicity="*" />
           <End Role="Produit" Type="Self.Produit" Multiplicity="*" />
@@ -814,6 +881,7 @@
           <EntitySet Name="Photos" EntityType="Self.Photo" />
           <EntitySet Name="Produits" EntityType="Self.Produit" />
           <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+          <EntitySet Name="SessionUtilisateurs" EntityType="Self.SessionUtilisateur" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TypeCuisines" EntityType="Self.TypeCuisine" />
           <EntitySet Name="TypeVersements" EntityType="Self.TypeVersement" />
@@ -842,6 +910,10 @@
             <End Role="Produit" EntitySet="Produits" />
             <End Role="CommandeProduit" EntitySet="CommandeProduits" />
           </AssociationSet>
+          <AssociationSet Name="FK_Menu_Restaurant" Association="Self.FK_Menu_Restaurant">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
           <AssociationSet Name="FK_Operation_TypeVersement" Association="Self.FK_Operation_TypeVersement">
             <End Role="TypeVersement" EntitySet="TypeVersements" />
             <End Role="Operation" EntitySet="Operations" />
@@ -866,6 +938,10 @@
             <End Role="Categorie" EntitySet="Categories" />
             <End Role="Menu" EntitySet="Menus" />
           </AssociationSet>
+          <AssociationSet Name="ProduitCompose" Association="Self.ProduitCompose">
+            <End Role="Produit" EntitySet="Produits" />
+            <End Role="Produit1" EntitySet="Produits" />
+          </AssociationSet>
           <AssociationSet Name="ProduitPhoto" Association="Self.ProduitPhoto">
             <End Role="Photo" EntitySet="Photos" />
             <End Role="Produit" EntitySet="Produits" />
@@ -874,31 +950,7 @@
             <End Role="Photo" EntitySet="Photos" />
             <End Role="Restaurant" EntitySet="Restaurants" />
           </AssociationSet>
-          <EntitySet Name="SessionUtilisateurs" EntityType="AfpEatModel.SessionUtilisateur" />
-          <AssociationSet Name="FK_Menu_Restaurant" Association="AfpEatModel.FK_Menu_Restaurant">
-            <End Role="Restaurant" EntitySet="Restaurants" />
-            <End Role="Menu" EntitySet="Menus" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="SessionUtilisateur">
-          <Key>
-            <PropertyRef Name="IdSession" />
-          </Key>
-          <Property Name="IdSession" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DateSession" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <Association Name="FK_Menu_Restaurant">
-          <End Type="AfpEatModel.Restaurant" Role="Restaurant" Multiplicity="1" />
-          <End Type="AfpEatModel.Menu" Role="Menu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Restaurant">
-              <PropertyRef Name="IdRestaurant" />
-            </Principal>
-            <Dependent Role="Menu">
-              <PropertyRef Name="IdRestaurant" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1008,6 +1060,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SessionUtilisateurs">
+            <EntityTypeMapping TypeName="AfpEatModel.SessionUtilisateur">
+              <MappingFragment StoreEntitySet="SessionUtilisateur">
+                <ScalarProperty Name="IdSession" ColumnName="IdSession" />
+                <ScalarProperty Name="DateSession" ColumnName="DateSession" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="AfpEatModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -1040,7 +1100,6 @@
           <EntitySetMapping Name="Utilisateurs">
             <EntityTypeMapping TypeName="AfpEatModel.Utilisateur">
               <MappingFragment StoreEntitySet="Utilisateur">
-                <ScalarProperty Name="IdSession" ColumnName="IdSession" />
                 <ScalarProperty Name="IdUtilisateur" ColumnName="IdUtilisateur" />
                 <ScalarProperty Name="Nom" ColumnName="Nom" />
                 <ScalarProperty Name="Prenom" ColumnName="Prenom" />
@@ -1048,6 +1107,7 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Statut" ColumnName="Statut" />
                 <ScalarProperty Name="Solde" ColumnName="Solde" />
+                <ScalarProperty Name="IdSession" ColumnName="IdSession" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1067,6 +1127,14 @@
               <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
             </EndProperty>
           </AssociationSetMapping>
+          <AssociationSetMapping Name="ProduitCompose" TypeName="AfpEatModel.ProduitCompose" StoreEntitySet="ProduitCompose">
+            <EndProperty Name="Produit">
+              <ScalarProperty Name="IdProduit" ColumnName="IdProduit" />
+            </EndProperty>
+            <EndProperty Name="Produit1">
+              <ScalarProperty Name="IdProduit" ColumnName="IdProduitPere" />
+            </EndProperty>
+          </AssociationSetMapping>
           <AssociationSetMapping Name="ProduitPhoto" TypeName="AfpEatModel.ProduitPhoto" StoreEntitySet="ProduitPhoto">
             <EndProperty Name="Photo">
               <ScalarProperty Name="IdPhoto" ColumnName="IdPhoto" />
@@ -1083,14 +1151,6 @@
               <ScalarProperty Name="IdRestaurant" ColumnName="IdRestaurant" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="SessionUtilisateurs">
-            <EntityTypeMapping TypeName="AfpEatModel.SessionUtilisateur">
-              <MappingFragment StoreEntitySet="SessionUtilisateur">
-                <ScalarProperty Name="DateSession" ColumnName="DateSession" />
-                <ScalarProperty Name="IdSession" ColumnName="IdSession" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -44,6 +44,15 @@
                         </tr>
 
                     }
+                    <tr class="card-panel">
+                        <td></td>
+                        <td class="hide-on-small-and-down"></td>
+                        <td class="right"><strong>TOTAL :</strong></td>
+                        <td><span class="total"></span>&nbsp;€</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 }
             </table>
 
@@ -56,15 +65,46 @@
 
 <!--Modal connexion-->
 <div id="modal1" class="modal">
-    <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
-        <input type="text" />
-        <input type="password" />
-        <input type="submit" />
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
+    <div class="modal-content center">
+        <h4>Connexion</h4>
+
+        <div class="row">
+            <div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">
+                    account_circle
+                </i>
+                <input type="text" />
+                <label for="Matricule">N° de Matricule</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12 m6 offset-m3">
+                <i class="material-icons prefix">
+                    lock_outline
+                </i>
+                <input type="password" />
+                <label for="Password">Mot de Passe</label>
+            </div>
+        </div>
+
+        <div class="row center">
+            <a href="#">Mot de passe oublié ?</a>
+        </div>
+
+        <div class="row center">
+            <input type="submit" value="Se connecter" class="btn btn-default" />
+        </div>
+
+        <div class="modal-footer">
+            <div class="row center-align">
+                Vous n'avez pas de compte ?<a href="@Url.Action("Create", "Utilisateurs")">&nbsp;Inscription</a>
+            </div>
+        </div>
+
+        @*<div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
+        </div>*@
     </div>
 </div>
 
@@ -101,7 +141,7 @@
             });
         }
 
-        function LoginWS() {
+        @*function LoginWS() {
             var matricule = $('#matricule').val();
             var password = $('#password').val();
 
@@ -127,7 +167,7 @@
                         }
                 });
             }
-        }
+        }*@
 
         $(".add").click(function () {
                  var idProduit = $(this).data('idproduit');
@@ -178,11 +218,3 @@
             });
     </script>
 }
-
-
- if ($('#amount').val()) {
-                    parseInt(amount);
-                    amount = amount + parseInt($('#amount').val());
-                }
-                $('#amount').val(amount);
-                alert('Amount: ' + $('#amount').val());

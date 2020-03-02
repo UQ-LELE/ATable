@@ -18,15 +18,15 @@ namespace ATable.Models
         public Restaurant()
         {
             this.Commandes = new HashSet<Commande>();
+            this.Menus = new HashSet<Menu>();
             this.Produits = new HashSet<Produit>();
             this.Photos = new HashSet<Photo>();
-            this.Menus = new HashSet<Menu>();
         }
     
         public int IdRestaurant { get; set; }
         public string Nom { get; set; }
         public int IdTypeCuisine { get; set; }
-        public Nullable<decimal> Budget { get; set; }
+        public string Budget { get; set; }
         public string Description { get; set; }
         public string Responsable { get; set; }
         public string Adresse { get; set; }
@@ -41,11 +41,11 @@ namespace ATable.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Commande> Commandes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Menu> Menus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Produit> Produits { get; set; }
         public virtual TypeCuisine TypeCuisine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Photo> Photos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Menu> Menus { get; set; }
     }
 }

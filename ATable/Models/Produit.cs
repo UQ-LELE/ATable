@@ -18,6 +18,8 @@ namespace ATable.Models
         public Produit()
         {
             this.CommandeProduits = new HashSet<CommandeProduit>();
+            this.Produit1 = new HashSet<Produit>();
+            this.Produits = new HashSet<Produit>();
             this.Photos = new HashSet<Photo>();
         }
     
@@ -33,6 +35,10 @@ namespace ATable.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CommandeProduit> CommandeProduits { get; set; }
         public virtual Restaurant Restaurant { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Produit> Produit1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Produit> Produits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Photo> Photos { get; set; }
     }
