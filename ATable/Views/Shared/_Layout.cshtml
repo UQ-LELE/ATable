@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     var utilisateur = Session["Utilisateur"];
     var connexion = "NotConnected";
 
@@ -53,7 +53,7 @@
 </head>
 <body>
 
-    <header>        
+    <header>
         @if (connexion == "NotConnected")
         {
             @Html.Partial("_NavbarOff");
@@ -69,9 +69,9 @@
             @RenderBody()
 
             @*<hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Mon application ASP.NET</p>
-        </footer>*@
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Mon application ASP.NET</p>
+                </footer>*@
         </div>
     </main>
 
@@ -100,8 +100,16 @@
                         alert('Error');
                     }
                 });
-
         });
+
+
+        function toast() {
+            if ($('.total').html() == "0,00") {
+                Materialize.toast('Votre Panier est vide !', 5000);
+            } else {
+                window.location.replace("/Commandes/Panier");
+            }
+        }
     </script>
 </body>
 </html>
