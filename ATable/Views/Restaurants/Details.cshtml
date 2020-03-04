@@ -3,9 +3,11 @@
 @{
     ViewBag.Title = "Details";
 
+    int idRestaurantPanier = 0;
+
     if (ViewBag.Error == "error")
     {
-        var idRestaurantPanier = ViewBag.Error.idRestaurantPanier;
+        idRestaurantPanier = ViewBag.IdRestaurantPanier;
 
         <script type="text/javascript">
             window.onload = function () {
@@ -207,16 +209,16 @@
 <!--Modal d'annulation panier-->
 <div id="modalErreur" class="modal">
     <div class="modal-content">
-        <h4>Attention, une commande est en cours !</h4>
+        <h4>Attention, votre panier contient déjà des produits !</h4>
         <p>
             Votre panier contient des produits d'un autre restaurant.
-            Pour rappel, vous ne pouvez commander auprès d'un seul restaurateur à la fois.
+            Pour rappel, vous pouvez uniquement commander auprès d'un seul restaurateur à la fois.
             Souhaitez-vous poursuivre la commande en cours ou bien vider votre panier et poursuivre chez un autre restaurateur ?
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
-        @*<a href=@Url.Action("Details","Restaurants", new { id = item.IdRestaurant }) class="modal-close waves-effect waves-green btn-flat">Continuer ma commande</a>*@
+        <a onclick="clearPanier()" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
+        <a href=@Url.Action("Details","Restaurants", new { id = idRestaurantPanier }) class="waves-effect waves-green btn-flat">Continuer ma commande</a>
     </div>
 </div>
 
@@ -249,24 +251,7 @@
     <script>
         $(document).ready(function () {
             $('.materialboxed').materialbox();
-
-            var data = {'idSession': '@Session.SessionID' };
-
-                $.ajax({
-                    url: '@Url.Action("GetPanierHtml", "WebService")',
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json; charset=utf-8',
-                    DataType: 'json',
-                    success: function (data) {
-                           $('.sidePanier').html(data.panier);
-
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
-                });
-
+        
             $('.side-nav li').click(function () {
                 $('.side-nav li.active').removeClass('active');
                 $(this).closest('li').addClass('active');
@@ -285,12 +270,31 @@
                     DataType: 'json',
                     success: function (data) {
                         $('#modalMenu').openModal();
-
+                        alert(data.entrees);
                     },
                     error: function () {
                         alert('Error');
                     }
             });
+        };
+
+        function clearPanier() {
+                var data = {'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("ClearPanier", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        getPanierHtml();
+                        $('#modalErreur').close();
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
         };
 
         $(".add").click(function () {
@@ -317,7 +321,7 @@
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
                 $.ajax({
-                    url: '@Url.Action("removeProduit", "WebService")',
+                    url: '@Url.Action("RemoveProduit", "WebService")',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',
@@ -331,6 +335,8 @@
                     }
                 });
         }
+
+        
 
     </script>
 }

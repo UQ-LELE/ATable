@@ -60,6 +60,8 @@ namespace ATable.Controllers
             {
                 return HttpNotFound();
             }
+            //variante de viewbag, filtrer les catégories et type d'itempanier dans la vue
+            Restaurant restaurant = db.Restaurants.Include(r => r.Produits).Include(r => r.Menus).Where(r => r.IdRestaurant == id).First();
 
             ViewBag.Menu  = db.Menus.Where(m => m.IdRestaurant == id).ToList();
             ViewBag.Entree = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 1).ToList();

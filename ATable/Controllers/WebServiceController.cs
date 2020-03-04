@@ -19,7 +19,7 @@ namespace ATable.Controllers
             bool isReturnOk = false;
             PanierHtml panierHtml = new PanierHtml();
 
-            SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
+            SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(idSession);
 
             PanierModel panierModel = (PanierModel)HttpContext.Application[idSession] ?? new PanierModel();
             panierModel.IdRestaurant = 0;
@@ -112,7 +112,7 @@ namespace ATable.Controllers
             }
             return produitPanier;
         }
-        public JsonResult removeProduit(int idProduit, string idSession)
+        public JsonResult RemoveProduit(int idProduit, string idSession)
         {
             PanierHtml panierHtml = null;
 
@@ -198,8 +198,10 @@ namespace ATable.Controllers
 
             PanierHtml panierHtml = new PanierHtml();
             panierHtml.hmtl = "";
+            panierHtml.total = 0;
 
-            SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
+
+            SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(idSession);
 
             if (sessionUtilisateur != null)
             {
@@ -327,7 +329,28 @@ namespace ATable.Controllers
             List<Produit> listdesserts = menu.Categories.Where(m => m.IdCategorie == 3).FirstOrDefault().Produits.ToList();
 
             return Json(new { entrees = listentrees, plats = listplats, desserts = listdesserts }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ClearPanier(string idSession)
+        {
+            //gérer message
+            string message = "Une erreur est surenue";
+
+            SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(idSession);
+
+            PanierModel panierModel = (PanierModel)HttpContext.Application[idSession] ?? null;
+
+            if (sessionUtilisateur != null && panierModel != null)
+            {
+                panierModel.Clear();
+                HttpContext.Application[idSession] = panierModel;
+                message = "Votre panier a été vidé";
+            }
+
+            return Json(message, JsonRequestBehavior.AllowGet);
 
         }
+
+
     }
 }

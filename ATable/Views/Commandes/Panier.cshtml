@@ -227,7 +227,7 @@
                 });
             });
 
-            $(".remove").click(function () {
+        $(".remove").click(function () {
             var idProduit = $(this).data('idproduit');
 
             var Qte = $('#'+idProduit).html();
@@ -235,7 +235,7 @@
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
                 $.ajax({
-                    url: '@Url.Action("removeProduit", "WebService")',
+                    url: '@Url.Action("RemoveProduit", "WebService")',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',

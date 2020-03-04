@@ -86,23 +86,27 @@
         }
 
         $(document).ready(function () {
+            getPanierHtml();
+        });
+
+        function getPanierHtml() {
             var data = {'idSession': '@Session.SessionID' };
 
-                $.ajax({
+            $.ajax({
                     url: '@Url.Action("GetPanierHtml", "WebService")',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
                     success: function (data) {
-                       $('.total').html(data.total);
+                        $('.sidePanier').html(data.panier);
+                        $('.total').html(data.total);
                     },
                     error: function () {
                         alert('Error');
                     }
                 });
-        });
-
+        }
 
         function toast() {
             if ($('.total').html() == "0,00") {
