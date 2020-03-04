@@ -1,6 +1,17 @@
 ﻿@{
     ViewBag.Title = "Details";
 
+    if (ViewBag.Error == "error")
+    {
+        var idRestaurantPanier = ViewBag.Error.idRestaurantPanier;
+
+        <script type="text/javascript">
+            window.onload = function () {
+               $('.modal').openModal();
+            };
+        </script>
+    }
+
     List<ATable.Models.Produit> entree = ViewBag.Entree;
     List<ATable.Models.Produit> plat = ViewBag.Plat;
     List<ATable.Models.Produit> dessert = ViewBag.Dessert;
@@ -45,7 +56,7 @@
         <div class="col s12">
             <div class="row card card-small horizontal">
                 <div class="card-image col m4 pl-0 hide-on-small-and-down">
-                    <img src="~/Images/Aubergeade.jpg" class="imgtest">
+                    <img class="materialboxed" src="~/Images/restaurants/@restaurant.Photos.First().Nom">
                 </div>
                 <div class="card-stacked col s12 m8">
                     <div class="card-content">
@@ -66,89 +77,123 @@
         </div>
 
 
+        <div class="box carte-collapsible">
 
-        <div class="box">
-
-            <table class="bordered">
-                <tbody>
-                    <tr>
-                        <td><h3>Entrées</h3></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @foreach (var item in entree)
-                    {
-                        <tr>
-                            <td>
-                                @item.Nom
-                            </td>
-                            <td class="hide-on-small-and-down">
-                                @item.Description
-                            </td>
-                            <td>
-                                @item.Prix €
-                            </td>
-                            <td class="right">
-                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
-                            </td>
-                        </tr>
-                    }
-                    <tr>
-                        <td><h3>Plats</h3></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @foreach (var item in plat)
-                    {
-                        <tr>
-                            <td>
-                                @item.Nom
-                            </td>
-                            <td class="hide-on-small-and-down">
-                                @item.Description
-                            </td>
-                            <td>
-                                @item.Prix €
-                            </td>
-                            <td class="right">
-                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
-                            </td>
-                        </tr>
-                    }
-                    <tr>
-                        <td><h3>Desserts</h3></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @foreach (var item in dessert)
-                    {
-                        <tr>
-                            <td>
-                                @item.Nom
-                            </td>
-                            <td class="hide-on-small-and-down">
-                                @item.Description
-                            </td>
-                            <td>
-                                @item.Prix €
-                            </td>
-                            <td class="right">
-                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <ul class="collapsible popout ">
+                <li>
+                    <div class="collapsible-header hoverable categorie-collapsible"><h3>Entrées</h3></div>
+                    <div class="collapsible-body">
+                        <table class="bordered">
+                            <tbody>
+                                @foreach (var item in entree)
+                                {
+                                    <tr>
+                                        <td class="hide-on-small-and-down">
+                                            <img src="~/Images/plats/@item.Photos.First().Nom" style="max-width:140px;" />
+                                        </td>
+                                        <td class="title-product">
+                                            @item.Nom
+                                        </td>
+                                        <td class="hide-on-small-and-down">
+                                            @item.Description
+                                        </td>
+                                        <td style="min-width:60px">
+                                            @item.Prix €
+                                        </td>
+                                        <td style="min-width:40px">
+                                            <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header hoverable categorie-collapsible"><h3>Plats</h3></div>
+                    <div class="collapsible-body">
+                        <table class="bordered">
+                            <tbody>
+                                @foreach (var item in plat)
+                                {
+                                    <tr>
+                                        <td class="hide-on-small-and-down">
+                                            <img src="~/Images/plats/@item.Photos.First().Nom" style="max-width:140px;" />
+                                        </td>
+                                        <td class="title-product">
+                                            @item.Nom
+                                        </td>
+                                        <td class="hide-on-small-and-down">
+                                            @item.Description
+                                        </td>
+                                        <td style="min-width:60px">
+                                            @item.Prix €
+                                        </td>
+                                        <td style="min-width:40px">
+                                            <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header hoverable categorie-collapsible"><h3>Desserts</h3></div>
+                    <div class="collapsible-body">
+                        <table class="bordered">
+                            <tbody>
+                                @foreach (var item in dessert)
+                                {
+                                    <tr>
+                                        <td class="hide-on-small-and-down">
+                                            <img src="~/Images/plats/@item.Photos.First().Nom" style="max-width:140px;" />
+                                        </td>
+                                        <td class="title-product">
+                                            @item.Nom
+                                        </td>
+                                        <td class="hide-on-small-and-down">
+                                            @item.Description
+                                        </td>
+                                        <td style="min-width:60px">
+                                            @item.Prix €
+                                        </td>
+                                        <td style="min-width:40px">
+                                            <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
 
+<!--Modal d'annulation panier-->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Attention, une commande est en cours !</h4>
+        <p>
+            Votre panier contient des produits d'un autre restaurant. 
+            Pour rappel, vous ne pouvez commander auprès d'un seul restaurateur à la fois. 
+            Souhaitez-vous poursuivre la commande en cours ou bien vider votre panier et poursuivre chez un autre restaurateur ?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
+        <a href=@Url.Action("Details","Restaurants", new { id = item.IdRestaurant }) class="modal-close waves-effect waves-green btn-flat">Continuer ma commande</a>
+    </div>
+</div>
+
+
 @section Scripts {
     <script>
         $(document).ready(function () {
+            $('.materialboxed').materialbox();
+
 
             var data = {'idSession': '@Session.SessionID' };
 
@@ -160,7 +205,7 @@
                     DataType: 'json',
                     success: function (data) {
                            $('.sidePanier').html(data.panier);
-                        
+
                     },
                     error: function () {
                         alert('Error');
@@ -171,7 +216,7 @@
                 $('.side-nav li.active').removeClass('active');
                 $(this).closest('li').addClass('active');
             });
-            
+
         });
 
         $(".add").click(function () {
@@ -192,13 +237,13 @@
                         alert('Error');
                     }
                 });
-            });          
+            });
 
-        function deleteProduit(idProduit) {
+        function removeProduit(idProduit) {
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
                 $.ajax({
-                    url: '@Url.Action("DeleteProduit", "WebService")',
+                    url: '@Url.Action("removeProduit", "WebService")',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',

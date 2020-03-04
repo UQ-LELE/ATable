@@ -43,6 +43,17 @@ namespace ATable.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            ViewBag.Error = null;
+
+
+            PanierModel panierModel = (PanierModel)HttpContext.Application[Session.SessionID];
+
+            if (panierModel != null && panierModel.IdRestaurant != id) 
+            {
+                ViewBag.Error = "error";
+                ViewBag.IdRestaurantPanier = panierModel.IdRestaurant;
+            }
+
             var produits = db.Produits.Where(p => p.IdRestaurant == id);
 
 
@@ -56,7 +67,7 @@ namespace ATable.Controllers
             ViewBag.Dessert = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 3).ToList();
             ViewBag.Restaurant = db.Restaurants.Where(p => p.IdRestaurant == id).SingleOrDefault();
 
-            ViewBag.User =  Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
+            ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
 
             return View();
         }

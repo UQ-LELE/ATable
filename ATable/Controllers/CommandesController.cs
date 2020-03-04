@@ -17,7 +17,7 @@ namespace ATable.Controllers
 
         public ActionResult Panier()
         {
-            List<ProduitPanier> panier = (List<ProduitPanier>)HttpContext.Application[Session.SessionID];
+            PanierModel panier = (PanierModel)HttpContext.Application[Session.SessionID];
             if(panier != null && panier.Count > 0)
             {
                 //faire une redirection vers actual page avec message d'erreur panier vide

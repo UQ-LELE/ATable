@@ -148,9 +148,11 @@
     <Compile Include="Models\EtatCommande.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ItemPanier.cs" />
     <Compile Include="Models\Menu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MenuPanier.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -170,12 +172,14 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PanierHtml.cs" />
+    <Compile Include="Models\PanierModel.cs" />
     <Compile Include="Models\Photo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Produit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProduitComposePanier.cs" />
     <Compile Include="Models\ProduitPanier.cs" />
     <Compile Include="Models\Restaurant.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -304,18 +308,40 @@
     <Content Include="Content\materialize\fonts\roboto\Roboto-Bold.woff" />
     <Content Include="Content\materialize\fonts\roboto\Roboto-Bold.ttf" />
     <Content Include="Content\materialize\fonts\roboto\Roboto-Bold.eot" />
-    <Content Include="Images\Boulangerie.jpg" />
-    <Content Include="Images\Brasserie.jpg" />
-    <Content Include="Images\Burger.jpg" />
-    <Content Include="Images\Chinois.jpg" />
-    <Content Include="Images\indien.jpg" />
-    <Content Include="Images\Japonais.jpg" />
-    <Content Include="Images\Libanais.jpg" />
-    <Content Include="Images\Pizza.jpg" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\plats\babarhum.jpg" />
+    <Content Include="Images\plats\barcroutesel.jpg" />
+    <Content Include="Images\plats\choucroute.jpg" />
+    <Content Include="Images\plats\choucroutemer.jpg" />
+    <Content Include="Images\plats\couteauxpersillade.jpg" />
+    <Content Include="Images\plats\foiegras.jpg" />
+    <Content Include="Images\plats\fondantchoco.jpg" />
+    <Content Include="Images\plats\harengfume.jpg" />
+    <Content Include="Images\plats\parisbrest.jpg" />
+    <Content Include="Images\plats\pavesaumon.jpg" />
+    <Content Include="Images\plats\plateausignature.jpg" />
+    <Content Include="Images\plats\profiteroles.jpg" />
+    <Content Include="Images\plats\saladeharicots.jpg" />
+    <Content Include="Images\plats\saumonfume.jpg" />
+    <Content Include="Images\plats\solemeuniere.jpg" />
+    <Content Include="Images\plats\soupeoignons.jpg" />
+    <Content Include="Images\plats\soupepois.jpg" />
+    <Content Include="Images\plats\tartareboeuf.jpg" />
+    <Content Include="Images\plats\tartaresaumon.jpg" />
+    <Content Include="Images\restaurants\aubergeade%282%29.jpg" />
+    <Content Include="Images\restaurants\aubergeade%283%29.jpg" />
+    <Content Include="Images\restaurants\aubergeade.jpg" />
+    <Content Include="Images\typeCuisines\Boulangerie.jpg" />
+    <Content Include="Images\typeCuisines\Brasserie.jpg" />
+    <Content Include="Images\typeCuisines\Burger.jpg" />
+    <Content Include="Images\typeCuisines\Chinois.jpg" />
+    <Content Include="Images\typeCuisines\indien.jpg" />
+    <Content Include="Images\typeCuisines\Japonais.jpg" />
+    <Content Include="Images\typeCuisines\Libanais.jpg" />
+    <Content Include="Images\typeCuisines\Pizza.jpg" />
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>

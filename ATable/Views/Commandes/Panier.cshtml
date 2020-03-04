@@ -1,9 +1,11 @@
-﻿@model IEnumerable<ATable.Models.ProduitPanier>
+﻿@model ATable.Models.PanierModel
 
 @{
     ViewBag.Title = "Panier";
 
     string isConnected = Session["Utilisateur"] != null ? "true" : "false";
+
+    string previousPage = Request.UrlReferrer.ToString();
 
 }
 
@@ -17,9 +19,9 @@
             {
                 <table class="table table-panier">
 
-                    @foreach (var item in Model)
+                    @foreach (ATable.Models.ItemPanier item in Model)
                     {
-                        <tr class="card-panel @item.IdProduit">
+                        <tr class="card-panel @item.GetIdProduit()">
 
                             <td>
                                 @Html.DisplayFor(modelItem => item.Photo)
@@ -35,13 +37,13 @@
                                 @(item.Prix * item.Quantite)&nbsp;€
                             </td>
                             <td class="center-align">
-                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.GetIdProduit()><i class="material-icons">add</i></button>
                             </td>
                             <td class="center-align">
-                                <span id="@item.IdProduit">@item.Quantite</span>
+                                <span id="@item.GetIdProduit()">@item.Quantite</span>
                             </td>
                             <td class="center-align">
-                                <button class="btn-floating btn-small waves-effect waves-light red delete" data-idproduit=@item.IdProduit><i class="material-icons">remove</i></button>
+                                <button class="btn-floating btn-small waves-effect waves-light red remove" data-idproduit=@item.GetIdProduit()><i class="material-icons">remove</i></button>
                             </td>
                         </tr>
 
@@ -49,21 +51,18 @@
                     <tr class="card-panel">
                         <td></td>
                         <td class="hide-on-small-and-down"></td>
-                        <td class="right red lighten-1"><h5 style="color:white;"><strong>TOTAL :</strong></h5></td>
-                        <td class="red lighten-1"><h5 style="color:white;"><span class="total"></span>&nbsp;€<sup>&nbsp;TTC</sup></h5></td>
+                        <td class="right"><h5><strong>TOTAL :</strong></h5></td>
+                        <td><h5><span class="total"></span>&nbsp;€<sup>&nbsp;TTC</sup></h5></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     </tr>
-
 
                 </table>
                 <a class="waves-effect waves-light btn-large col s12 m6 offset-m3" id="payer">
                     <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
                 </a>
             }
-
-
         </div>
     </div>
 </div>
@@ -97,13 +96,17 @@
             <a href="#">Mot de passe oublié ?</a>
         </div>
 
-        <div class="row center">
-            <input type="submit" value="Se connecter" class="btn btn-default" />
-        </div>
-
-        @*<div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
+        @*<div class="row center">
+                <a href="@Url.Action("","", new { matricule = , password = , preivousPage = Request.UrlReferrer.ToString() })">Se Connecter</a>
             </div>*@
+
+        @*<div class="row center">
+                <input type="submit" value="Se connecter" class="btn btn-default" />
+            </div>*@
+
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
+        </div>
     </div>
 </div>
 
@@ -155,8 +158,9 @@
                         contentType: 'application/json; charset=utf-8',
                         DataType: 'json',
                     success: function (data) {
-                        if (data.error == 1) {
-                           $('.modal').close();
+                        if (data.error == 0) {
+                            $('.modal').close();
+                            window.location.reload(false);
                         }
                             //show message success
                         },
@@ -167,6 +171,37 @@
                 });
             }
         }*@
+
+        @*function LoginWS() {
+                                            alert('test');
+
+            var matricule = $('#matricule').val();
+            var password = $('#password').val();
+
+            if (matricule != "" && password != "") {
+
+                var data = { 'matricule': matricule, 'password': password, 'previousPage': @previousPage };
+
+                $.ajax({
+                        url: '@Url.Action("ConnexionModal", "Utilisateurs")',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json; charset=utf-8',
+                        DataType: 'json',
+                    success: function (data) {
+                        if (data.error == 0) {
+                            $('.modal').close();
+                        }
+                            //show message success
+                        },
+                        error: function () {
+                            //show message error
+                            alert('Error');
+                        }
+                });
+            }
+        }*@
+
 
         $(".add").click(function () {
                  var idProduit = $(this).data('idproduit');
@@ -192,7 +227,7 @@
                 });
             });
 
-            $(".delete").click(function () {
+            $(".remove").click(function () {
             var idProduit = $(this).data('idproduit');
 
             var Qte = $('#'+idProduit).html();
@@ -200,7 +235,7 @@
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
                 $.ajax({
-                    url: '@Url.Action("DeleteProduit", "WebService")',
+                    url: '@Url.Action("removeProduit", "WebService")',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',
@@ -215,7 +250,7 @@
                          $('.total').html(data.total);
                         if ($('.total').html() == "0,00") {
                             $('a#payer').remove('a#payer');
-                        }                       
+                        }
                     },
                     error: function () {
                         alert('Error');

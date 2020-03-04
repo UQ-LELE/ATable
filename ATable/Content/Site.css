@@ -67,9 +67,7 @@ main {
     padding-left: 0px !important;
 }
 
-
 /*Style Navbar*/
-
 .nav-wrapper .brand-logo {
     font-family: Courgette, sans-serif;
 }
@@ -174,6 +172,10 @@ nav ul a {
     border-radius: 15px;
 }
 
+.title-product {
+    font-size: 19px;
+}
+
 /*Menu & SideNav Menu*/
 .side-nav li {
     line-height: 20px;
@@ -211,12 +213,20 @@ nav ul a {
     margin-top: 20px;
 }
 
+.categorie-collapsible {
+    background-color: #2bbbad;
+    color: white;
+    font-family: Courgette, sans-serif;
+}
 
+.carte-collapsible{
+    margin-top : 315px;
+}
 /*Votre Panier*/
 .table-panier {
     border-collapse: separate; /* allow spacing between cell borders */
     border-spacing: 0 20px;
-    empty-cells:hide;
+    empty-cells: hide;
 }
 
 /*Importé de sidenav codepen, à filtrer*/

@@ -5,16 +5,14 @@ using System.Web;
 
 namespace ATable.Models
 {
-    public class ProduitPanier : ItemPanier
+    public class ProduitComposePanier : ItemPanier
     {
         public int IdProduit { get; set; }
+        public List<ProduitPanier> produits { get; set; }
 
         public override int GetIdProduit()
         {
-
             return IdProduit;
         }
-
-
     }
 }
