@@ -45,13 +45,12 @@ namespace ATable.Controllers
 
             ViewBag.Error = null;
 
+            PanierModel panier = (PanierModel)HttpContext.Application[Session.SessionID];
 
-            PanierModel panierModel = (PanierModel)HttpContext.Application[Session.SessionID];
-
-            if (panierModel != null && panierModel.IdRestaurant != id) 
+            if (panier != null && panier.IdRestaurant != id) 
             {
                 ViewBag.Error = "error";
-                ViewBag.IdRestaurantPanier = panierModel.IdRestaurant;
+                ViewBag.IdRestaurantPanier = panier.IdRestaurant;
             }
 
             var produits = db.Produits.Where(p => p.IdRestaurant == id);
@@ -62,6 +61,7 @@ namespace ATable.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.Menu  = db.Menus.Where(m => m.IdRestaurant == id).ToList();
             ViewBag.Entree = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 1).ToList();
             ViewBag.Plat = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 2).ToList();
             ViewBag.Dessert = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 3).ToList();

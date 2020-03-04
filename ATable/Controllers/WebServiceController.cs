@@ -318,5 +318,16 @@ namespace ATable.Controllers
             return Json(new { error = 1, message = "Connexion échouée" }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetMenu(int idMenu)
+        {
+            Menu menu = db.Menus.Find(idMenu);
+
+            List<Produit> listentrees = menu.Categories.Where(m => m.IdCategorie == 1).FirstOrDefault().Produits.ToList();
+            List<Produit> listplats = menu.Categories.Where(m => m.IdCategorie == 2).FirstOrDefault().Produits.ToList();
+            List<Produit> listdesserts = menu.Categories.Where(m => m.IdCategorie == 3).FirstOrDefault().Produits.ToList();
+
+            return Json(new { entrees = listentrees, plats = listplats, desserts = listdesserts }, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

@@ -14,8 +14,13 @@ namespace ATable.Controllers
     {
         private AfpEatEntities db = new AfpEatEntities();
 
-        public ActionResult Connexion()
+        public ActionResult Connexion(int? idFromRestaurant)
         {
+            if(idFromRestaurant != null)
+            {
+                Session["ReturnUrl"] = idFromRestaurant;
+            }
+
             return View();
         }
 
@@ -33,10 +38,15 @@ namespace ATable.Controllers
                     user.IdSession = Session.SessionID;
                     Session["Utilisateur"] = user;
 
-                    string previousPage = Request.UrlReferrer.ToString();
+                    if(Session["ReturnUrl"] != null)
+                    {
+                        int idFromRestaurant = Convert.ToInt32(Session["ReturnUrl"]);
+                        Session.Remove("ReturnUrl");
 
+                        return RedirectToAction("Details", "Restaurants", new { id = idFromRestaurant });
+                    }
 
-                    return RedirectToAction("Index", "Restaurants");
+                    return View("Index", "Restaurants");
                 }
             }
             return View();

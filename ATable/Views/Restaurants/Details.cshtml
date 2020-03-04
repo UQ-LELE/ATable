@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ATable.Models.PanierModel
+
+@{
     ViewBag.Title = "Details";
 
     if (ViewBag.Error == "error")
@@ -7,14 +9,16 @@
 
         <script type="text/javascript">
             window.onload = function () {
-               $('.modal').openModal();
+                $('#modalErreur').openModal();
             };
         </script>
     }
 
+    List<ATable.Models.Menu> menu = ViewBag.Menu;
     List<ATable.Models.Produit> entree = ViewBag.Entree;
     List<ATable.Models.Produit> plat = ViewBag.Plat;
     List<ATable.Models.Produit> dessert = ViewBag.Dessert;
+
     ATable.Models.Restaurant restaurant = ViewBag.Restaurant;
     ATable.Models.Utilisateur utilisateur = ViewBag.User;
 }
@@ -29,19 +33,19 @@
                 @if (utilisateur != null)
                 {
                     <div class="center-align">
-                        <a href="@Url.Action("MonCompte", "Utilisateurs", new { id = utilisateur.IdUtilisateur })"><i class="fas fa-user fa-lg"></i>&nbsp;&nbsp;@utilisateur.Prenom&nbsp;@utilisateur.Nom</a>
+                        <a href="@Url.Action("MonCompte", "Utilisateurs", new { id = utilisateur.IdUtilisateur })"><i class="fas fa-user fa-2x"></i>&nbsp;&nbsp;@utilisateur.Prenom&nbsp;@utilisateur.Nom</a>
                     </div>
                 }
                 else
                 {
                     <div class="center-align">
-                        <a href="@Url.Action("Connexion", "Utilisateurs")"><i class="fas fa-sign-in-alt fa-lg"></i>&nbsp;&nbsp;Se Connecter</a>
+                        <a href="@Url.Action("Connexion", "Utilisateurs", new { idFromRestaurant = restaurant.IdRestaurant })"><i class="fas fa-sign-in-alt fa-lg"></i>&nbsp;&nbsp;Se Connecter</a>
                     </div>
                 }
             </div>
         </li>
         <li class="btn-li center-align">
-            <a class="waves-effect waves-light navPanier" href=@Url.Action("Panier", "Commandes", new { id = restaurant.IdRestaurant })>
+            <a class="waves-effect waves-light navPanier" onclick="toast()">
                 <i class="fas fa-shopping-basket fa-2x"></i>&nbsp;&nbsp;Panier :&nbsp;&nbsp;<span class="total" style="font-size:20px;">0</span>€<sup>&nbsp;TTC</sup>
             </a>
         </li>
@@ -80,6 +84,34 @@
         <div class="box carte-collapsible">
 
             <ul class="collapsible popout ">
+                <li>
+                    <div class="collapsible-header hoverable categorie-collapsible"><h3>Menus</h3></div>
+                    <div class="collapsible-body">
+                        <table class="bordered">
+                            <tbody>
+                                @foreach (var item in menu)
+                                {
+                                    <tr>
+                                        <td class="hide-on-small-and-down">
+                                        </td>
+                                        <td class="title-product">
+                                            @item.Nom
+                                        </td>
+                                        <td class="hide-on-small-and-down">
+                                        </td>
+                                        <td style="min-width:60px">
+                                            @item.Prix €
+                                        </td>
+                                        <td style="min-width:40px">
+                                            <button class="btn-floating btn-small waves-effect waves-light red" onclick="openMenu(@item.IdMenu)"><i class="material-icons">add</i></button>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
                 <li>
                     <div class="collapsible-header hoverable categorie-collapsible"><h3>Entrées</h3></div>
                     <div class="collapsible-body">
@@ -173,27 +205,50 @@
 </div>
 
 <!--Modal d'annulation panier-->
-<div id="modal1" class="modal">
+<div id="modalErreur" class="modal">
     <div class="modal-content">
         <h4>Attention, une commande est en cours !</h4>
         <p>
-            Votre panier contient des produits d'un autre restaurant. 
-            Pour rappel, vous ne pouvez commander auprès d'un seul restaurateur à la fois. 
+            Votre panier contient des produits d'un autre restaurant.
+            Pour rappel, vous ne pouvez commander auprès d'un seul restaurateur à la fois.
             Souhaitez-vous poursuivre la commande en cours ou bien vider votre panier et poursuivre chez un autre restaurateur ?
         </p>
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
-        <a href=@Url.Action("Details","Restaurants", new { id = item.IdRestaurant }) class="modal-close waves-effect waves-green btn-flat">Continuer ma commande</a>
+        @*<a href=@Url.Action("Details","Restaurants", new { id = item.IdRestaurant }) class="modal-close waves-effect waves-green btn-flat">Continuer ma commande</a>*@
     </div>
 </div>
+
+
+
+<!--Modal commande Menu -->
+
+<div id="modalMenu" class="modal">
+    <h4 >Modal Header</h4>
+    <hr />
+    <ul id="tabs-swipe-demo" class="tabs">
+        <li class="tab col s3"><a href="#test-swipe-1">Test 1</a></li>
+        <li class="tab col s3"><a class="active" href="#test-swipe-2">Test 2</a></li>
+        <li class="tab col s3"><a href="#test-swipe-3">Test 3</a></li>
+    </ul>
+    <div id="test-swipe-1" class="col s12 blue">Test 1</div>
+    <div id="test-swipe-2" class="col s12 red">Test 2</div>
+    <div id="test-swipe-3" class="col s12 green">Test 3</div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+
+
+
+
 
 
 @section Scripts {
     <script>
         $(document).ready(function () {
             $('.materialboxed').materialbox();
-
 
             var data = {'idSession': '@Session.SessionID' };
 
@@ -218,6 +273,25 @@
             });
 
         });
+
+        function openMenu(idMenu) {
+            var data = { 'idMenu' : idMenu };
+
+            $.ajax({
+                url: '@Url.Action("GetMenu", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('#modalMenu').openModal();
+
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+            });
+        };
 
         $(".add").click(function () {
 
