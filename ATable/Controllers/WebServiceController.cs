@@ -159,7 +159,6 @@ namespace ATable.Controllers
             panierHtml.total = 0;
             foreach (ItemPanier item in panier)
             {
-
                 panierHtml.hmtl += "<div class='row article valign-wrapper'>";
                 panierHtml.hmtl += "<div class='col m2' style='margin-left:0px;'>";
                 panierHtml.hmtl += "<button class='btn-floating btn-mini waves-effect waves-light red remove' onclick='removeProduit(\"" + item.GetIdProduit() + "\")'>-</button>";
@@ -168,6 +167,7 @@ namespace ATable.Controllers
                 panierHtml.hmtl += "<div class='col m4' style='margin-left:0px;'>" + item.Prix * item.Quantite + " €</div>";
                 panierHtml.hmtl += "</div>";
                 panierHtml.hmtl += "<div class='divider'></div>";
+
                 panierHtml.total += item.Prix * item.Quantite;
             }
             return panierHtml;

@@ -393,7 +393,6 @@
     <Content Include="Views\Restaurants\Details.cshtml" />
     <Content Include="Views\Restaurants\Edit.cshtml" />
     <Content Include="Views\Restaurants\Index.cshtml" />
-    <Content Include="Views\Utilisateurs\Connexion.cshtml" />
     <Content Include="Views\Restaurants\ParSpecialite.cshtml" />
     <Content Include="Views\Commandes\Create.cshtml" />
     <Content Include="Views\Commandes\Delete.cshtml" />
@@ -404,6 +403,7 @@
     <Content Include="Views\Shared\_NavbarOn.cshtml" />
     <Content Include="Views\Shared\_NavbarOff.cshtml" />
     <Content Include="Views\Utilisateurs\MonCompte.cshtml" />
+    <Content Include="Views\Shared\_Connexion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

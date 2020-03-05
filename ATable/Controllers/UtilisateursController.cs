@@ -14,21 +14,12 @@ namespace ATable.Controllers
     {
         private AfpEatEntities db = new AfpEatEntities();
 
-        public ActionResult Connexion(int? idFromRestaurant)
-        {
-            if(idFromRestaurant != null)
-            {
-                Session["ReturnUrl"] = idFromRestaurant;
-            }
-
-            return View();
-        }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Connexion([Bind(Include = "Matricule,Password")] Utilisateur utilisateur)
-        {          
+        {
+            string previousUrl = Request.UrlReferrer.ToString();
+
             if (ModelState.IsValid)
             {
                 var user = db.Utilisateurs.Single(u => u.Matricule == utilisateur.Matricule && u.Password == utilisateur.Password);
@@ -38,38 +29,11 @@ namespace ATable.Controllers
                     user.IdSession = Session.SessionID;
                     Session["Utilisateur"] = user;
 
-                    if(Session["ReturnUrl"] != null)
-                    {
-                        int idFromRestaurant = Convert.ToInt32(Session["ReturnUrl"]);
-                        Session.Remove("ReturnUrl");
-
-                        return RedirectToAction("Details", "Restaurants", new { id = idFromRestaurant });
-                    }
-
-                    return View("Index", "Restaurants");
+                    return Redirect(previousUrl);
                 }
             }
             return View();
         }
-
-        public ActionResult ConnexionModal(string matricule, string password, string previousPage)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = db.Utilisateurs.Single(u => u.Matricule == matricule && u.Password == password);
-
-                if (user != null)
-                {
-                    user.IdSession = Session.SessionID;
-                    Session["Utilisateur"] = user;
-
-                    return RedirectToAction("Index", "Restaurants");
-                }
-            }
-            return View();
-        }
-
-
 
         // GET: Utilisateurs/Details/5
         public ActionResult MonCompte(int? id)

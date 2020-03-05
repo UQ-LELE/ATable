@@ -226,32 +226,101 @@
 
 <!--Modal commande Menu -->
 
-<div id="modalMenu" class="modal">
-    <h4 >Modal Header</h4>
-    <hr />
-    <ul id="tabs-swipe-demo" class="tabs">
-        <li class="tab col s3"><a href="#test-swipe-1">Test 1</a></li>
-        <li class="tab col s3"><a class="active" href="#test-swipe-2">Test 2</a></li>
-        <li class="tab col s3"><a href="#test-swipe-3">Test 3</a></li>
-    </ul>
-    <div id="test-swipe-1" class="col s12 blue">Test 1</div>
-    <div id="test-swipe-2" class="col s12 red">Test 2</div>
-    <div id="test-swipe-3" class="col s12 green">Test 3</div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+<div id="modalMenu" class="modal modal-menu">
+    <div class="row mb-0">
+        <div class="col s4 center-align">
+            <h4 class="pt-1">Votre Menu</h4>
+            <div class="flow-text">
+                <img class="responsive-img" src="~/Images/plats/plateausignature.jpg" />
+                <h5>Menu A</h5>
+                <p>Nondum nihil ne in fame scaphas tum luna tum plerumque petivere splendore degressi omnibus viles.</p>
+            </div>
+
+        </div>
+        <div class="col s8 center-align" style="border-left: 1px solid #cdd0d4;">
+            <h4 class="courgette pt-1">Composez votre menu à la carte !</h4>
+
+            <ul id="tabs-menu" class="tabs">
+                <li class="tab col s3"><a class="active" href="#entree">Entrée</a></li>
+                <li class="tab col s3"><a href="#plat">Plat</a></li>
+                <li class="tab col s3"><a href="#dessert">Dessert</a></li>
+            </ul>
+            <div id="entree" class="col s12 grey lighten-5">
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-medmini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                2
+                                <button class="btn-floating btn-medmini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="plat" class="col s12 grey lighten-4">
+
+            </div>
+            <div id="dessert" class="col s12 grey lighten-5">
+            </div>
+        </div>
     </div>
-</div>
+    <div class="row mb-0">
+        <div class="col s4 center-align">
+            <span class="col s12 price-modal z-depth-3"><h5>16,90 €</h5></span>
+        </div>
+        <div class="col s8 center-align" style="border-left: 1px solid #cdd0d4;">
+            <div class="col s3">
+                <button class="waves-effect waves-light btn-large previous">Précédent</button>
+            </div>
+            <div class="col s3 offset-s6">
+                <button class="waves-effect waves-light btn-large next">Suivant</button>
+            </div>
+        </div>
+    </div>
 
 
 
 
 
 
-@section Scripts {
-    <script>
+    @section Scripts {
+        <script>
         $(document).ready(function () {
             $('.materialboxed').materialbox();
-        
+
             $('.side-nav li').click(function () {
                 $('.side-nav li.active').removeClass('active');
                 $(this).closest('li').addClass('active');
@@ -259,7 +328,15 @@
 
         });
 
+
+
+
         function openMenu(idMenu) {
+            $('#modalMenu').openModal();
+        };
+
+
+        @*function openMenu(idMenu) {
             var data = { 'idMenu' : idMenu };
 
             $.ajax({
@@ -276,7 +353,7 @@
                         alert('Error');
                     }
             });
-        };
+        };*@
 
         function clearPanier() {
                 var data = {'idSession': '@Session.SessionID' };
@@ -336,7 +413,7 @@
                 });
         }
 
-        
 
-    </script>
-}
+
+        </script>
+    }

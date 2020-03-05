@@ -67,48 +67,9 @@
     </div>
 </div>
 
-<!--Modal connexion-->
-<div id="modal1" class="modal">
-    <div class="modal-content center">
-        <h4>Connexion</h4>
 
-        <div class="row">
-            <div class="input-field col s12 m6 offset-m3">
-                <i class="material-icons prefix">
-                    account_circle
-                </i>
-                <input type="text" />
-                <label for="Matricule">N° de Matricule</label>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="input-field col s12 m6 offset-m3">
-                <i class="material-icons prefix">
-                    lock_outline
-                </i>
-                <input type="password" />
-                <label for="Password">Mot de Passe</label>
-            </div>
-        </div>
 
-        <div class="row center">
-            <a href="#">Mot de passe oublié ?</a>
-        </div>
-
-        @*<div class="row center">
-                <a href="@Url.Action("","", new { matricule = , password = , preivousPage = Request.UrlReferrer.ToString() })">Se Connecter</a>
-            </div>*@
-
-        @*<div class="row center">
-                <input type="submit" value="Se connecter" class="btn btn-default" />
-            </div>*@
-
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="btnConnexion">Connexion</a>
-        </div>
-    </div>
-</div>
 
 @section Scripts {
     <script>
@@ -117,7 +78,7 @@
                 if (@isConnected) {
                     SaveCommandeWS();
                 } else {
-                    $('.modal').openModal();
+                    $('#modal-connexion').openModal();
                 }
             });
         });
@@ -142,66 +103,6 @@
                     }
             });
         }
-
-        @*function LoginWS() {
-            var matricule = $('#matricule').val();
-            var password = $('#password').val();
-
-            if (matricule != "" && password != "") {
-
-                var data = { 'idSession': '@Session.SessionID', 'matricule': matricule, 'password': password };
-
-                $.ajax({
-                        url: '@Url.Action("Login", "WebService")',
-                        type: 'POST',
-                        data: JSON.stringify(data),
-                        contentType: 'application/json; charset=utf-8',
-                        DataType: 'json',
-                    success: function (data) {
-                        if (data.error == 0) {
-                            $('.modal').close();
-                            window.location.reload(false);
-                        }
-                            //show message success
-                        },
-                        error: function () {
-                            //show message error
-                            alert('Error');
-                        }
-                });
-            }
-        }*@
-
-        @*function LoginWS() {
-                                            alert('test');
-
-            var matricule = $('#matricule').val();
-            var password = $('#password').val();
-
-            if (matricule != "" && password != "") {
-
-                var data = { 'matricule': matricule, 'password': password, 'previousPage': @previousPage };
-
-                $.ajax({
-                        url: '@Url.Action("ConnexionModal", "Utilisateurs")',
-                        type: 'POST',
-                        data: JSON.stringify(data),
-                        contentType: 'application/json; charset=utf-8',
-                        DataType: 'json',
-                    success: function (data) {
-                        if (data.error == 0) {
-                            $('.modal').close();
-                        }
-                            //show message success
-                        },
-                        error: function () {
-                            //show message error
-                            alert('Error');
-                        }
-                });
-            }
-        }*@
-
 
         $(".add").click(function () {
                  var idProduit = $(this).data('idproduit');

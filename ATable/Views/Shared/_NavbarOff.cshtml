@@ -7,7 +7,7 @@
             <a href="#" data-activates="mobile-panier" class="button-collapse right navPanier">&nbsp;<i class="fas fa-shopping-basket fa-2x"></i>&nbsp;</a>
             <a href="#" onclick="goBack()" class="button-collapse left"><i class="material-icons">arrow_back</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="@Url.Action("Connexion", "Utilisateurs")">Se Connecter</a></li>
+                <li><a onclick="$('#modal-connexion').openModal();">Se Connecter</a></li>
                 <li><a href="@Url.Action("Create", "Utilisateurs")">Besoin d'aide ?</a></li>
                 <li><a class="waves-effect waves-light navPanier" onclick="toast()"><span class="total" style="font-size:20px;">0</span>€&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-basket fa-2x"></i></a></li>
             </ul>
@@ -38,4 +38,11 @@
     </li>
 </ul>
 
+<!--Modal connexion-->
 
+<div id="modal-connexion" class="modal">
+    <div class="modal-content center">
+        <h4>Connexion</h4>
+        @Html.Partial("_Connexion");
+    </div>
+</div>
