@@ -1,11 +1,11 @@
 ﻿@{
-    var utilisateur = (ATable.Models.Utilisateur)Session["Utilisateur"];
-    var connexion = "NotConnected";
+    var utilisateur = (ATable.Models.Utilisateur)Session["Utilisateur"] ?? null;
+    //var connexion = "NotConnected";
 
-    if (utilisateur != null)
-    {
-        connexion = "Connected";
-    }
+    //if (utilisateur != null)
+    //{
+    //    connexion = "Connected";
+    //}
 }
 
 <!DOCTYPE html>
@@ -55,7 +55,7 @@
 <body>
 
     <header>
-        @if (connexion == "NotConnected")
+        @if (utilisateur == null)
         {
             @Html.Partial("_NavbarOff");
         }
@@ -63,17 +63,34 @@
         {
             @Html.Partial("_NavbarOn");
         }
+
+        <div class="fixed-action-btn click-to-toggle horizontal hide-on-large-only">
+            <a class="btn-floating btn-large red z-depth-3">
+                <i class="large material-icons">menu</i>
+            </a>
+            <ul>
+                <li><a class="btn-floating yellow darken-1 z-depth-3" href="@Url.Action("Create", "Utilisateurs")"><i class="material-icons">help</i></a></li>
+                <li><a class="btn-floating blue z-depth-3"><i class="material-icons">restaurant</i></a></li>
+                @if (utilisateur != null)
+                {
+                    <li><a class="btn-floating red z-depth-3"><i class="material-icons medium">account_circle</i></a></li>
+                }
+                else
+                {
+                    <li><a class="btn-floating red z-depth-3" onclick="$('#modal-connexion').openModal();"><i class="material-icons medium">account_circle</i></a></li>
+                }
+            </ul>
+        </div>
     </header>
 
-    <main>
-        <div class="">
-            @RenderBody()
 
-            @*<hr />
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - Mon application ASP.NET</p>
-                </footer>*@
-        </div>
+    <main>
+        @RenderBody()
+
+        @*<hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Mon application ASP.NET</p>
+            </footer>*@
     </main>
 
     @Scripts.Render("~/bundles/jqueryval")

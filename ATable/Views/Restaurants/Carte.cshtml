@@ -1,0 +1,336 @@
+﻿@model ATable.Models.PanierModel
+
+@{
+    ViewBag.Title = "Details";
+
+    int idRestaurantPanier = 0;
+
+    if (ViewBag.Error == "error")
+    {
+        idRestaurantPanier = ViewBag.IdRestaurantPanier;
+
+        <script type="text/javascript">
+            window.onload = function () {
+                $('#modalErreur').openModal();
+            };
+        </script>
+    }
+
+    List<ATable.Models.Menu> menu = ViewBag.Menu;
+    List<ATable.Models.Produit> entree = ViewBag.Entree;
+    List<ATable.Models.Produit> plat = ViewBag.Plat;
+    List<ATable.Models.Produit> dessert = ViewBag.Dessert;
+
+    ATable.Models.Restaurant restaurant = ViewBag.Restaurant;
+    ATable.Models.Utilisateur utilisateur = ViewBag.User;
+}
+
+<div id="container-restaurant">
+
+    <div id="menu">
+
+        <ul id="slide-out" class="side-nav fixed">
+            <li class="user-li">
+                <div class="user-view">
+                    <div class="background">
+                    </div>
+                    @if (utilisateur != null)
+                    {
+                        <div class="center-align">
+                            <a href="@Url.Action("MonCompte", "Utilisateurs", new { id = utilisateur.IdUtilisateur })"><i class="fas fa-user fa-2x"></i>&nbsp;&nbsp;@utilisateur.Prenom&nbsp;@utilisateur.Nom</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="center-align">
+                            <a onclick="$('#modal-connexion').openModal();"><i class="fas fa-sign-in-alt fa-2x"></i><span style="font-size:20px;">&nbsp;&nbsp;Se Connecter</span></a>
+                        </div>
+                    }
+                </div>
+            </li>
+            <li class="panier-li center-align">
+                <a class="waves-effect waves-light navPanier" onclick="toast()">
+                    <i class="fas fa-shopping-basket fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span class="total" style="font-size:20px;">0</span>€<sup>&nbsp;TTC</sup>
+                </a>
+            </li>
+            <li class="lone sidePanier">
+            </li>
+        </ul>
+    </div>
+
+    <div id="content-restaurant">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row card card-small horizontal">
+                            <div class="card-image col m4 pl-0 hide-on-small-and-down md">
+                                <img class="materialboxed" src="~/Images/restaurants/@restaurant.Photos.First().Nom">
+                            </div>
+                            <div class="card-stacked col s12 m8">
+                                <div class="card-content">
+                                    <h4 class="courgette mt-0" style="text-decoration:underline;">@restaurant.Nom</h4>
+                                    <div class="divider"></div>
+                                    <div class="row mt-1">
+                                        <div class="chip  deep-orange lighten-4 left">
+                                            @restaurant.TypeCuisine.Nom
+                                        </div>
+                                        <div class="chip  teal lighten-4 right">
+                                            @restaurant.Budget
+                                        </div>
+                                    </div>
+                                    <p>@restaurant.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="box carte-collapsible">
+
+                        <ul class="collapsible popout ">
+                            <li>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Menus</h3></div>
+                                <div class="collapsible-body">
+                                    <table class="bordered">
+                                        <tbody>
+                                            @foreach (var item in menu)
+                                            {
+                                                <tr>
+                                                    <td class="hide-on-small-and-down">
+                                                    </td>
+                                                    <td class="title-product">
+                                                        @item.Nom
+                                                    </td>
+                                                    <td class="hide-on-small-and-down">
+                                                    </td>
+                                                    <td style="min-width:60px">
+                                                        @item.Prix €
+                                                    </td>
+                                                    <td style="min-width:40px">
+                                                        <button class="btn-floating btn-small waves-effect waves-light red right" onclick="openMenu(@item.IdMenu)"><i class="material-icons">add</i></button>
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Entrées</h3></div>
+                                <div class="collapsible-body">
+                                    <table class="bordered">
+                                        <tbody>
+                                            @foreach (var item in entree)
+                                            {
+                                                <tr>
+                                                    <td class="hide-on-small-and-down">
+                                                        <img src="~/Images/plats/@item.Photos.First().Nom" style="max-width:140px;" />
+                                                    </td>
+                                                    <td class="title-product">
+                                                        @item.Nom
+                                                    </td>
+                                                    <td class="hide-on-small-and-down">
+                                                        @item.Description
+                                                    </td>
+                                                    <td style="min-width:60px">
+                                                        @item.Prix €
+                                                    </td>
+                                                    <td style="min-width:40px">
+                                                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Plats</h3></div>
+                                <div class="collapsible-body">
+                                    <table class="bordered">
+                                        <tbody>
+                                            @foreach (var item in plat)
+                                            {
+                                                <tr>
+                                                    <td class="hide-on-small-and-down">
+                                                        <img src="~/Images/plats/@item.Photos.First().Nom" style="max-width:140px;" />
+                                                    </td>
+                                                    <td class="title-product">
+                                                        @item.Nom
+                                                    </td>
+                                                    <td class="hide-on-small-and-down">
+                                                        @item.Description
+                                                    </td>
+                                                    <td style="min-width:60px">
+                                                        @item.Prix €
+                                                    </td>
+                                                    <td style="min-width:40px">
+                                                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Desserts</h3></div>
+                                <div class="collapsible-body">
+                                    <table class="bordered">
+                                        <tbody>
+                                            @foreach (var item in dessert)
+                                            {
+                                                <tr>
+                                                    <td class="hide-on-small-and-down">
+                                                        <img src="~/Images/plats/@item.Photos.First().Nom" style="max-width:140px;" />
+                                                    </td>
+                                                    <td class="title-product">
+                                                        @item.Nom
+                                                    </td>
+                                                    <td class="hide-on-small-and-down">
+                                                        @item.Description
+                                                    </td>
+                                                    <td style="min-width:60px">
+                                                        @item.Prix €
+                                                    </td>
+                                                    <td style="min-width:40px">
+                                                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal d'annulation panier-->
+        <div id="modalErreur" class="modal">
+            <div class="modal-content">
+                <h4>Attention, votre panier contient déjà des produits !</h4>
+                <p>
+                    Votre panier contient des produits d'un autre restaurant.
+                    Pour rappel, vous pouvez uniquement commander auprès d'un seul restaurateur à la fois.
+                    Souhaitez-vous poursuivre la commande en cours ou bien vider votre panier et poursuivre chez un autre restaurateur ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a onclick="clearPanier()" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
+                <a href=@Url.Action("Carte","Restaurants", new { id = idRestaurantPanier }) class="waves-effect waves-green btn-flat">Continuer ma commande</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.materialboxed').materialbox();
+
+        });
+
+         $('.button-collapse').sideNav({
+              menuWidth: 300, // Default is 300
+              edge: 'left', // Choose the horizontal origin
+              closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+              draggable: true // Choose whether you can drag to open on touch screens,
+            }
+          );
+
+
+        function openMenu(idMenu) {
+            $('#modalMenu').openModal();
+        };
+
+
+        @*function openMenu(idMenu) {
+            var data = { 'idMenu' : idMenu };
+
+            $.ajax({
+                url: '@Url.Action("GetMenu", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('#modalMenu').openModal();
+                        alert(data.entrees);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+            });
+        };*@
+
+        function clearPanier() {
+                var data = {'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("ClearPanier", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        getPanierHtml();
+                        $('#modalErreur').close();
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+        };
+
+        $(".add").click(function () {
+
+                var data = { 'idProduit' : $(this).data('idproduit'), 'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("AddProduit", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('.sidePanier').html(data.panier);
+                        $('.total').html(data.total);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            });
+
+        function removeProduit(idProduit) {
+            var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("RemoveProduit", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('.sidePanier').html(data.panier);
+                        $('.total').html(data.total);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+        }
+    </script>
+}

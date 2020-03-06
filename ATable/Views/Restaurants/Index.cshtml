@@ -57,7 +57,7 @@
 
                 <div class="col s12 search hide-on-small-and-down">
                     <div class="row card card-small horizontal">
-                        <div class="card-image col s4 pl-0">
+                        <div class="card-image col s4 pl-0 lg">
                             <img class="materialboxed" src="~/Images/restaurants/@item.Photos.First().Nom">
                         </div>
                         <div class="card-stacked col s8">
@@ -75,7 +75,7 @@
                                 <p>@item.Description</p>
                             </div>
                             <div class="card-action center-align">
-                                <a href="@Url.Action("Details", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
+                                <a href="@Url.Action("Carte", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
 
                 <div class="col s12 m6 l3 search hide-on-med-and-up">
                     <div class="card sticky-action hoverable small">
-                        <div class="card-image waves-effect waves-block waves-light">
+                        <div class="card-image waves-effect waves-block waves-light md">
                             <img class="activator" src="~/Images/restaurants/@item.Photos.First().Nom">
                             <span class="card-title">
                                 @item.Nom
@@ -94,7 +94,7 @@
                             @item.Budget
                         </div>
                         <div class="card-action center-align">
-                            <a href="@Url.Action("Details", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
+                            <a href="@Url.Action("Carte", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
                         </div>
                         <div class="card-reveal" style="display: none; transform: translateY(0%);">
                             <span class="card-title grey-text text-darken-4">

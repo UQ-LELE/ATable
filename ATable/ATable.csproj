@@ -391,7 +391,7 @@
     <Content Include="Views\Restaurants\Create.cshtml" />
     <Content Include="Views\Restaurants\Delete.cshtml" />
     <Content Include="Views\Restaurants\Details.cshtml" />
-    <Content Include="Views\Restaurants\Edit.cshtml" />
+    <Content Include="Views\Restaurants\Carte.cshtml" />
     <Content Include="Views\Restaurants\Index.cshtml" />
     <Content Include="Views\Restaurants\ParSpecialite.cshtml" />
     <Content Include="Views\Commandes\Create.cshtml" />

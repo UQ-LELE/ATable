@@ -24,7 +24,7 @@
                         <tr class="card-panel @item.GetIdProduit()">
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.Photo)
+                                <img src="~/Images/plats/@item.Photo" style="max-width:140px;" />
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Nom)
@@ -52,7 +52,7 @@
                         <td></td>
                         <td class="hide-on-small-and-down"></td>
                         <td class="right"><h5><strong>TOTAL :</strong></h5></td>
-                        <td><h5><span class="total"></span>&nbsp;€<sup>&nbsp;TTC</sup></h5></td>
+                        <td><h5><span class="total"></span>&nbsp;€</h5></td>
                         <td></td>
                         <td></td>
                         <td></td>

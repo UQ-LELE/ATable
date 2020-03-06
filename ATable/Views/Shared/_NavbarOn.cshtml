@@ -1,51 +1,19 @@
 ﻿@{
     var utilisateur = (ATable.Models.Utilisateur)Session["Utilisateur"];
-
 }
 
-<!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content">
-    <li><a href="@Url.Action("MonCompte", "Utilisateurs", new { id = utilisateur.IdUtilisateur })"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Compte</a></li>
-    <li><a href="#"><i class="fas fa-cog"></i>&nbsp;&nbsp;Paramètres</a></li>
-    <li class="divider"></li>
-    <li><a href="#"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Deconnexion</a></li>
-</ul>
 
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
             <a href="@Url.Action("Index", "Restaurants")" class="brand-logo">&nbsp;&nbsp;<i class="fas fa-utensils fa-lg"></i><span class="hide-on-small-and-down">&nbsp;&nbsp;A'&nbsp;Table !</span></a>
-            <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">&nbsp;menu</i></a>
-            <a href="#" data-activates="mobile-panier" class="button-collapse right navPanier">&nbsp;<i class="fas fa-shopping-basket fa-2x"></i>&nbsp;</a>
+            <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only right waves-effect waves-light navPanier" onclick="toast()">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-basket fa-2x"></i>&nbsp;&nbsp;&nbsp;&nbsp;</a>
             <a href="#" onclick="goBack()" class="button-collapse left"><i class="material-icons">arrow_back</i></a>
             <ul class="right hide-on-med-and-down">
+                <li><a>Se Déconnecter</a></li>
                 <li><a href="@Url.Action("Create", "Utilisateurs")">Besoin d'aide ?</a></li>
-                <li><a class="waves-effect waves-light navPanier" href="@Url.Action("Panier", "Commandes")"><span class="total" style="font-size:20px;">0</span>€&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-basket fa-2x"></i></a></li>
-                <li><a href="#"><i class="material-icons dropdown-button" data-activates="dropdown1">account_circle</i></a></li>
+                <li><a class="waves-effect waves-light navPanier" onclick="toast()"><span class="total" style="font-size:20px;">0</span>€&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-basket fa-2x"></i></a></li>
             </ul>
         </div>
     </nav>
 </div>
-
-
-<ul class="side-nav" id="mobile-menu">
-    <li><a href="@Url.Action("Create", "Utilisateurs")"><i class="material-icons">help_outline</i>&nbsp;&nbsp;&nbsp;Besoin d'aide ?</a></li>
-    <li><a href="@Url.Action("Index", "Commande")"><i class="material-icons">shopping_basket</i>&nbsp;&nbsp;&nbsp;Mon Panier</a></li>
-</ul>
-
-<ul class="side-nav side-nav-menu" id="mobile-panier">
-    <li class="user-li">
-        <div class="user-view">
-            <div class="background">
-            </div>
-            <p class="no-margin"><span class="white-text name">@utilisateur.Prenom&nbsp;@utilisateur.Nom</span></p>
-        </div>
-    </li>
-    <li class="btn-li center-align">
-
-    </li>
-    <li class="lone sidePanier">
-    </li>
-</ul>
-
-

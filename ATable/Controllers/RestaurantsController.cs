@@ -107,13 +107,36 @@ namespace ATable.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Restaurant restaurant = db.Restaurants.Find(id);
-            if (restaurant == null)
+
+            ViewBag.Error = null;
+
+            PanierModel panier = (PanierModel)HttpContext.Application[Session.SessionID];
+
+            if (panier != null && panier.IdRestaurant != id)
+            {
+                ViewBag.Error = "error";
+                ViewBag.IdRestaurantPanier = panier.IdRestaurant;
+            }
+
+            var produits = db.Produits.Where(p => p.IdRestaurant == id);
+
+
+            if (produits == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdTypeCuisine = new SelectList(db.TypeCuisines, "IdTypeCuisine", "Nom", restaurant.IdTypeCuisine);
-            return View(restaurant);
+            //variante de viewbag, filtrer les catégories et type d'itempanier dans la vue
+            Restaurant restaurant = db.Restaurants.Include(r => r.Produits).Include(r => r.Menus).Where(r => r.IdRestaurant == id).First();
+
+            ViewBag.Menu = db.Menus.Where(m => m.IdRestaurant == id).ToList();
+            ViewBag.Entree = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 1).ToList();
+            ViewBag.Plat = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 2).ToList();
+            ViewBag.Dessert = db.Produits.Where(p => p.IdRestaurant == id && p.IdCategorie == 3).ToList();
+            ViewBag.Restaurant = db.Restaurants.Where(p => p.IdRestaurant == id).SingleOrDefault();
+
+            ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
+
+            return View();
         }
 
         // POST: Restaurants/Edit/5

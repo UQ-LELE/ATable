@@ -67,6 +67,14 @@ main {
     margin-top: 0px;
 }
 
+.mt-1 {
+    margin-top: 10px;
+}
+
+.mt-2 {
+    margin-top: 20px;
+}
+
 .pl-0 {
     padding-left: 0px !important;
 }
@@ -75,38 +83,45 @@ main {
     padding-top: 10px;
 }
 
-.collapsible-body{
-    border-bottom:0px;
-}
-/*Style Navbar*/
-.nav-wrapper .brand-logo {
-    font-family: Courgette, sans-serif;
+.collapsible-body {
+    border-bottom: 0px;
 }
 
+/*Colorisation*/
+
+nav, .user-view, .categorie-collapsible {
+    background-color: #FF7C7C;
+}
+
+.navPanier {
+    background-color: #2ECCC1;
+}
+
+.card, .card-panel {
+    background-color: #FFFAF7;
+}
+/*.menu .side-nav a, .menu .side-nav.fixed a*/
+.side-nav.fixed a, .navPanier, .categorie-collapsible, .user-view {
+    color: white !important;
+}
+
+nav .navPanier:hover, .side-nav .navPanier:hover {
+    background-color: #F44336;
+}
+
+
+/*Nav*/
 nav ul a {
     padding-left: 25px;
     padding-right: 25px;
 }
 
-.dropdown-content {
-    min-width: 150px;
-}
-
-#dropdown1 {
-    margin-top: 64px;
-}
-
 .navPanier {
-    background-color: #2bbbad;
     letter-spacing: .5px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     text-transform: uppercase;
     vertical-align: baseline;
 }
-
-    .navPanier:hover {
-        background-color: #F44336;
-    }
 
 /*Style Images*/
 .lightbox {
@@ -117,14 +132,27 @@ nav ul a {
         opacity: 0.7;
     }
 
-.card .card-image img {
-    height: 100%;
+.card .md img {
+    object-fit: cover;
+    width: 100%;
+    height: 293px;
 }
 
+.card .lg img {
+    object-fit: cover;
+    width: 100%;
+    height: 355px;
+}
 
 /*containers*/
 .box {
     margin: 15px;
+}
+
+@media (max-width: 978px) {
+    .box {
+        margin: 2px;
+    }
 }
 
 .card.horizontal {
@@ -133,41 +161,18 @@ nav ul a {
     display: flex;
 }
 
-/*Responsive mobile*/
-
-@media (max-width: 978px) {
-    .box {
-        margin: 2px;
-    }
-}
-
-@media (min-width: 1700px) {
-    .side-nav-menu {
-        width: 300px;
-    }
-}
-
-@media (max-width: 1700px) {
-    .side-nav-menu {
-        width: 250px;
-    }
-}
-
-@media (max-width: 1400px) {
-    .side-nav-menu {
-        width: 200px;
-    }
-}
-
-
 /*Text & Title*/
 .courgette {
     font-family: Courgette, sans-serif;
 }
 
+.brand-logo, .card .card-title-custom, .categorie-collapsible {
+    font-family: Courgette, sans-serif;
+}
+
+
 .card .card-title-custom {
     font-size: 34px;
-    font-family: Courgette, sans-serif;
     background-color: #26a69a;
     font-weight: 300;
 }
@@ -187,64 +192,41 @@ nav ul a {
 }
 
 
-/*Menu & SideNav Menu*/
+/*SideNav*/
+.side-nav {
+    margin-top: 56px;
+}
+
+@media only screen and (min-width: 541px) {
+    .side-nav {
+        margin-top: 64px;
+    }
+}
+
 .side-nav li {
     line-height: 20px;
 }
 
-.user-li {
-    background-color: #26a69a !important;
-    color: #FFFFFF !important;
-}
-
-.side-nav a:hover {
-    background-color: #F44336;
-}
 
 .side-nav.fixed a, .side-nav a {
     padding: 0;
 }
 
-.btn-li {
-    background-color: #ee6e73 !important;
+#container-restaurant {
+    padding-left: 300px;
 }
 
-.menu .side-nav a, .menu .side-nav.fixed a {
-    color: #FFFFFF !important;
+#content-restaurant {
+    padding: 20px;
 }
 
-.btn-mini {
-    height: 18px;
-    width: 18px;
-    line-height: 14px;
-    padding: 0 0.5rem;
-}
-
-
-/*.btn-medmini i {
-    height: 24px;
-    width: 24px;
-    line-height: 27px !important;
-    /*padding: 0 0.5rem;*/
-}*/
-
-
-.article {
-    margin-top: 20px;
-}
-
-.categorie-collapsible {
-    background-color: #2bbbad;
-    color: white;
-    font-family: Courgette, sans-serif;
-}
-
-.carte-collapsible {
-    margin-top: 315px;
+@media only screen and (max-width : 992px) {
+    #container-restaurant {
+        padding-left: 0px;
+    }
 }
 
 /*Modal menu*/
-
 .modal-menu {
     line-height: normal;
     max-height: 90%;
@@ -267,55 +249,4 @@ nav ul a {
 
 .tabs .tab a {
     background-color: #fafafa;
-}
-
-
-/*Colors*/
-
-.bg-green-custom {
-    background-color: #2bbbad;
-}
-
-
-/*Importé de sidenav codepen, à filtrer*/
-#slide-out {
-    margin-top: 64px;
-}
-
-
-
-.dropdown-content li > a {
-    color: #00bcd4 !important;
-}
-
-/*.side-nav li.active {
-    background-color: #00bcd4 !important;
-}
-
-.side-nav li.user-li.active {
-    background-color: #ac3973 !important;
-}*/
-
-
-
-.side-nav li.active.lone a, .side-nav li.active ul li:first-child, .side-nav li.active.lone a svg, .side-nav li.active ul li div.collapsible-header p svg {
-    color: #FFFFFF !important;
-}
-
-
-
-
-/*.my-icon {
-    font-size: 1.5em;
-    margin-right: 14px;
-    color: #666666;
-}*/
-.changed {
-    margin-left: 5px;
-    color: #666666;
-}
-
-.no-margin {
-    margin: 0px;
-    !important
 }

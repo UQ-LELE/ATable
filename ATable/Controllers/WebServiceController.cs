@@ -55,7 +55,6 @@ namespace ATable.Controllers
 
         public JsonResult AddMenu(int idMenu, List<int> idProduits, string idSession)
         {
-            bool isReturnOk = false;
             PanierHtml panierHtml = new PanierHtml();
 
             SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
@@ -107,7 +106,7 @@ namespace ATable.Controllers
                 produitPanier.Description = produit.Description;
                 produitPanier.Quantite = 1;
                 produitPanier.Prix = produit.Prix;
-                //produitPanier.Photo = produit.Photos.First().Nom;
+                produitPanier.Photo = produit.Photos.First().Nom ?? "~/Images/plats/default_image(p).png";
                 produitPanier.IdRestaurant = produit.IdRestaurant;
             }
             return produitPanier;
@@ -159,9 +158,9 @@ namespace ATable.Controllers
             panierHtml.total = 0;
             foreach (ItemPanier item in panier)
             {
-                panierHtml.hmtl += "<div class='row article valign-wrapper'>";
+                panierHtml.hmtl += "<div class='row valign-wrapper mt-2'>";
                 panierHtml.hmtl += "<div class='col m2' style='margin-left:0px;'>";
-                panierHtml.hmtl += "<button class='btn-floating btn-mini waves-effect waves-light red remove' onclick='removeProduit(\"" + item.GetIdProduit() + "\")'>-</button>";
+                panierHtml.hmtl += "<button class='btn-floating btn-small waves-effect waves-light red remove' onclick='removeProduit(\"" + item.GetIdProduit() + "\")'><i class='material-icons'>remove</i></button>";
                 panierHtml.hmtl += "</div>";
                 panierHtml.hmtl += "<div class='col m6' style='margin-left:0px;'><strong><span>" + item.Quantite + "&nbsp;&nbsp;x</span>&nbsp;&nbsp;" + item.Nom + "</strong></div>";
                 panierHtml.hmtl += "<div class='col m4' style='margin-left:0px;'>" + item.Prix * item.Quantite + " €</div>";
@@ -303,21 +302,6 @@ namespace ATable.Controllers
                 }
             }
             return Json(message, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult Login(string idSession, string matricule, string password)
-        {
-            Utilisateur utilisateur = db.Utilisateurs.FirstOrDefault(u => u.Matricule == matricule && u.Password == password);
-
-            if (utilisateur != null)
-            {
-                utilisateur.IdSession = idSession;
-                db.SaveChanges();
-
-                return Json(new { error = 0, message = idSession }, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(new { error = 1, message = "Connexion échouée" }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetMenu(int idMenu)
