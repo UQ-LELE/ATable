@@ -24,7 +24,6 @@ namespace ATable.Controllers
             return View();
         }
 
-
         public ActionResult ParSpecialite(int id)
         {
 
@@ -75,33 +74,8 @@ namespace ATable.Controllers
         }
 
 
-        // GET: Restaurants/Create
-        public ActionResult Create()
-        {
-            ViewBag.IdTypeCuisine = new SelectList(db.TypeCuisines, "IdTypeCuisine", "Nom");
-            return View();
-        }
-
-        // POST: Restaurants/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdRestaurant,Nom,IdTypeCuisine,Budget,Description,Responsable,Adresse,CodePostal,Ville,Tel,Mobile,Email,Login,Password")] Restaurant restaurant)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Restaurants.Add(restaurant);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.IdTypeCuisine = new SelectList(db.TypeCuisines, "IdTypeCuisine", "Nom", restaurant.IdTypeCuisine);
-            return View(restaurant);
-        }
-
         // GET: Restaurants/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Carte(int? id)
         {
             if (id == null)
             {
@@ -137,49 +111,6 @@ namespace ATable.Controllers
             ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
 
             return View();
-        }
-
-        // POST: Restaurants/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdRestaurant,Nom,IdTypeCuisine,Budget,Description,Responsable,Adresse,CodePostal,Ville,Tel,Mobile,Email,Login,Password")] Restaurant restaurant)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(restaurant).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.IdTypeCuisine = new SelectList(db.TypeCuisines, "IdTypeCuisine", "Nom", restaurant.IdTypeCuisine);
-            return View(restaurant);
-        }
-
-        // GET: Restaurants/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Restaurant restaurant = db.Restaurants.Find(id);
-            if (restaurant == null)
-            {
-                return HttpNotFound();
-            }
-            return View(restaurant);
-        }
-
-        // POST: Restaurants/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Restaurant restaurant = db.Restaurants.Find(id);
-            db.Restaurants.Remove(restaurant);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

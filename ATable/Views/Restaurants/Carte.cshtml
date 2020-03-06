@@ -209,27 +209,24 @@
                 </div>
             </div>
         </div>
-
-        <!--Modal d'annulation panier-->
-        <div id="modalErreur" class="modal">
-            <div class="modal-content">
-                <h4>Attention, votre panier contient déjà des produits !</h4>
-                <p>
-                    Votre panier contient des produits d'un autre restaurant.
-                    Pour rappel, vous pouvez uniquement commander auprès d'un seul restaurateur à la fois.
-                    Souhaitez-vous poursuivre la commande en cours ou bien vider votre panier et poursuivre chez un autre restaurateur ?
-                </p>
-            </div>
-            <div class="modal-footer">
-                <a onclick="clearPanier()" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
-                <a href=@Url.Action("Carte","Restaurants", new { id = idRestaurantPanier }) class="waves-effect waves-green btn-flat">Continuer ma commande</a>
-            </div>
-        </div>
-
     </div>
-
 </div>
 
+<!--Modal d'annulation panier-->
+<div id="modalErreur" class="modal">
+    <div class="modal-content">
+        <h4>Attention, votre panier contient déjà des produits !</h4>
+        <p>
+            Votre panier contient des produits d'un autre restaurant.
+            Pour rappel, vous pouvez uniquement commander auprès d'un seul restaurateur à la fois.
+            Souhaitez-vous poursuivre la commande en cours ou bien vider votre panier et poursuivre chez un autre restaurateur ?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a onclick="clearPanier()" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
+        <a href=@Url.Action("Carte","Restaurants", new { id = idRestaurantPanier }) class="waves-effect waves-green btn-flat">Continuer ma commande</a>
+    </div>
+</div>
 
 
 
@@ -249,7 +246,6 @@
               draggable: true // Choose whether you can drag to open on touch screens,
             }
           );
-
 
         function openMenu(idMenu) {
             $('#modalMenu').openModal();
