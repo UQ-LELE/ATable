@@ -75,9 +75,9 @@ namespace ATable.Controllers
 
 
         // GET: Restaurants/Edit/5
-        public ActionResult Carte(int? id)
+        public ActionResult Carte(int? id, string slug)
         {
-            if (id == null)
+            if (id == null || slug == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }

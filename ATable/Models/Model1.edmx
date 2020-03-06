@@ -118,6 +118,7 @@
           </Key>
           <Property Name="IdRestaurant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Slug" Type="varchar" MaxLength="50" />
           <Property Name="IdTypeCuisine" Type="int" Nullable="false" />
           <Property Name="Budget" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="300" Nullable="false" />
@@ -667,6 +668,7 @@
           <NavigationProperty Name="Produits" Relationship="Self.FK_Produit_Restaurant" FromRole="Restaurant" ToRole="Produit" />
           <NavigationProperty Name="TypeCuisine" Relationship="Self.FK_Restaurant_TypeCuisine" FromRole="Restaurant" ToRole="TypeCuisine" />
           <NavigationProperty Name="Photos" Relationship="Self.RestaurantPhoto" FromRole="Restaurant" ToRole="Photo" />
+          <Property Name="Slug" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SessionUtilisateur">
           <Key>
@@ -1042,6 +1044,7 @@
           <EntitySetMapping Name="Restaurants">
             <EntityTypeMapping TypeName="AfpEatModel.Restaurant">
               <MappingFragment StoreEntitySet="Restaurant">
+                <ScalarProperty Name="Slug" ColumnName="Slug" />
                 <ScalarProperty Name="IdRestaurant" ColumnName="IdRestaurant" />
                 <ScalarProperty Name="Nom" ColumnName="Nom" />
                 <ScalarProperty Name="IdTypeCuisine" ColumnName="IdTypeCuisine" />

@@ -75,7 +75,7 @@
                                 <p>@item.Description</p>
                             </div>
                             <div class="card-action center-align">
-                                <a href="@Url.Action("Carte", "Restaurants", new { id = item.IdRestaurant })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
+                                <a href="@Url.Action("Carte", "Restaurants", new { id = item.IdRestaurant, slug = item.Slug })" style="background-color:#26a69a" class="btn"><i class="fas fa-book-open"></i>&nbsp;&nbsp;Voir la carte</a>
                             </div>
                         </div>
                     </div>
