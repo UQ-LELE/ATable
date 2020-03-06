@@ -208,8 +208,6 @@ nav ul a {
     font-size: 19px;
 }
 
-.card-title-custom {
-}
 
 /*SideNav*/
 .side-nav {
@@ -262,10 +260,4 @@ nav ul a {
     border-collapse: separate; /* allow spacing between cell borders */
     border-spacing: 0 20px;
     empty-cells: hide;
-}
-
-/*Tabs*/
-
- {
-    background-color: #fafafa;
 }
