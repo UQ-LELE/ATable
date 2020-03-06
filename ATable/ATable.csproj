@@ -398,6 +398,7 @@
     <Content Include="Views\Shared\_NavbarOff.cshtml" />
     <Content Include="Views\Utilisateurs\MonCompte.cshtml" />
     <Content Include="Views\Shared\_Connexion.cshtml" />
+    <Content Include="Views\Restaurants\_Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

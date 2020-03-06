@@ -55,39 +55,42 @@ main {
     padding-right: 15px;
 }
 
+.mx-0{
+    margin-left: 0px;
+    margin-right:0px;
+}
+.mx-1 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
 .ml-0 {
     margin-left: 0px;
 }
-
 .mb-0 {
     margin-bottom: 0px;
 }
-
 .my-1 {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-
 .mt-0 {
     margin-top: 0px;
 }
-
 .mt-1 {
     margin-top: 10px;
 }
-
 .mt-2 {
     margin-top: 20px;
 }
-
 .p-0 {
     padding: 0px !important;
 }
-
+.p-1 {
+    padding: 10px;
+}
 .pl-0 {
     padding-left: 0px !important;
 }
-
 .pt-1 {
     padding-top: 10px;
 }
@@ -102,15 +105,15 @@ nav, .user-view  {
     background-color: #FF7C7C;
 }
 
-.navPanier {
+.navPanier, .price-modal {
     background-color: #2ECCC1;
 }
 
-.card, .card-panel, .tabs .tab a, .categorie-collapsible {
+.card, .card-panel, .tabs .tab a, .categorie-collapsible, .modal {
     background-color: #FFFAF7;
 }
 /*.menu .side-nav a, .menu .side-nav.fixed a*/
-.side-nav.fixed a, .navPanier, .user-view {
+.side-nav.fixed a, .navPanier, .user-view, .price-modal {
     color: white !important;
 }
 
@@ -244,15 +247,19 @@ nav ul a {
 }
 
 /*Modal menu*/
-.modal-menu {
+#modalMenu {
     line-height: normal;
     max-height: 90%;
     max-width: 90%;
+    padding: 0px;
 }
+
+    #modalMenu .modal-content {
+        padding: 0px;
+    }
 
 .price-modal {
     width: 100%;
-    background-color: #2bbbad;
     margin-bottom: 10px;
 }
 /*Votre Panier*/

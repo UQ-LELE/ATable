@@ -304,7 +304,7 @@ namespace ATable.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetMenu(int idMenu)
+        public JsonResult GetMenuHtml(int idMenu)
         {
             Menu menu = db.Menus.Find(idMenu);
 

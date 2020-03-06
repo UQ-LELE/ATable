@@ -1,8 +1,6 @@
-﻿@model ATable.Models.PanierModel
+﻿@model ATable.Models.Restaurant
 
 @{
-    ViewBag.Title = "Details";
-
     int idRestaurantPanier = 0;
 
     if (ViewBag.Error == "error")
@@ -14,14 +12,11 @@
                 $('#modalErreur').openModal();
             };
         </script>
+
+         ViewBag.piValue = 3.14;
+
     }
 
-    List<ATable.Models.Menu> menu = ViewBag.Menu;
-    List<ATable.Models.Produit> entree = ViewBag.Entree;
-    List<ATable.Models.Produit> plat = ViewBag.Plat;
-    List<ATable.Models.Produit> dessert = ViewBag.Dessert;
-
-    ATable.Models.Restaurant restaurant = ViewBag.Restaurant;
     ATable.Models.Utilisateur utilisateur = ViewBag.User;
 }
 
@@ -65,24 +60,24 @@
                     <div class="col s12">
                         <div class="row card card-small horizontal">
                             <div class="card-image col m4 pl-0 hide-on-small-and-down md">
-                                <img class="materialboxed" src="~/Images/restaurants/@restaurant.Photos.First().Nom">
+                                <img class="materialboxed" src="~/Images/restaurants/@Model.Photos.First().Nom">
                             </div>
                             <div class="card-stacked col s12 m8">
                                 <div class="card-content">
-                                    <h4 class="courgette mt-0" style="text-decoration:underline;">@restaurant.Nom</h4>
+                                    <h4 class="courgette mt-0" style="text-decoration:underline;">@Model.Nom</h4>
                                     <div class="divider"></div>
                                     <div class="row mt-1">
                                         <div class="chip  deep-orange lighten-4 left">
-                                            @restaurant.TypeCuisine.Nom
+                                            @Model.TypeCuisine.Nom
                                         </div>
                                         <div class="chip  teal lighten-4 right">
-                                            @restaurant.Budget
+                                            @Model.Budget
                                         </div>
                                     </div>
-                                    <p>@restaurant.Description</p>
+                                    <p>@Model.Description</p>
                                     <div class="divider my-1"></div>
-                                    <p class="left valign-wrapper"><i class="material-icons">location_on</i>&nbsp;&nbsp;@restaurant.Adresse, @restaurant.CodePostal @restaurant.Ville</p>
-                                    <p class="right valign-wrapper"><i class="material-icons">local_phone</i>&nbsp;&nbsp;@restaurant.Tel</p>
+                                    <p class="left valign-wrapper"><i class="material-icons">location_on</i>&nbsp;&nbsp;@Model.Adresse, @Model.CodePostal @Model.Ville</p>
+                                    <p class="right valign-wrapper"><i class="material-icons">local_phone</i>&nbsp;&nbsp;@Model.Tel</p>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +92,7 @@
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
-                                            @foreach (var item in menu)
+                                            @foreach (var item in Model.Menus)
                                             {
                                                 <tr>
                                                     <td class="hide-on-small-and-down">
@@ -125,7 +120,7 @@
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
-                                            @foreach (var item in entree)
+                                            @foreach (var item in Model.Produits.Where(i => i.IdCategorie == 1))
                                             {
                                                 <tr>
                                                     <td class="hide-on-small-and-down">
@@ -141,7 +136,7 @@
                                                         @item.Prix €
                                                     </td>
                                                     <td style="min-width:40px">
-                                                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                                        <button class="btn-floating btn-small waves-effect waves-light red" onclick="addProduit(@item.IdProduit)"><i class="material-icons">add</i></button>
                                                     </td>
                                                 </tr>
                                             }
@@ -154,7 +149,7 @@
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
-                                            @foreach (var item in plat)
+                                            @foreach (var item in Model.Produits.Where(i => i.IdCategorie == 2))
                                             {
                                                 <tr>
                                                     <td class="hide-on-small-and-down">
@@ -170,7 +165,7 @@
                                                         @item.Prix €
                                                     </td>
                                                     <td style="min-width:40px">
-                                                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                                        <button class="btn-floating btn-small waves-effect waves-light red" onclick="addProduit(@item.IdProduit)"><i class="material-icons">add</i></button>
                                                     </td>
                                                 </tr>
                                             }
@@ -183,7 +178,7 @@
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
-                                            @foreach (var item in dessert)
+                                            @foreach (var item in Model.Produits.Where(i => i.IdCategorie == 3))
                                             {
                                                 <tr>
                                                     <td class="hide-on-small-and-down">
@@ -199,7 +194,7 @@
                                                         @item.Prix €
                                                     </td>
                                                     <td style="min-width:40px">
-                                                        <button class="btn-floating btn-small waves-effect waves-light red add" data-idproduit=@item.IdProduit><i class="material-icons">add</i></button>
+                                                        <button class="btn-floating btn-small waves-effect waves-light red" onclick="addProduit(@item.IdProduit)"><i class="material-icons">add</i></button>
                                                     </td>
                                                 </tr>
                                             }
@@ -227,95 +222,15 @@
     </div>
     <div class="modal-footer">
         <a onclick="clearPanier()" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
-        <a href=@Url.Action("Carte","Restaurants", new { id = idRestaurantPanier }) class="waves-effect waves-green btn-flat">Continuer ma commande</a>
+        <a href=@Url.Action("Carte", "Restaurants", new { id = idRestaurantPanier }) class="waves-effect waves-green btn-flat">Continuer ma commande</a>
     </div>
 </div>
 
 
 <!--Modal commande Menu -->
-
-<div id="modalMenu" class="modal modal-menu">
-    <div class="row mb-0">
-        <div class="col s4 center-align">
-            <h4 class="pt-1">Menu A</h4>
-            <div class="flow-text">
-                <img class="responsive-img" src="~/Images/plats/plateausignature.jpg" />
-                <p>Nondum nihil ne in fame scaphas tum luna tum plerumque petivere splendore degressi omnibus viles.</p>
-            </div>
-
-        </div>
-        <div class="col s8 center-align" style="border-left: 1px solid #cdd0d4;">
-            <h4 class="courgette pt-1">Composez votre menu à la carte !</h4>
-
-            <ul id="tabs-menu" class="tabs">
-                <li class="tab col s3"><a class="active" href="#entree">Entrée</a></li>
-                <li class="tab col s3"><a href="#plat">Plat</a></li>
-                <li class="tab col s3"><a href="#dessert">Dessert</a></li>
-            </ul>
-            <div id="entree" class="col s12 grey lighten-5">
-                <div class="row">
-                    <div class="col s12 m4">
-                        <div class="card-panel hoverable">
-                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
-                            <span></span>
-                            <div class="row">
-                                <button class="btn-floating btn-medmini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
-                                2
-                                <button class="btn-floating btn-medmini waves-effect waves-light red add"><i class="material-icons">add</i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card-panel hoverable">
-                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
-                            <span></span>
-                            <div class="row">
-                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
-                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card-panel hoverable">
-                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
-                            <span></span>
-                            <div class="row">
-                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
-                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card-panel hoverable">
-                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
-                            <span></span>
-                            <div class="row">
-                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
-                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="plat" class="col s12 grey lighten-4">
-
-            </div>
-            <div id="dessert" class="col s12 grey lighten-5">
-            </div>
-        </div>
-    </div>
-    <div class="row mb-0">
-        <div class="col s4 center-align">
-            <span class="col s12 price-modal z-depth-3"><h5>16,90 €</h5></span>
-        </div>
-        <div class="col s8 center-align" style="border-left: 1px solid #cdd0d4;">
-            <div class="col s3">
-                <button class="waves-effect waves-light btn-large previous">Précédent</button>
-            </div>
-            <div class="col s3 offset-s6">
-                <button class="waves-effect waves-light btn-large next">Suivant</button>
-            </div>
-        </div>
+<div id="modalMenu" class="modal">
+    <div id="MenuContent" class="modal-content">
+        @*@Html.Partial("_Menu", Model)*@
     </div>
 </div>
 
@@ -329,16 +244,11 @@
 
         });
 
-         $('.button-collapse').sideNav({
-              menuWidth: 300, // Default is 300
-              edge: 'left', // Choose the horizontal origin
-              closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-              draggable: true // Choose whether you can drag to open on touch screens,
-            }
-          );
-
         function openMenu(idMenu) {
-            $('#modalMenu').openModal();
+             @*$('#MenuContent').html("@Html.Partial("_Menu", Model)");*@
+             $('#modalMenu').openModal();
+
+            
         };
 
 
@@ -380,9 +290,8 @@
                 });
         };
 
-        $(".add").click(function () {
-
-                var data = { 'idProduit' : $(this).data('idproduit'), 'idSession': '@Session.SessionID' };
+        function addProduit(idProduit) {
+            var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
                 $.ajax({
                     url: '@Url.Action("AddProduit", "WebService")',
@@ -398,7 +307,8 @@
                         alert('Error');
                     }
                 });
-            });
+        }
+
 
         function removeProduit(idProduit) {
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
@@ -417,6 +327,40 @@
                         alert('Error');
                     }
                 });
+
+                    function next(nbTab) {
+            switch (nbTab) {
+                case 1:
+                    $('a[href="#tabplat"]').click();
+                    break;
+                case 2:
+                     $('a[href="#tabdessert"]').click();
+                    break;
+                default:
+                    console.log('error');
+            }
+        };
+
+        function previous(nbTab) {
+            switch (nbTab) {
+                case 2:
+                     $('a[href="#tabentree"]').click();
+                    break;
+                case 3:
+                     $('a[href="#tabplat"]').click();
+                    break;
+                default:
+                    console.log('error');
+            }
+        };
+
+         $('.button-collapse').sideNav({
+              menuWidth: 300, // Default is 300
+              edge: 'left', // Choose the horizontal origin
+              closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+              draggable: true // Choose whether you can drag to open on touch screens,
+            }
+          );
         }
     </script>
 }
