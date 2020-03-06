@@ -32,7 +32,7 @@ namespace ATable.Controllers
                     return Redirect(previousUrl);
                 }
             }
-            return View();
+            return Redirect(previousUrl);
         }
 
         // GET: Utilisateurs/Details/5

@@ -34,13 +34,13 @@
 
             //JS DropDown Navar
 
-            $('.dropdown-button').dropdown({
+            $('.dropdown-trigger').dropdown({
                 inDuration: 300,
                 outDuration: 225,
                 constrainWidth: false, // Does not change width of dropdown to that of the activator
-                hover: true, // Activate on hover
+                hover: false, // Activate on hover
                 gutter: 0, // Spacing from edge
-                belowOrigin: false, // Displays dropdown below the button
+                belowOrigin: true, // Displays dropdown below the button
                 alignment: 'left', // Displays dropdown with edge aligned to the left of button
                 stopPropagation: false // Stops event propagation
             }
@@ -65,19 +65,20 @@
         }
 
         <div class="fixed-action-btn click-to-toggle horizontal hide-on-large-only">
-            <a class="btn-floating btn-large red z-depth-3">
+            <a class="btn-floating btn-large red z-depth-5">
                 <i class="large material-icons">menu</i>
             </a>
             <ul>
-                <li><a class="btn-floating yellow darken-1 z-depth-3" href="@Url.Action("Create", "Utilisateurs")"><i class="material-icons">help</i></a></li>
-                <li><a class="btn-floating blue z-depth-3"><i class="material-icons">restaurant</i></a></li>
+                <li><a class="btn-floating red z-depth-5"><i class="material-icons">power_settings_new</i></a></li>
+                <li><a class="btn-floating yellow darken-1 z-depth-5"><i class="material-icons">help</i></a></li>
+                <li><a class="btn-floating z-depth-3" style="background-color:#2ECCC1"><i class="material-icons">restaurant</i></a></li>
                 @if (utilisateur != null)
                 {
-                    <li><a class="btn-floating red z-depth-3"><i class="material-icons medium">account_circle</i></a></li>
+                    <li><a class="btn-floating blue z-depth-5" href="@Url.Action("MonCompte","Utilisateurs")"><i class="material-icons medium">account_circle</i></a></li>
                 }
                 else
                 {
-                    <li><a class="btn-floating red z-depth-3" onclick="$('#modal-connexion').openModal();"><i class="material-icons medium">account_circle</i></a></li>
+                    <li><a class="btn-floating blue z-depth-5" onclick="$('#modal-connexion').openModal();"><i class="material-icons medium">account_circle</i></a></li>
                 }
             </ul>
         </div>
@@ -97,14 +98,14 @@
     @RenderSection("scripts", required: false)
 
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-
+    <script>     
         $(document).ready(function () {
             getPanierHtml();
         });
+
+        function goBack() {
+            window.history.back();
+        }
 
         function getPanierHtml() {
             var data = {'idSession': '@Session.SessionID' };

@@ -80,6 +80,9 @@
                                         </div>
                                     </div>
                                     <p>@restaurant.Description</p>
+                                    <div class="divider my-1"></div>
+                                    <p class="left valign-wrapper"><i class="material-icons">location_on</i>&nbsp;&nbsp;@restaurant.Adresse, @restaurant.CodePostal @restaurant.Ville</p>
+                                    <p class="right valign-wrapper"><i class="material-icons">local_phone</i>&nbsp;&nbsp;@restaurant.Tel</p>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +93,7 @@
 
                         <ul class="collapsible popout ">
                             <li>
-                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Menus</h3></div>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">- Menus -</h3></div>
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
@@ -118,7 +121,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Entrées</h3></div>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">- Entrées -</h3></div>
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
@@ -147,7 +150,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Plats</h3></div>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">- Plats -</h3></div>
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
@@ -176,7 +179,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">Desserts</h3></div>
+                                <div class="collapsible-header hoverable categorie-collapsible center-align"><h3 class="mb-0">- Desserts -</h3></div>
                                 <div class="collapsible-body">
                                     <table class="bordered">
                                         <tbody>
@@ -228,6 +231,93 @@
     </div>
 </div>
 
+
+<!--Modal commande Menu -->
+
+<div id="modalMenu" class="modal modal-menu">
+    <div class="row mb-0">
+        <div class="col s4 center-align">
+            <h4 class="pt-1">Menu A</h4>
+            <div class="flow-text">
+                <img class="responsive-img" src="~/Images/plats/plateausignature.jpg" />
+                <p>Nondum nihil ne in fame scaphas tum luna tum plerumque petivere splendore degressi omnibus viles.</p>
+            </div>
+
+        </div>
+        <div class="col s8 center-align" style="border-left: 1px solid #cdd0d4;">
+            <h4 class="courgette pt-1">Composez votre menu à la carte !</h4>
+
+            <ul id="tabs-menu" class="tabs">
+                <li class="tab col s3"><a class="active" href="#entree">Entrée</a></li>
+                <li class="tab col s3"><a href="#plat">Plat</a></li>
+                <li class="tab col s3"><a href="#dessert">Dessert</a></li>
+            </ul>
+            <div id="entree" class="col s12 grey lighten-5">
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-medmini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                2
+                                <button class="btn-floating btn-medmini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="card-panel hoverable">
+                            <img src="~/Images/plats/foiegras.jpg" class="responsive-img" />
+                            <span></span>
+                            <div class="row">
+                                <button class="btn-floating btn-mini waves-effect waves-light red remove"><i class="material-icons">remove</i></button>
+                                <button class="btn-floating btn-mini waves-effect waves-light red add"><i class="material-icons">add</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="plat" class="col s12 grey lighten-4">
+
+            </div>
+            <div id="dessert" class="col s12 grey lighten-5">
+            </div>
+        </div>
+    </div>
+    <div class="row mb-0">
+        <div class="col s4 center-align">
+            <span class="col s12 price-modal z-depth-3"><h5>16,90 €</h5></span>
+        </div>
+        <div class="col s8 center-align" style="border-left: 1px solid #cdd0d4;">
+            <div class="col s3">
+                <button class="waves-effect waves-light btn-large previous">Précédent</button>
+            </div>
+            <div class="col s3 offset-s6">
+                <button class="waves-effect waves-light btn-large next">Suivant</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
