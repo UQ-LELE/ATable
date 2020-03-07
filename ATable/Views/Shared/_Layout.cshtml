@@ -66,14 +66,22 @@
 
         <div class="fixed-action-btn click-to-toggle horizontal hide-on-large-only">
             <a class="btn-floating btn-large red z-depth-5">
-                <i class="large material-icons">menu</i>
+                @if (utilisateur != null)
+                {
+                    @utilisateur.Prenom[0];                   
+                    @utilisateur.Nom[0];
+                }
+                else
+                {
+                    <i class="large material-icons">menu</i>
+                }
             </a>
             <ul>
-                <li><a class="btn-floating red z-depth-5"><i class="material-icons">power_settings_new</i></a></li>
                 <li><a class="btn-floating yellow darken-1 z-depth-5"><i class="material-icons">help</i></a></li>
                 <li><a class="btn-floating z-depth-3" style="background-color:#2ECCC1"><i class="material-icons">restaurant</i></a></li>
                 @if (utilisateur != null)
                 {
+                    <li><a class="btn-floating red z-depth-5" href="@Url.Action("Deconnexion","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="material-icons">power_settings_new</i></a></li>
                     <li><a class="btn-floating blue z-depth-5" href="@Url.Action("MonCompte","Utilisateurs")"><i class="material-icons medium">account_circle</i></a></li>
                 }
                 else

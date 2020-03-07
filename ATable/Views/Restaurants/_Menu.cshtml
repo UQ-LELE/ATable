@@ -14,7 +14,7 @@
             <img class='responsive-img' src='~/Images/plats/plateausignature.jpg' />
             <p>Nondum nihil ne in fame scaphas tum luna tum plerumque petivere splendore degressi omnibus viles.</p>
             <div class='col s12 price-modal z-depth-1'>
-                <h5>16,90 €</h5>
+                <h5>@menu.Prix €</h5>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
                             <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
                                 <img src='~/Images/plats/@produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
                                 <div class='row mb-0'>
-                                    <button class='btn-floating waves-effect waves-light red' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
+                                    <button class='btn-floating waves-effect waves-light red disabled' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
                                     <span id="@produit.IdProduit" class='mx-1'>0</span>
                                     <button class='btn-floating waves-effect waves-light red' onclick='addProduit(@produit.IdProduit)'><i class='material-icons'>add</i></button>
                                 </div>
@@ -61,7 +61,7 @@
                         <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
                             <img src='~/Images/plats/@produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
                             <div class='row mb-0'>
-                                <button class='btn-floating waves-effect waves-light red' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
+                                <button class='btn-floating waves-effect waves-light red disabled' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
                                 <span id="@produit.IdProduit" class='mx-1'>0</span>
                                 <button class='btn-floating waves-effect waves-light red' onclick='addProduit(@produit.IdProduit)'><i class='material-icons'>add</i></button>
                             </div>
@@ -89,7 +89,7 @@
                         <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
                             <img src='~/Images/plats/@produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
                             <div class='row mb-0'>
-                                <button class='btn-floating waves-effect waves-light red' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
+                                <button class='btn-floating waves-effect waves-light red disabled' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
                                 <span id="@produit.IdProduit" class='mx-1'>0</span>
                                 <button class='btn-floating waves-effect waves-light red' onclick='addProduit(@produit.IdProduit)'><i class='material-icons'>add</i></button>
                             </div>

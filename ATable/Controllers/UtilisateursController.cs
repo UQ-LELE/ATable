@@ -35,6 +35,20 @@ namespace ATable.Controllers
             return Redirect(previousUrl);
         }
 
+        public ActionResult Deconnexion(int id)
+        {
+            string previousUrl = Request.UrlReferrer.ToString();
+
+            Utilisateur user = (Utilisateur)Session["Utilisateur"];
+
+            if(user.IdUtilisateur == id)
+            {
+                Session.Remove("Utilisateur");
+            }
+
+            return Redirect(previousUrl);
+        }
+
         // GET: Utilisateurs/Details/5
         public ActionResult MonCompte(int? id)
         {
