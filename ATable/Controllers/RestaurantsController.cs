@@ -70,9 +70,9 @@ namespace ATable.Controllers
 
 
         // GET: Restaurants/Edit/5
-        public ActionResult Carte(int? id, string slug)
+        public ActionResult Carte(int? id)
         {
-            if (id == null || slug == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -98,6 +98,38 @@ namespace ATable.Controllers
             ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
 
             return View(restaurant);
+        }
+
+        public ActionResult GetMenu(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Menu menu = db.Menus.Find(id);
+            ViewBag.Menu = menu;
+
+            List<Produit> produitsRestaurant = db.Produits.Where(p => p.IdRestaurant == menu.IdRestaurant).ToList();
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            List<Produit> produitsMenu = new List<Produit>();
+
+            foreach (var categorie in menu.Categories)
+            {
+                foreach(var item in produitsRestaurant.Where(pr=>pr.IdCategorie == categorie.IdCategorie))
+                {
+                    Produit produit = new Produit();
+                    produit = item;
+                    produitsMenu.Add(produit);
+                }
+            }
+
+            return PartialView("_Menu", produitsMenu);
         }
 
         protected override void Dispose(bool disposing)

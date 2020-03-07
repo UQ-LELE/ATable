@@ -1,19 +1,25 @@
-﻿@model ATable.Models.Restaurant
+﻿@model IEnumerable<ATable.Models.Produit>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/materialize")
+
+@{ 
+    ATable.Models.Menu menu = ViewBag.Menu;
+}
 
 <div class='row mb-0'>
     <div class='col m4 hide-on-small-and-down center-align'>
-        <h4 class='pt-1'>Votre Menu</h4>
+        <h4 class='pt-1'>@menu.Nom</h4>
         <div class='flow-text'>
             <img class='responsive-img' src='~/Images/plats/plateausignature.jpg' />
-            <h5>Menu A</h5>
             <p>Nondum nihil ne in fame scaphas tum luna tum plerumque petivere splendore degressi omnibus viles.</p>
             <div class='col s12 price-modal z-depth-1'>
-            <h5>16,90 €</h5>
+                <h5>16,90 €</h5>
             </div>
         </div>
     </div>
     <div class='col m8'>
-        <h4 class='courgette pt-1 center-align'>@Model.Nom</h4>
+        <h4 class='courgette pt-1 center-align'>Composez votre menu !</h4>
 
         <ul id='tabs-menu' class='tabs'>
             <li class='tab col s3'><a class='active' href='#tabentree'>1. Entrée</a></li>
@@ -23,75 +29,88 @@
         <div class='row'>
             <div id='tabentree' class='col s12'>
                 <div class='row'>
-                    <div class='col s12 m6 l4'>
-                        <div class='card-panel hoverable p-1 center-align'>
-                            <img src='~/Images/plats/foiegras.jpg' class='responsive-img' />
-                            <span></span>
-                            <div class='row mb-0'>
-                                <button class='btn-floating waves-effect waves-light red' onclick='removeProduit(IdProduit)'><i class='material-icons'>remove</i></button>
-                                <span class='mx-1'>2</span>
-                                <button class='btn-floating waves-effect waves-light red' onclick='addProduit(IdProduit)'><i class='material-icons'>add</i></button>
-                            </div>
-                            <p>produit exemple</p>
-                        </div>
-                    </div>
-                    <div class='col s12 m6 l4'>
-                        <div class='card-panel hoverable'>
-                            <img src='~/Images/plats/foiegras.jpg' class='responsive-img' />
-                            <span></span>
-                            <div class='row'>
-                                <button class='btn-floating btn-mini waves-effect waves-light red remove'><i class='material-icons'>remove</i></button>
-                                <button class='btn-floating btn-mini waves-effect waves-light red add'><i class='material-icons'>add</i></button>
+                    @foreach (var produit in Model.Where(m => m.IdCategorie == 1))
+                    {
+                        <div class='col s12 m4 l3'>
+                            <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
+                                <img src='~/Images/plats/@produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
+                                <div class='row mb-0'>
+                                    <button class='btn-floating waves-effect waves-light red' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
+                                    <span id="@produit.IdProduit" class='mx-1'>0</span>
+                                    <button class='btn-floating waves-effect waves-light red' onclick='addProduit(@produit.IdProduit)'><i class='material-icons'>add</i></button>
+                                </div>
+                                <p>@produit.Nom</p>
                             </div>
                         </div>
-                    </div>
-                    <div class='col s12 m6 l4'>
-                        <div class='card-panel hoverable'>
-                            <img src='~/Images/plats/foiegras.jpg' class='responsive-img' />
-                            <span></span>
-                            <div class='row'>
-                                <button class='btn-floating btn-mini waves-effect waves-light red remove'><i class='material-icons'>remove</i></button>
-                                <button class='btn-floating btn-mini waves-effect waves-light red add'><i class='material-icons'>add</i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='col s12 m6 l4'>
-                        <div class='card-panel hoverable'>
-                            <img src='~/Images/plats/foiegras.jpg' class='responsive-img' />
-                            <span></span>
-                            <div class='row'>
-                                <button class='btn-floating btn-mini waves-effect waves-light red remove'><i class='material-icons'>remove</i></button>
-                                <button class='btn-floating btn-mini waves-effect waves-light red add'><i class='material-icons'>add</i></button>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
                 <div class='row'>
-                    <div class='col m3 offset-m9'>
-                        <button class='btn waves-teal right' onclick='next(1)'>Suivant</button>
+                    <div class="col s12">
+                        <div class='col m3 offset-m9'>
+                            <button class='btn waves-teal right' onclick='next(1)'>Suivant</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div id='tabplat' class='col s12'>
             <div class='row'>
-                <div class='col m3'>
-                    <button class='btn waves-teal' onclick='previous(2)'>Précédent</button>
-                </div>
-                <div class='col m3 offset-m6'>
-                    <button class='btn waves-teal right' onclick='next(2)'>Suivant</button>
+                @foreach (var produit in Model.Where(m => m.IdCategorie == 2))
+                {
+                    <div class='col s12 m4 l3'>
+                        <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
+                            <img src='~/Images/plats/@produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
+                            <div class='row mb-0'>
+                                <button class='btn-floating waves-effect waves-light red' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
+                                <span id="@produit.IdProduit" class='mx-1'>0</span>
+                                <button class='btn-floating waves-effect waves-light red' onclick='addProduit(@produit.IdProduit)'><i class='material-icons'>add</i></button>
+                            </div>
+                            <p>@produit.Nom</p>
+                        </div>
+                    </div>
+                }
+                <div class='row'>
+                    <div class="col s12">
+                        <div class='col m3'>
+                            <button class='btn waves-teal' onclick='previous(2)'>Précédent</button>
+                        </div>
+                        <div class='col m3 offset-m6'>
+                            <button class='btn waves-teal right' onclick='next(2)'>Suivant</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div id='tabdessert' class='col s12'>
             <div class='row'>
-                <div class='col m3'>
-                    <button class='btn waves-teal' onclick='previous(3)'>Précédent</button>
-                </div>
-                <div class='col m3 offset-m6'>
-                    <button class='btn waves-teal right' onclick='addMenu(idMenu)'>Valider</button>
+                @foreach (var produit in Model.Where(m => m.IdCategorie == 3))
+                {
+                    <div class='col s12 m4 l3'>
+                        <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
+                            <img src='~/Images/plats/@produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
+                            <div class='row mb-0'>
+                                <button class='btn-floating waves-effect waves-light red' onclick='removeProduit(@produit.IdProduit)'><i class='material-icons'>remove</i></button>
+                                <span id="@produit.IdProduit" class='mx-1'>0</span>
+                                <button class='btn-floating waves-effect waves-light red' onclick='addProduit(@produit.IdProduit)'><i class='material-icons'>add</i></button>
+                            </div>
+                            <p>@produit.Nom</p>
+                        </div>
+                    </div>
+                }
+                <div class='row'>
+                    <div class="col s12">
+                        <div class='col m3'>
+                            <button class='btn waves-teal' onclick='previous(3)'>Précédent</button>
+                        </div>
+                        <div class='col m3 offset-m6'>
+                            <button class='btn waves-teal right' onclick='addMenu(idMenu)'>Valider</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+

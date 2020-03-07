@@ -304,16 +304,7 @@ namespace ATable.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetMenuHtml(int idMenu)
-        {
-            Menu menu = db.Menus.Find(idMenu);
-
-            List<Produit> listentrees = menu.Categories.Where(m => m.IdCategorie == 1).FirstOrDefault().Produits.ToList();
-            List<Produit> listplats = menu.Categories.Where(m => m.IdCategorie == 2).FirstOrDefault().Produits.ToList();
-            List<Produit> listdesserts = menu.Categories.Where(m => m.IdCategorie == 3).FirstOrDefault().Produits.ToList();
-
-            return Json(new { entrees = listentrees, plats = listplats, desserts = listdesserts }, JsonRequestBehavior.AllowGet);
-        }
+       
 
         public JsonResult ClearPanier(string idSession)
         {

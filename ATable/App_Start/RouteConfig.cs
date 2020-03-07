@@ -21,11 +21,11 @@ namespace ATable
             );
 
 
-            routes.MapRoute(
-                name: "Default_Slug",
-                url: "{controller}/{action}/{id}/{slug}",
-                defaults: new { controller = "Restaurants", action = "Index", id = UrlParameter.Optional, slug = UrlParameter.Optional }
-                   );
+            //routes.MapRoute(
+            //    name: "Default_Slug",
+            //    url: "{controller}/{action}/{id}/{slug}",
+            //    defaults: new { controller = "Restaurants", action = "Index", id = UrlParameter.Optional, slug = UrlParameter.Optional }
+            //);
         }
     }
 }

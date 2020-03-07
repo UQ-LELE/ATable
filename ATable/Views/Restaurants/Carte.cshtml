@@ -13,7 +13,7 @@
             };
         </script>
 
-         ViewBag.piValue = 3.14;
+        ViewBag.piValue = 3.14;
 
     }
 
@@ -230,7 +230,6 @@
 <!--Modal commande Menu -->
 <div id="modalMenu" class="modal">
     <div id="MenuContent" class="modal-content">
-        @*@Html.Partial("_Menu", Model)*@
     </div>
 </div>
 
@@ -244,32 +243,13 @@
 
         });
 
+
         function openMenu(idMenu) {
-             @*$('#MenuContent').html("@Html.Partial("_Menu", Model)");*@
-             $('#modalMenu').openModal();
-
-            
+            var idmenu = idMenu;
+            $('#MenuContent').load('@Url.Action("GetMenu", "Restaurants", new { id = 1 })');
+            $('#modalMenu').openModal();
+          
         };
-
-
-        @*function openMenu(idMenu) {
-            var data = { 'idMenu' : idMenu };
-
-            $.ajax({
-                url: '@Url.Action("GetMenu", "WebService")',
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json; charset=utf-8',
-                    DataType: 'json',
-                    success: function (data) {
-                        $('#modalMenu').openModal();
-                        alert(data.entrees);
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
-            });
-        };*@
 
         function clearPanier() {
                 var data = {'idSession': '@Session.SessionID' };
@@ -313,22 +293,23 @@
         function removeProduit(idProduit) {
             var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
-                $.ajax({
-                    url: '@Url.Action("RemoveProduit", "WebService")',
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json; charset=utf-8',
-                    DataType: 'json',
-                    success: function (data) {
-                        $('.sidePanier').html(data.panier);
-                        $('.total').html(data.total);
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
-                });
+            $.ajax({
+                url: '@Url.Action("RemoveProduit", "WebService")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                DataType: 'json',
+                success: function (data) {
+                    $('.sidePanier').html(data.panier);
+                    $('.total').html(data.total);
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        };
 
-                    function next(nbTab) {
+        function next(nbTab) {
             switch (nbTab) {
                 case 1:
                     $('a[href="#tabplat"]').click();
@@ -359,8 +340,7 @@
               edge: 'left', // Choose the horizontal origin
               closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
               draggable: true // Choose whether you can drag to open on touch screens,
-            }
-          );
-        }
+         });
+        
     </script>
 }
