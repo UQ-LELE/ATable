@@ -76,7 +76,7 @@ namespace ATable.Controllers
 
             PanierModel panier = (PanierModel)HttpContext.Application[Session.SessionID];
 
-            if (panier != null && panier.IdRestaurant != id)
+            if (panier != null && panier.Count > 0 && panier.IdRestaurant != id)
             {
                 ViewBag.Error = "error";
                 ViewBag.IdRestaurantPanier = panier.IdRestaurant;
