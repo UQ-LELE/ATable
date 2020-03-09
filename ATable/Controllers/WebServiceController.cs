@@ -65,12 +65,16 @@ namespace ATable.Controllers
             if (sessionUtilisateur != null && panierModel != null && idMenu > 0 && idProduits.Count > 0)
             {
                 Menu menu = db.Menus.Find(idMenu);
+                panierModel.IdRestaurant = menu.IdRestaurant;
 
                 if (menu != null)
                 {
                     MenuPanier menuPanier = new MenuPanier();
                     menuPanier.IdMenu = idMenu;
-
+                    menuPanier.Nom = menu.Nom;
+                    menuPanier.Prix = menu.Prix;
+                    menuPanier.Quantite = 1;
+                    
                     foreach (int idProduit in idProduits)
                     {
                         ProduitPanier produitPanier = FindProduit(idProduit);
@@ -84,7 +88,7 @@ namespace ATable.Controllers
                 }
                 HttpContext.Application[idSession] = panierModel;
 
-                //panierHtml = ShowPanier(panierModel);
+                panierHtml = ShowPanier(panierModel);
             }
             return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
         }
@@ -106,6 +110,7 @@ namespace ATable.Controllers
             }
             return produitPanier;
         }
+
         public JsonResult RemoveProduit(int idProduit, string idSession)
         {
             PanierHtml panierHtml = null;
@@ -145,24 +150,48 @@ namespace ATable.Controllers
             return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
         }
 
-        public PanierHtml ShowPanier(List<ItemPanier> panier)
+        public PanierHtml ShowPanier(PanierModel panier)
         {
             PanierHtml panierHtml = new PanierHtml();
 
             panierHtml.hmtl = "";
             panierHtml.total = 0;
-            foreach (ItemPanier item in panier)
+            foreach (ItemPanier itemPanier in panier)
             {
-                panierHtml.hmtl += "<div class='row valign-wrapper mt-2'>";
+                panierHtml.hmtl += "<div class='row valign-wrapper mt-2 mb-0'>";
                 panierHtml.hmtl += "<div class='col m2' style='margin-left:0px;'>";
-                panierHtml.hmtl += "<button class='btn-floating btn-small waves-effect waves-light red remove' onclick='removeProduit(\"" + item.GetIdProduit() + "\")'><i class='material-icons'>remove</i></button>";
+                if (itemPanier is MenuPanier)
+                {
+                    panierHtml.hmtl += "<button class='btn-floating btn-small waves-effect waves-light red remove' onclick='removeMenu(\"" + itemPanier.GetIdMenu() + "\")'><i class='material-icons'>remove</i></button>";
+                }
+                else
+                {
+                    panierHtml.hmtl += "<button class='btn-floating btn-small waves-effect waves-light red remove' onclick='removeProduit(\"" + itemPanier.GetIdProduit() + "\")'><i class='material-icons'>remove</i></button>";
+                }
                 panierHtml.hmtl += "</div>";
-                panierHtml.hmtl += "<div class='col m6' style='margin-left:0px;'><strong><span>" + item.Quantite + "&nbsp;&nbsp;x</span>&nbsp;&nbsp;" + item.Nom + "</strong></div>";
-                panierHtml.hmtl += "<div class='col m4' style='margin-left:0px;'>" + item.Prix * item.Quantite + " €</div>";
+                panierHtml.hmtl += "<div class='col m6' style='margin-left:0px;'><strong><span>" + itemPanier.Quantite + "&nbsp;&nbsp;x</span>&nbsp;&nbsp;" + itemPanier.Nom + "</strong></div>";
+                panierHtml.hmtl += "<div class='col m4' style='margin-left:0px;'>" + itemPanier.Prix * itemPanier.Quantite + " €</div>";
                 panierHtml.hmtl += "</div>";
+
+                if (itemPanier is MenuPanier)
+                {
+                    panierHtml.hmtl += "<div class='row'>";
+                    panierHtml.hmtl += "<div class='col s12 center-align'>";
+                    panierHtml.hmtl += "<ul>";
+                    MenuPanier menuPanier = (MenuPanier)itemPanier;
+
+                    foreach (ItemPanier produitMenu in menuPanier.produits)
+                    {
+                        panierHtml.hmtl += "<li>" + produitMenu.Nom + "</li>";
+                    }
+                    panierHtml.hmtl += "</ul>";
+                    panierHtml.hmtl += "</div>";
+                    panierHtml.hmtl += "</div>";
+                }
+
                 panierHtml.hmtl += "<div class='divider'></div>";
 
-                panierHtml.total += item.Prix * item.Quantite;
+                panierHtml.total += itemPanier.Prix * itemPanier.Quantite;
             }
             return panierHtml;
         }

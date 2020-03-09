@@ -44,13 +44,14 @@ namespace ATable.Models
                 else if (item is MenuPanier && idMenu > 0) //Si l'item est un menu
                 {
                     //on vérifie si le produit ajouté est déjà présent dans le panier
-                    itemPanier = this.FirstOrDefault(p => p.GetIdMenu() == idProduit);
+                    itemPanier = this.FirstOrDefault(p => p.GetIdMenu() == idMenu);
                 }
-                else //ce cas ne devrait pas se présenter, mais par précaution
+                else //si l'item n'est ni un produit ni un menu
                 {
                     isReturnOk = false;
                 }
 
+                //si le menu ou le produit n'est pas null, cela signifie qu'il est déjà présent dans le paniermodel et donc Qte++
                 if (itemPanier != null && isReturnOk == true)
                 {
                     itemPanier.Quantite++;

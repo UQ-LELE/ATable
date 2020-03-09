@@ -245,14 +245,12 @@
 
 
         function openMenu(idMenu) {
-            var idmenu = idMenu;
-            $('#MenuContent').load('@Url.Action("GetMenu", "Restaurants", new { id = 1 })');
-            $('#modalMenu').openModal();
-          
+            $('#MenuContent').load('/Restaurants/GetMenu/' + idMenu);
+            $('#modalMenu').openModal();         
         };
 
         function clearPanier() {
-                var data = {'idSession': '@Session.SessionID' };
+                let data = {'idSession': '@Session.SessionID' };
 
                 $.ajax({
                     url: '@Url.Action("ClearPanier", "WebService")',
@@ -270,7 +268,7 @@
         };
 
         function addProduit(idProduit) {
-            var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
+            let data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
                 $.ajax({
                     url: '@Url.Action("AddProduit", "WebService")',
@@ -290,7 +288,7 @@
 
 
         function removeProduit(idProduit) {
-            var data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
+            let data = { 'idProduit': idProduit, 'idSession': '@Session.SessionID' };
 
             $.ajax({
                 url: '@Url.Action("RemoveProduit", "WebService")',
@@ -375,16 +373,20 @@
         }
 
         function addMenu(idMenu) {
-             var data = { 'idMenu': idMenu, 'idProduits' : Object.values(menu), 'idSession': '@Session.SessionID' };
+             let data = { 'idMenu': idMenu, 'idProduits' : Object.values(menu), 'idSession': '@Session.SessionID' };
 
             $.ajax({
-                url: '@Url.Action("addMenu", "WebService")',
+                url: '@Url.Action("AddMenu", "WebService")',
                 type: 'POST',
                 data: JSON.stringify(data),
                 contentType: 'application/json; charset=utf-8',
                 DataType: 'json',
                 success: function (data) {
-                    alert('ok');
+                    $('.sidePanier').html(data.panier);
+                    $('.total').html(data.total);
+                    //$('#modalMenu').toggle(false);
+                    //$('.lean-overlay').remove();
+
                 },
                 error: function () {
                     alert('Error');
