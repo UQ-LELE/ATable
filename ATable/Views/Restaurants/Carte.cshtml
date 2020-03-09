@@ -9,7 +9,7 @@
 
         <script type="text/javascript">
             window.onload = function () {
-                $('#modalErreur').openModal();
+                $('#modalErreur').openModal({dismissible:false});
             };
         </script>
 
@@ -212,17 +212,17 @@
 
 <!--Modal d'annulation panier-->
 <div id="modalErreur" class="modal">
-    <div class="modal-content">
+    <div class="modal-content center-align p-1">
         <h4>Attention, votre panier contient déjà des produits !</h4>
+        <div class="divider"></div>
         <p>
             Votre panier contient des produits d'un autre restaurant.
-            Pour rappel, vous pouvez uniquement commander auprès d'un seul restaurateur à la fois.
-            Souhaitez-vous poursuivre la commande en cours ou bien vider votre panier et poursuivre chez un autre restaurateur ?
+            Pour rappel, vous pouvez commander auprès d'un seul restaurateur à la fois.
         </p>
     </div>
     <div class="modal-footer">
-        <a onclick="clearPanier()" class="modal-close waves-effect waves-red btn-flat">Vider mon panier</a>
-        <a href=@Url.Action("Carte", "Restaurants", new { id = idRestaurantPanier }) class="waves-effect waves-green btn-flat">Continuer ma commande</a>
+        <button onclick="clearPanier()" class="modal-close btn  left" style="background-color: #FF7C7C;"><i class="material-icons left">delete</i>Vider mon panier</button>
+        <a href=@Url.Action("Carte", "Restaurants", new { id = idRestaurantPanier }) class=" btn"><i class="material-icons right">arrow_forward</i>Continuer ma commande</a>
     </div>
 </div>
 
@@ -262,7 +262,6 @@
                     DataType: 'json',
                     success: function (data) {
                         getPanierHtml();
-                        $('#modalErreur').close();
                     },
                     error: function () {
                         alert('Error');
@@ -333,6 +332,64 @@
                 default:
                     console.log('error');
             }
+        };
+
+        let menu = {};
+
+        //à adapter !
+        function selectProduct(idProduit, idCategorie) {
+            //si le produit avait déjà été sélectionné :
+            if ($('#' + idProduit).hasClass('z-depth-5 deep-orange lighten-3')) {
+                $('#' + idProduit).removeClass('z-depth-5 deep-orange lighten-3');
+                if (idCategorie == 1) {
+                    $('#btnNextOne').addClass('disabled');
+                    $('#liPlat').addClass('disabled');
+                    $('#liDessert').addClass('disabled');
+                    delete menu[entree]
+                } else if (idCategorie == 2) {
+                    $('#btnNextTwo').addClass('disabled');
+                    $('#liDessert').addClass('disabled');
+                    delete menu[plat]
+                } else if (idCategorie == 3) {
+                    $('#btnValidationMenu').addClass('disabled');
+                    delete menu[dessert]
+
+                }
+            //si le produit n'a pas déjà été sélectionné
+            } else {
+                $('.' + idCategorie).removeClass('z-depth-5 deep-orange lighten-3');
+                $('#' + idProduit).addClass('z-depth-5  deep-orange lighten-3');
+                if (idCategorie == 1) {
+                    $('#btnNextOne').removeClass('disabled');
+                    $('#liPlat').removeClass('disabled');
+                    menu.entree = idProduit;
+                } else if (idCategorie == 2) {
+                    $('#btnNextTwo').removeClass('disabled');
+                    $('#liDessert').removeClass('disabled');
+                    menu.plat = idProduit;
+                } else if (idCategorie == 3) {
+                    $('#btnValidationMenu').removeClass('disabled');
+                    menu.dessert = idProduit;
+                }
+            }
+        }
+
+        function addMenu(idMenu) {
+             var data = { 'idMenu': idMenu, 'idProduits' : Object.values(menu), 'idSession': '@Session.SessionID' };
+
+            $.ajax({
+                url: '@Url.Action("addMenu", "WebService")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                DataType: 'json',
+                success: function (data) {
+                    alert('ok');
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
         };
 
          $('.button-collapse').sideNav({

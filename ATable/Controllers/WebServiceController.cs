@@ -62,14 +62,12 @@ namespace ATable.Controllers
             PanierModel panierModel = (PanierModel)HttpContext.Application[idSession] ?? new PanierModel();
             panierModel.IdRestaurant = 0;
 
-
             if (sessionUtilisateur != null && panierModel != null && idMenu > 0 && idProduits.Count > 0)
             {
                 Menu menu = db.Menus.Find(idMenu);
 
                 if (menu != null)
                 {
-
                     MenuPanier menuPanier = new MenuPanier();
                     menuPanier.IdMenu = idMenu;
 
@@ -82,15 +80,12 @@ namespace ATable.Controllers
                             menuPanier.produits.Add(produitPanier);
                         }
                     }
-
                     panierModel.AddItem(menuPanier);
                 }
-
                 HttpContext.Application[idSession] = panierModel;
 
-                panierHtml = ShowPanier(panierModel);
+                //panierHtml = ShowPanier(panierModel);
             }
-
             return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
         }
 
@@ -171,25 +166,6 @@ namespace ATable.Controllers
             }
             return panierHtml;
         }
-
-        //public JsonResult GetPanier(string idSession)
-        //{
-        //    List<ProduitPanier> panier = null;
-
-
-        //    SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(Session.SessionID);
-
-        //    if (sessionUtilisateur != null)
-        //    {
-        //        if (HttpContext.Application[idSession] != null)
-        //        {
-        //            panier = (List<ProduitPanier>)HttpContext.Application[idSession];
-
-
-        //        }
-        //    }
-        //    return Json(panier, JsonRequestBehavior.AllowGet);
-        //}
 
         public JsonResult GetPanierHtml(string idSession)
         {
@@ -303,8 +279,6 @@ namespace ATable.Controllers
             }
             return Json(message, JsonRequestBehavior.AllowGet);
         }
-
-       
 
         public JsonResult ClearPanier(string idSession)
         {

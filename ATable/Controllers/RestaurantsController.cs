@@ -13,9 +13,6 @@ namespace ATable.Controllers
     public class RestaurantsController : Controller
     {
         private AfpEatEntities db = new AfpEatEntities();
-
-
-
         public ActionResult Index()
         {
             ViewBag.Restaurants = db.Restaurants.Include(r => r.TypeCuisine).ToList();
@@ -34,7 +31,6 @@ namespace ATable.Controllers
             return View();
         }
 
-        // GET: Restaurants/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -69,7 +65,6 @@ namespace ATable.Controllers
         }
 
 
-        // GET: Restaurants/Edit/5
         public ActionResult Carte(int? id)
         {
             if (id == null)
