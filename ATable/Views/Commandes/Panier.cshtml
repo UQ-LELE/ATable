@@ -108,8 +108,9 @@
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
-                success: function (data) {
-                    $('#modalValidation').openModal();
+                    success: function (data) {
+                        $('#modalValidation').openModal({ dismissible: false });
+
                     },
                     error: function () {
                         //show message error

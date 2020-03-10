@@ -24,7 +24,7 @@ namespace ATable.Controllers
             if (ModelState.IsValid)
             {
                 Utilisateur user = db.Utilisateurs.Single(u => u.Matricule == utilisateur.Matricule && u.Password == utilisateur.Password);
-                
+
 
                 if (user != null)
                 {
@@ -33,7 +33,8 @@ namespace ATable.Controllers
 
                     Session["Utilisateur"] = user;
 
-                    return Redirect(previousUrl);
+                    return RedirectToAction("MonCompte", new { id = user.IdUtilisateur });
+
                 }
             }
             return Redirect(previousUrl);
@@ -45,7 +46,7 @@ namespace ATable.Controllers
 
             Utilisateur user = (Utilisateur)Session["Utilisateur"];
 
-            if(user.IdUtilisateur == id)
+            if (user.IdUtilisateur == id)
             {
                 Session.Remove("Utilisateur");
             }
@@ -64,7 +65,7 @@ namespace ATable.Controllers
 
             if (user.Password == password && newPassword == confirmPassword)
             {
-                user = db.Utilisateurs.Single( u=> u.Password == password);
+                user = db.Utilisateurs.Single(u => u.Password == password);
 
                 user.Password = confirmPassword;
                 db.SaveChanges();
@@ -88,20 +89,17 @@ namespace ATable.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                Utilisateur user = (Utilisateur)Session["Utilisateur"];
-
                 utilisateur = db.Utilisateurs.Find(id);
+                Session["Utilisateur"] = utilisateur;
 
                 if (utilisateur == null)
                 {
                     return HttpNotFound();
                 }
 
-                if(user.Matricule == utilisateur.Matricule && user.Password == utilisateur.Password)
-                {
-                    var commandes = db.Commandes.Include(c => c.EtatCommande).Include(c => c.Restaurant).Where(c=>c.IdUtilisateur == utilisateur.IdUtilisateur);
-                    return View(commandes.ToList());
-                }
+                var commandes = db.Commandes.Include(c => c.EtatCommande).Include(c => c.Restaurant).Where(c => c.IdUtilisateur == utilisateur.IdUtilisateur);
+                return View(commandes.ToList());
+
             }
             return RedirectToAction("Index", "Restaurants");
         }

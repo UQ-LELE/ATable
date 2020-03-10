@@ -17,7 +17,7 @@
 <div class="container body-content">
     <div class="row valign-wrapper center-align">
         <div class="col s12 valign">
-            <h2 class="courgette"><i class="material-icons medium">account_circle</i>&nbsp;&nbsp;@utilisateur.Prenom @utilisateur.Nom</h2>
+            <h2 class="courgette"><i class="far fa-user-circle fa-lg"></i>&nbsp;&nbsp;@utilisateur.Prenom @utilisateur.Nom</h2>
             <div class="divider"></div>
             <h4>Solde : @utilisateur.Solde €</h4>
             <div class="divider"></div>
@@ -25,7 +25,7 @@
                 <div class="col s12">
                     <ul class="tabs">
                         <li class="tab col s3"><a class="active" href="#histo">Historique</a></li>
-                        <li class="tab col s3"><a href="#motdepasse">Mot de Passe</a></li>
+                        <li class="tab col s3"><a href="#motdepasse">Modifier Mot de Passe</a></li>
                     </ul>
                 </div>
                 <div id="histo" class="col s12 m10 offset-m1">
@@ -50,7 +50,7 @@
                                 </td>
 
                                 <td class="hide-on-small-and-down">
-                                    @(String.Format("{0:d/MM/yyyy}", item.Date))
+                                    @(String.Format("{0:dd/MM/yyyy}", item.Date))
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Prix)&nbsp;€
@@ -59,23 +59,23 @@
                                     @Html.DisplayFor(modelItem => item.EtatCommande.Nom)
                                 </td>
                                 <td class="center-align">
+                                    <a class="waves-effect waves-light btn-floating red tooltipped" data-position="bottom" data-tooltip="Ajouter aux Clic'Eat !"><i class="fas fa-utensils"></i></a>
+
+                                    
                                 </td>
                             </tr>
 
                         }
                     </table>
                 </div>
-                <div id="motdepasse" class="col s12">
+                <div id="motdepasse" class="col s12 m6 offset-m3">
                     @using (Html.BeginForm("ChangePassword", "Utilisateurs"))
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-horizontal">
-                            <h4>Modifiez votre mot de passe</h4>
-                            <hr />
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            <div class="row">
+                            <div class="row mt-2">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">
                                         lock_outline
@@ -109,12 +109,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
+                                <div class="row">
                                     <input type="submit" value="Modifier" class="btn btn-default" />
                                 </div>
-                            </div>
-                        </div>
                     }
                 </div>
             </div>

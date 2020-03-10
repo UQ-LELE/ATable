@@ -3,8 +3,8 @@
 }
 <!--Dropdown user-->
     <ul id='dropdown-user' class='dropdown-content'>
-        <li><a href="@Url.Action("MonCompte","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Compte</a></li>
-        <li><a href="#"><i class="fas fa-cog"></i>&nbsp;&nbsp;A'Table !</a></li>
+        <li><a href="@Url.Action("MonCompte","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="far fa-user-circle fa-lg"></i>&nbsp;&nbsp;Compte</a></li>
+        <li><a href="#"><i class="fas fa-utensils"></i>&nbsp;&nbsp;Clic'Eat !</a></li>
         <li class="divider"></li>
         <li><a href="@Url.Action("Deconnexion","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="fas fa-power-off"></i>&nbsp;&nbsp;Sign Out</a></li>
     </ul>
@@ -18,7 +18,7 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="@Url.Action("Faqs", "Utilisateurs")">Besoin d'aide ?</a></li>
                 <li><a class="waves-effect waves-light navPanier" onclick="toast()"><span class="total" style="font-size:20px;">0</span>€&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-basket fa-2x"></i></a></li>
-                <li><a class="dropdown-trigger" data-activates='dropdown-user'>@utilisateur.Prenom @utilisateur.Nom[0].&nbsp;&nbsp;&nbsp;<i class="fas fa-user fa-2x"></i></a></li>
+                <li><a class="dropdown-trigger" data-activates='dropdown-user'>@utilisateur.Prenom @utilisateur.Nom[0].&nbsp;&nbsp;&nbsp;<i class="fas fa-user-circle fa-2x"></i></a></li>
             </ul>
         </div>
     </nav>
