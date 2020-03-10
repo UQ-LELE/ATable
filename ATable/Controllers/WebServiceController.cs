@@ -301,6 +301,8 @@ namespace ATable.Controllers
 
                     }
 
+                    panierModel.Clear();
+
                     db.Commandes.Add(commande);
                     db.SaveChanges();
                     message = "Votre commande a bien été enregistré !";

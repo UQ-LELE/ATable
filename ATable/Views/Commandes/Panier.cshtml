@@ -5,6 +5,9 @@
 
     string isConnected = Session["Utilisateur"] != null ? "true" : "false";
 
+    ATable.Models.Utilisateur utilisateur = (ATable.Models.Utilisateur)Session["Utilisateur"] ?? null;
+
+
     string previousPage = Request.UrlReferrer.ToString();
 
 }
@@ -67,7 +70,20 @@
     </div>
 </div>
 
-
+<!-- Modal Validation Commande -->
+<div id="modalValidation" class="modal">
+    <div class="modal-content center-align">
+        <h4>Votre commande a été validée !</h4>
+        <div class="divider"></div>
+        <i class="far fa-thumbs-up fa-9x mt-2"></i>
+        <div class="modal-footer center-align">
+            @if (utilisateur != null)
+            {
+                <a href="@Url.Action("MonCompte","Utilisateurs", new {id = utilisateur.IdUtilisateur })" class="modal-close waves-effect waves-green btn">Voir ma commande</a>
+            }
+        </div>
+    </div>
+</div>
 
 
 
@@ -92,10 +108,8 @@
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
-                    success: function (data) {
-
-                        @*@Url.Action("Scooter", "");*@
-                        //show message success
+                success: function (data) {
+                    $('#modalValidation').openModal();
                     },
                     error: function () {
                         //show message error
