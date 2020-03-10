@@ -28,6 +28,8 @@ namespace ATable.Controllers
                 if (user != null)
                 {
                     user.IdSession = Session.SessionID;
+                    db.SaveChanges();
+
                     Session["Utilisateur"] = user;
 
                     return Redirect(previousUrl);
