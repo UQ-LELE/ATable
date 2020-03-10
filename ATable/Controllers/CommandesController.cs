@@ -27,17 +27,19 @@ namespace ATable.Controllers
             return RedirectToAction("Index", "Restaurants");
         }
 
-        public ActionResult ValidationCommande(int? id)
+        // GET: Commandes/Details/5
+        public ActionResult Details(int? id)
         {
-            Utilisateur utilisateur = db.Utilisateurs.Find(id);
-            Session["Utilisateur"] = utilisateur;
-
-            return RedirectToAction("RecapCommande", "Commandes");
-        }
-
-        public ActionResult ResumeCommande()
-        {
-            return RedirectToAction("Resume", "Commandes");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Commande commande = db.Commandes.Find(id);
+            if (commande == null)
+            {
+                return HttpNotFound();
+            }
+            return View(commande);
         }
 
         protected override void Dispose(bool disposing)

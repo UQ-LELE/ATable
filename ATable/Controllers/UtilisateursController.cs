@@ -90,7 +90,8 @@ namespace ATable.Controllers
 
                 if(user.Matricule == utilisateur.Matricule && user.Password == utilisateur.Password)
                 {
-                    return View(utilisateur);
+                    var commandes = db.Commandes.Include(c => c.EtatCommande).Include(c => c.Restaurant).Where(c=>c.IdUtilisateur == utilisateur.IdUtilisateur);
+                    return View(commandes.ToList());
                 }
             }
             return RedirectToAction("Index", "Restaurants");
