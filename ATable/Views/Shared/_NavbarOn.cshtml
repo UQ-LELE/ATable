@@ -3,7 +3,7 @@
 }
 <!--Dropdown user-->
     <ul id='dropdown-user' class='dropdown-content'>
-        <li><a href="#"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Compte</a></li>
+        <li><a href="@Url.Action("MonCompte","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="far fa-user-circle"></i>&nbsp;&nbsp;Compte</a></li>
         <li><a href="#"><i class="fas fa-cog"></i>&nbsp;&nbsp;A'Table !</a></li>
         <li class="divider"></li>
         <li><a href="@Url.Action("Deconnexion","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="fas fa-power-off"></i>&nbsp;&nbsp;Sign Out</a></li>

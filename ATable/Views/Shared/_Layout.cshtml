@@ -77,7 +77,7 @@
                 @if (utilisateur != null)
                 {
                     <li><a class="btn-floating red z-depth-5" href="@Url.Action("Deconnexion","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="material-icons">power_settings_new</i></a></li>
-                    <li><a class="btn-floating blue z-depth-5" href="@Url.Action("MonCompte","Utilisateurs")"><i class="material-icons medium">account_circle</i></a></li>
+                    <li><a class="btn-floating blue z-depth-5" href="@Url.Action("MonCompte","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="material-icons medium">account_circle</i></a></li>
                 }
                 else
                 {

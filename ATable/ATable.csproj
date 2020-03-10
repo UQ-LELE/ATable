@@ -142,6 +142,7 @@
     <Compile Include="Models\Categorie.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Commande.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -399,6 +400,7 @@
     <Content Include="Views\Utilisateurs\MonCompte.cshtml" />
     <Content Include="Views\Shared\_Connexion.cshtml" />
     <Content Include="Views\Restaurants\_Menu.cshtml" />
+    <Content Include="Views\Utilisateurs\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

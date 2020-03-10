@@ -384,9 +384,8 @@
                 success: function (data) {
                     $('.sidePanier').html(data.panier);
                     $('.total').html(data.total);
-                    //$('#modalMenu').toggle(false);
-                    //$('.lean-overlay').remove();
-
+                    $('#modalMenu').toggle(false);
+                    $('.lean-overlay').remove();
                 },
                 error: function () {
                     alert('Error');

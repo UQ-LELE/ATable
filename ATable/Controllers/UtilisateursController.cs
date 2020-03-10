@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ATable.Models;
@@ -46,6 +47,21 @@ namespace ATable.Controllers
                 Session.Remove("Utilisateur");
             }
 
+            return Redirect(previousUrl);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Password")] Utilisateur utilisateur)
+        {
+            string previousUrl = Request.UrlReferrer.ToString();
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(utilisateur).State = EntityState.Modified;
+                db.SaveChanges();
+                return Redirect(previousUrl);
+            }
             return Redirect(previousUrl);
         }
 
