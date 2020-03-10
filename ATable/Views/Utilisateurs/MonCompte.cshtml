@@ -2,16 +2,25 @@
 
 @{
     ATable.Models.Utilisateur utilisateur = (ATable.Models.Utilisateur)Session["utilisateur"];
+
+    if (TempData["NewPassword"] != null && TempData["NewPassword"].ToString() == "isChange")
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                Materialize.toast('Votre nouveau mot de passe a bien été enregistré !', 5000);
+            };
+        </script>
+    }
 }
 
 
 <div class="container body-content">
     <div class="row valign-wrapper center-align">
         <div class="col s12 valign">
-            <h2>Mon Compte</h2>
-            <hr />
-
-
+            <h2 class="courgette"><i class="material-icons medium">account_circle</i>&nbsp;&nbsp;@utilisateur.Prenom @utilisateur.Nom</h2>
+            <div class="divider"></div>
+            <h4>Solde : @utilisateur.Solde €</h4>
+            <div class="divider"></div>
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs">
@@ -32,89 +41,101 @@
 
                         @foreach (var item in Model)
                         {
-                        <tr class="card-panel hoverable"  onclick="document.location = 'Commandes/Details/' + @item.IdCommande;">
-                            <td class="hide-on-small-and-down">
-                                <img src="~/Images/restaurants/@item.Restaurant.Photos.FirstOrDefault().Nom" style="max-width:140px;" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Restaurant.Nom)
-                            </td>
+                            <tr class="card-panel hoverable" onclick="detailCommande(@item.IdCommande);">
+                                <td class="hide-on-small-and-down">
+                                    <img src="~/Images/restaurants/@item.Restaurant.Photos.FirstOrDefault().Nom" style="max-width:140px;" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Restaurant.Nom)
+                                </td>
 
-                            <td class="hide-on-small-and-down">
-                                @(String.Format("{0:d/MM/yyyy}", item.Date))
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Prix)&nbsp;€
-                            </td>
-                            <td class="center-align">
-                                @Html.DisplayFor(modelItem => item.EtatCommande.Nom)
-                            </td>
-                            <td class="center-align">
-                                
-                            </td>
-                        </tr>
+                                <td class="hide-on-small-and-down">
+                                    @(String.Format("{0:d/MM/yyyy}", item.Date))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Prix)&nbsp;€
+                                </td>
+                                <td class="center-align">
+                                    @Html.DisplayFor(modelItem => item.EtatCommande.Nom)
+                                </td>
+                                <td class="center-align">
+                                </td>
+                            </tr>
 
                         }
                     </table>
                 </div>
-                @*<div id="motdepasse" class="col s12">
-                    @using (Html.BeginForm("Edit", "Utilisateurs", null, FormMethod.Post))
+                <div id="motdepasse" class="col s12">
+                    @using (Html.BeginForm("ChangePassword", "Utilisateurs"))
                     {
                         @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                        <h4>Modifiez votre mot de passe</h4>
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.IdUtilisateur)
+                        <div class="form-horizontal">
+                            <h4>Modifiez votre mot de passe</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">
-                                    lock_outline
-                                </i>
-                                @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "validate" } })
-                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                <label for="password">Mot de Passe</label>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">
+                                        lock_outline
+                                    </i>
+                                    @Html.Password("oldPassword")
+                                    @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
+                                    <label for="password">Mot de Passe</label>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">
+                                        lock_outline
+                                    </i>
+                                    @Html.Password("newPassword")
+                                    @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
+                                    <label for="password">Nouveau Mot de Passe</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">
+                                        lock_outline
+                                    </i>
+                                    @Html.Password("confirmPassword")
+                                    @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
+                                    <label for="password">Confirmez votre nouveau Mot de Passe</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Modifier" class="btn btn-default" />
+                                </div>
                             </div>
                         </div>
-
-
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">
-                                    lock_outline
-                                </i>
-                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                <label for="password">Nouveau Mot de Passe</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">
-                                    lock_outline
-                                </i>
-                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                <label for="password">Confirmez votre nouveau Mot de Passe</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Modifier" class="btn btn-default" />
-                            </div>
-                        </div>
-                    </div>
                     }
-                </div>*@
+                </div>
             </div>
-
-
-
-
         </div>
     </div>
 </div>
+
+<!-- Modal details commande -->
+<div id="modalDetail" class="modal">
+    <div class="modal-content" id="contentDetail">
+
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        function detailCommande(idCommande) {
+            $('#modalDetail').openModal();
+            $('#contentDetail').load('/Commandes/Details/' + idCommande);
+        }
+    </script>
+
+}

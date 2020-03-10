@@ -1,17 +1,21 @@
-﻿@using (Html.BeginForm("Connexion", "Utilisateurs", null, FormMethod.Post))
+﻿@*<script type="text/javascript" src="~/Scripts/jquery.validate.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+
+
+@using (Html.BeginForm("Connexion", "Utilisateurs", null, FormMethod.Post))
 {
 
     var utilisateur = new ATable.Models.Utilisateur();
 
     @Html.AntiForgeryToken()
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
     <div class="row">
         <div class="input-field col s12">
             <i class="material-icons prefix">account_circle</i>
             @Html.TextBoxFor(model => utilisateur.Matricule, new { htmlAttributes = new { @class = "validate" } })
-            @Html.ValidationMessageFor(model => utilisateur.Matricule, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => utilisateur.Matricule, "", new { @class = "red-text" })
             <label for="Matricule">N° de Matricule</label>
         </div>
     </div>
@@ -22,7 +26,7 @@
                 lock_outline
             </i>
             @Html.PasswordFor(model => utilisateur.Password, new { htmlAttributes = new { @class = "validate" } })
-            @Html.ValidationMessageFor(model => utilisateur.Password, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => utilisateur.Password, "", new { @class = "red-text" })
             <label for="password">Mot de Passe</label>
         </div>
     </div>
@@ -31,6 +35,6 @@
     </div>
 
     <div class="row">
-        <input type="submit" value="Se connecter" class="btn btn-default" />
+        <input type="submit"  value="Se connecter" class="btn btn-default" />
     </div>
 }

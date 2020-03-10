@@ -268,3 +268,23 @@ nav ul a {
     border-spacing: 0 20px;
     empty-cells: hide;
 }
+
+
+.field-validation-error {
+    color: #f00;
+}
+
+.validation-summary-errors {
+    color: #f00;
+    font-weight: bold;
+}
+
+
+.input-validation-error {
+    border: 2px solid #f00;
+    background-color: #fee;
+}
+
+input[type="checkbox"].input-validation-error {
+    outline: 2px solid #f00;
+}

@@ -23,7 +23,8 @@ namespace ATable.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = db.Utilisateurs.Single(u => u.Matricule == utilisateur.Matricule && u.Password == utilisateur.Password);
+                Utilisateur user = db.Utilisateurs.Single(u => u.Matricule == utilisateur.Matricule && u.Password == utilisateur.Password);
+                
 
                 if (user != null)
                 {
@@ -54,17 +55,25 @@ namespace ATable.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Password")] Utilisateur utilisateur)
+        public ActionResult ChangePassword(FormCollection forms)
         {
-            string previousUrl = Request.UrlReferrer.ToString();
+            Utilisateur user = (Utilisateur)Session["Utilisateur"];
+            var password = forms["oldPassword"];
+            var newPassword = forms["newPassword"];
+            var confirmPassword = forms["confirmPassword"];
 
-            if (ModelState.IsValid)
+            if (user.Password == password && newPassword == confirmPassword)
             {
-                db.Entry(utilisateur).State = EntityState.Modified;
+                user = db.Utilisateurs.Single( u=> u.Password == password);
+
+                user.Password = confirmPassword;
                 db.SaveChanges();
-                return Redirect(previousUrl);
+                Session["Utilisateur"] = user;
+                TempData["NewPassword"] = "isChange";
+                return RedirectToAction("MonCompte", new { id = user.IdUtilisateur });
             }
-            return Redirect(previousUrl);
+
+            return View();
         }
 
         // GET: Utilisateurs/Details/5

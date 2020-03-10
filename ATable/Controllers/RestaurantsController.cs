@@ -84,10 +84,8 @@ namespace ATable.Controllers
 
             Restaurant restaurant = db.Restaurants.Where(r => r.IdRestaurant == id).First();
 
-            if (restaurant == null)
-            {
-                return HttpNotFound();
-            }
+            if (restaurant == null) { return HttpNotFound(); }
+            
             //variante de viewbag, filtrer les catégories et type d'itempanier dans la vue
             
             ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;

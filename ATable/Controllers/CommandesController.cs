@@ -34,7 +34,21 @@ namespace ATable.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Commande commande = db.Commandes.Find(id);
+
+            List<CommandeProduit> commandeProduits = db.CommandeProduits.Where(c => c.IdCommande == id).ToList();
+
+            List<ItemPanier> itemPaniers = new List<ItemPanier>();
+
+            foreach(var item in commandeProduits)
+            {
+                if(item.Menus.Count > 0)
+                {
+
+                }
+            }
+
             if (commande == null)
             {
                 return HttpNotFound();
