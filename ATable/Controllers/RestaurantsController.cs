@@ -23,55 +23,15 @@ namespace ATable.Controllers
 
         public ActionResult ParSpecialite(int id)
         {
-
             ViewBag.RestoByCuisine = db.Restaurants.Where(r => r.IdTypeCuisine == id).ToList();
             ViewBag.TypeCuisine = db.TypeCuisines.Where(t => t.IdTypeCuisine == id).FirstOrDefault();
             
-
             return View();
         }
 
-        public ActionResult Details(int? id)
+        [Route("{id:int}/{slug?}", Name = "Restaurants")]
+        public ActionResult Carte(int id, string slug)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            ViewBag.Error = null;
-
-            PanierModel panier = (PanierModel)HttpContext.Application[Session.SessionID];
-
-            if (panier != null && panier.IdRestaurant != id) 
-            {
-                ViewBag.Error = "error";
-                ViewBag.IdRestaurantPanier = panier.IdRestaurant;
-            }
-
-            var produits = db.Produits.Where(p => p.IdRestaurant == id);
-
-
-            if (produits == null)
-            {
-                return HttpNotFound();
-            }
-            //variante de viewbag, filtrer les catégories et type d'itempanier dans la vue
-            Restaurant restaurant = db.Restaurants.Include(r => r.Produits).Include(r => r.Menus).Where(r => r.IdRestaurant == id).First();
-
-
-            ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
-
-            return View(restaurant);
-        }
-
-
-        public ActionResult Carte(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             ViewBag.Error = null;
 
             PanierModel panier = (PanierModel)HttpContext.Application[Session.SessionID];
@@ -85,11 +45,11 @@ namespace ATable.Controllers
             Restaurant restaurant = db.Restaurants.Where(r => r.IdRestaurant == id).First();
 
             if (restaurant == null) { return HttpNotFound(); }
-            
-            //variante de viewbag, filtrer les catégories et type d'itempanier dans la vue
-            
+                        
             ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
-
+          
+            if (string.IsNullOrEmpty(slug)) slug = restaurant.Slug;
+            
             return View(restaurant);
         }
 
@@ -121,16 +81,12 @@ namespace ATable.Controllers
                     produitsMenu.Add(produit);
                 }
             }
-
             return PartialView("_Menu", produitsMenu);
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            if (disposing) db.Dispose();
             base.Dispose(disposing);
         }
     }
