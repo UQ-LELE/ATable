@@ -1,5 +1,7 @@
 ﻿@model ATable.Models.Restaurant
 
+
+
 @{
     int idRestaurantPanier = 0;
 
@@ -12,9 +14,6 @@
                 $('#modalErreur').openModal({dismissible:false});
             };
         </script>
-
-        ViewBag.piValue = 3.14;
-
     }
 
     ATable.Models.Utilisateur utilisateur = ViewBag.User;
@@ -243,7 +242,6 @@
 
         });
 
-
         function openMenu(idMenu) {
             $('#MenuContent').load('/Restaurants/GetMenu/' + idMenu);
             $('#modalMenu').openModal();         
@@ -385,7 +383,6 @@
                     $('.sidePanier').html(data.panier);
                     $('.total').html(data.total);
                     $('#MenuContent').empty();
-                    $('#modalMenu').toggle(false);
                     $('.lean-overlay').remove();
                 },
                 error: function () {

@@ -23,13 +23,14 @@ namespace ATable.Controllers
 
         public ActionResult ParSpecialite(int id)
         {
+
             ViewBag.RestoByCuisine = db.Restaurants.Where(r => r.IdTypeCuisine == id).ToList();
             ViewBag.TypeCuisine = db.TypeCuisines.Where(t => t.IdTypeCuisine == id).FirstOrDefault();
             
             return View();
         }
 
-        [Route("{id:int}/{slug?}", Name = "Restaurants")]
+        [Route("resto/{id:int}/{slug?}", Name = "Restaurants")]
         public ActionResult Carte(int id, string slug)
         {
             ViewBag.Error = null;
@@ -46,9 +47,12 @@ namespace ATable.Controllers
 
             if (restaurant == null) { return HttpNotFound(); }
                         
-            ViewBag.User = Session["Utilisateur"] != null ? Session["Utilisateur"] : null;
+            ViewBag.User = Session["Utilisateur"] ?? null;
           
-            if (string.IsNullOrEmpty(slug)) slug = restaurant.Slug;
+            if (slug != restaurant.Slug)
+            {
+                return RedirectToAction("Carte", new { id, slug = restaurant.Slug });
+            }
             
             return View(restaurant);
         }
@@ -81,6 +85,7 @@ namespace ATable.Controllers
                     produitsMenu.Add(produit);
                 }
             }
+
             return PartialView("_Menu", produitsMenu);
         }
 
