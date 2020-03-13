@@ -30,7 +30,7 @@ namespace ATable.Controllers
             return View();
         }
 
-        [Route("resto/{id:int}/{slug?}", Name = "Restaurants")]
+        [Route("Restaurants/{id:int}/{slug?}", Name = "Restaurants")]
         public ActionResult Carte(int id, string slug)
         {
             ViewBag.Error = null;

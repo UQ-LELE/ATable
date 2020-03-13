@@ -35,25 +35,28 @@ namespace ATable.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Commande commande = db.Commandes.Find(id);
+            //Commande commande = db.Commandes.Find(id);
 
             List<CommandeProduit> commandeProduits = db.CommandeProduits.Where(c => c.IdCommande == id).ToList();
 
-            List<ItemPanier> itemPaniers = new List<ItemPanier>();
+            //foreach (var commandeProduit in commandeProduits)
+            //{
+            //    if (commandeProduit.Menus.Count > 0)
+            //    {
+            //        Menu menu = db.Menus.Find(commandeProduit.Menus.FirstOrDefault().IdMenu);
 
-            foreach(var item in commandeProduits)
-            {
-                if(item.Menus.Count > 0)
-                {
+            //        //Produit produit = menu.CommandeProduits.FirstOrDefault();
 
-                }
-            }
+            //        Produit produitMenu = db.Produits.Find(commandeProduit.IdProduit);
 
-            if (commande == null)
-            {
-                return HttpNotFound();
-            }
-            return View(commande);
+            //    }
+            //}
+
+            //if (commande == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return PartialView("_Details", commandeProduits);
         }
 
         protected override void Dispose(bool disposing)

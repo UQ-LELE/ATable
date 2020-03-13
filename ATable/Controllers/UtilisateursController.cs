@@ -23,8 +23,7 @@ namespace ATable.Controllers
 
             if (ModelState.IsValid)
             {
-                Utilisateur user = db.Utilisateurs.Single(u => u.Matricule == utilisateur.Matricule && u.Password == utilisateur.Password);
-
+                Utilisateur user = db.Utilisateurs.SingleOrDefault(u => u.Matricule == utilisateur.Matricule && u.Password == utilisateur.Password);
 
                 if (user != null)
                 {
@@ -33,8 +32,7 @@ namespace ATable.Controllers
 
                     Session["Utilisateur"] = user;
 
-                    return RedirectToAction("MonCompte", new { id = user.IdUtilisateur });
-
+                    return Redirect(previousUrl);
                 }
             }
             return Redirect(previousUrl);
@@ -97,7 +95,7 @@ namespace ATable.Controllers
                     return HttpNotFound();
                 }
 
-                var commandes = db.Commandes.Include(c => c.EtatCommande).Include(c => c.Restaurant).Where(c => c.IdUtilisateur == utilisateur.IdUtilisateur);
+                var commandes = db.Commandes.Include(c => c.EtatCommande).Include(c => c.Restaurant).Where(c => c.IdUtilisateur == utilisateur.IdUtilisateur).OrderByDescending(c=>c.Date);
                 return View(commandes.ToList());
 
             }

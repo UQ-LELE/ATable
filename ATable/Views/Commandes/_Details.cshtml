@@ -1,1 +1,36 @@
-﻿
+﻿@model IEnumerable<ATable.Models.CommandeProduit>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Commande</h4>
+    <hr />
+    <table>
+        <tbody>
+
+            @foreach(var commandeProduit in Model)
+            {
+                if(commandeProduit.Menus.Count > 0)
+                {  
+                    <tr>
+                        <td>@commandeProduit.Menus.FirstOrDefault().Nom</td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                    </tr>
+
+
+                }
+
+            }
+
+        </tbody>
+    </table>
+</div>
+
+

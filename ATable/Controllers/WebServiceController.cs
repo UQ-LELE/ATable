@@ -80,6 +80,7 @@ namespace ATable.Controllers
                     menuPanier.Nom = menu.Nom;
                     menuPanier.Prix = menu.Prix;
                     menuPanier.Quantite = 1;
+                    menuPanier.IdRestaurant = menu.IdRestaurant;
                     
                     //ajout des produits selectionnés dans le menu
                     foreach (int idProduit in idProduits)
@@ -169,14 +170,16 @@ namespace ATable.Controllers
                 panierHtml.hmtl += "<div class='row valign-wrapper mt-2 mb-0'>";
                 panierHtml.hmtl += "<div class='col m2' style='margin-left:0px;'>";
 
-                if (itemPanier is MenuPanier)
-                {
-                    panierHtml.hmtl += "<button class='btn-floating btn-small waves-effect waves-light red remove' onclick='removeMenu(\"" + itemPanier.GetIdMenu() + "\")'><i class='material-icons'>remove</i></button>";
-                }
-                else
+                if (itemPanier is ProduitPanier)
                 {
                     panierHtml.hmtl += "<button class='btn-floating btn-small waves-effect waves-light red remove' onclick='removeProduit(\"" + itemPanier.GetIdProduit() + "\")'><i class='material-icons'>remove</i></button>";
                 }
+                else
+                {
+                    panierHtml.hmtl += "<button class='btn-floating btn-small waves-effect waves-light red remove' onclick='removeMenu(\"" + itemPanier.GetIdMenu() + "\")'><i class='material-icons'>remove</i></button>";
+                
+                }
+
                 panierHtml.hmtl += "</div>";
                 panierHtml.hmtl += "<div class='col m6' style='margin-left:0px;'><strong><span>" + itemPanier.Quantite + "&nbsp;&nbsp;x</span>&nbsp;&nbsp;" + itemPanier.Nom + "</strong></div>";
                 panierHtml.hmtl += "<div class='col m4' style='margin-left:0px;'>" + itemPanier.Prix * itemPanier.Quantite + " €</div>";
@@ -187,6 +190,7 @@ namespace ATable.Controllers
                     panierHtml.hmtl += "<div class='row'>";
                     panierHtml.hmtl += "<div class='col s12 center-align'>";
                     panierHtml.hmtl += "<ul>";
+
                     MenuPanier menuPanier = (MenuPanier)itemPanier;
 
                     foreach (ItemPanier produitMenu in menuPanier.produits)
@@ -290,9 +294,9 @@ namespace ATable.Controllers
                             foreach (ProduitPanier itemProduit in produitPaniers)
                             {
                                 CommandeProduit commandeProduit = new CommandeProduit();
-                                commandeProduit.IdProduit = itemPanier.GetIdProduit();
-                                commandeProduit.Prix = itemPanier.Prix;
-                                commandeProduit.Quantite = itemPanier.Quantite;
+                                commandeProduit.IdProduit = itemProduit.GetIdProduit();
+                                commandeProduit.Prix = itemProduit.Prix;
+                                commandeProduit.Quantite = itemProduit.Quantite;
                                 commandeProduit.Menus.Add(menu);
                                 commande.CommandeProduits.Add(commandeProduit);
                             }
