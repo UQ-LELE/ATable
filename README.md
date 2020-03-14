@@ -10,7 +10,7 @@ Framework d'interface : Materialize;
 ORM : Entity Framework;
 Base de données : SQL Server
 
-Exemples fonctionnalités interessantes :
+Exemples de fonctionnalités interessantes :
 - barre de recherche dynamique
 - ajout et suppression des produits à son panier via Ajax/Web Service
 - envoie d'une commande
