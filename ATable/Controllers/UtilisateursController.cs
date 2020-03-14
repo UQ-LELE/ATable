@@ -102,6 +102,27 @@ namespace ATable.Controllers
             return RedirectToAction("Index", "Restaurants");
         }
 
+        public ActionResult ClicEat(int id)
+        {
+            Utilisateur utilisateur = new Utilisateur();
+
+            if (Session["Utilisateur"] != null)
+            {
+                utilisateur = db.Utilisateurs.Find(id);
+                Session["Utilisateur"] = utilisateur;
+
+                if (utilisateur == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var commandesClicEat = db.Commandes.Where(c => c.IdUtilisateur == utilisateur.IdUtilisateur).Where(c => c.ClicEat == true);
+                return View(commandesClicEat.ToList());
+
+            }
+            return RedirectToAction("Index", "Restaurants");
+        }
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing) db.Dispose();

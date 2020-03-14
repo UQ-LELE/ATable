@@ -394,8 +394,8 @@
     <Content Include="Views\Utilisateurs\MonCompte.cshtml" />
     <Content Include="Views\Shared\_Connexion.cshtml" />
     <Content Include="Views\Restaurants\_Menu.cshtml" />
-    <Content Include="Views\Utilisateurs\Edit.cshtml" />
     <Content Include="Views\Commandes\_Details.cshtml" />
+    <Content Include="Views\Utilisateurs\ClicEat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

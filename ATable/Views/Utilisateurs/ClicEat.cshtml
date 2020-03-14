@@ -1,0 +1,117 @@
+﻿@model IEnumerable<ATable.Models.Commande>
+
+
+@{
+    ViewBag.Title = "ClicEat";
+
+    int countMenu = 0;
+}
+
+
+
+<div class="container body-content center-align">
+    <h2 class="courgette">Mes commandes Clic'Eat !</h2>
+    <div class="divider"></div>
+    <div class="row">
+        @foreach (var commande in Model)
+        {
+            <div id="@commande.IdCommande" class="col s12 m6 offset-m3 ">
+                <div class="card z-depth-1 hoverable">
+                    <h5 class="center-align pt-1 courgette">
+                        @commande.Restaurant.Nom <a class=" right waves-effect waves-light btn-floating btn-large red tooltipped" onclick="AddClicEatPanier(@commande.IdCommande)" data-position="bottom" data-tooltip="Ajouter au panier !"><i class="material-icons">add</i></a>
+                    </h5>
+                    <div class="divider"></div>
+                    <table class="bordered">
+                        <tbody>
+                            @foreach (var commandeProduit in commande.CommandeProduits)
+                            {
+                                if (commandeProduit.Menus.Count > 0)
+                                {
+                                    if (countMenu % 3 == 0)
+                                    {
+                                        <tr>
+                                            <td class="hide-on-small-and-down">
+                                                <img src="~/Images/plats/default_image(p).png" style="height:75px;" />
+                                            </td>
+                                            <td>@commandeProduit.Menus.FirstOrDefault().Nom</td>
+                                            <td>x @commandeProduit.Quantite</td>
+                                            <td>@commandeProduit.Menus.FirstOrDefault().Prix €</td>
+                                        </tr>
+                                    }
+                                    countMenu++;
+
+                                }
+                                else if (commandeProduit.Menus.Count == 0)
+                                {
+                                    <tr>
+                                        <td class="hide-on-small-and-down">
+                                            <img src="~/Images/plats/@commandeProduit.Produit.Photos.FirstOrDefault().Nom" style="height:75px;" />
+                                        </td>
+                                        <td>@commandeProduit.Produit.Nom</td>
+                                        <td>x @commandeProduit.Quantite</td>
+                                        <td>@commandeProduit.Prix €</td>
+                                    </tr>
+                                }
+                            }
+                            <tr>
+                                <td class="hide-on-small-and-down"></td>
+                                <td>Total :</td>
+                                <td>@commande.Prix €</td>
+                                <td><button class="btn" onclick="removeClicEat(@commande.IdCommande)">Supprimer</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+        function detailCommande(idCommande) {
+            $('#modalDetail').openModal();
+            $('#contentDetail').load('/Commandes/Details/' + idCommande);
+        }
+
+        function AddClicEatPanier(idCommande) {
+             let data = { 'id': idCommande };
+            $.ajax({
+                url: '@Url.Action("AddClicEatPanier", "WebService")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                DataType: 'json',
+                success: function (data) {
+                   Materialize.toast("Commande ajoutée au panier !", 5000);
+                   $('.total').html(data.total);
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        };
+
+        function removeClicEat(idCommande) {
+             let data = { 'id': idCommande };
+            $.ajax({
+                url: '@Url.Action("RemoveClicEat", "WebService")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                DataType: 'json',
+                success: function (data) {
+                    Materialize.toast("Commande supprimée des Clic'Eat !", 5000);
+                    $('#' + idCommande).empty();
+
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        };
+
+    </script>
+}
