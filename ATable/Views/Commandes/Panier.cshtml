@@ -20,6 +20,9 @@
 
             @if (Model != null && Model.Count() > 0)
             {
+                <a class="waves-effect waves-light btn-large col s12 m6 offset-m3" href="@Url.Action("Carte","Restaurants", new { id = Model.FirstOrDefault().IdRestaurant})">
+                    <i class="fas fa-arrow-left fa-lg"></i>&nbsp;&nbsp;Retour à ma commande&nbsp;&nbsp;
+                </a>
                 <table class="table table-panier">
 
                     @foreach (ATable.Models.ItemPanier item in Model)
@@ -30,11 +33,11 @@
                                 <img src="~/Images/plats/@item.Photo" style="max-width:140px;" />
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Nom)
+                                @Html.DisplayFor(modelItem => item.Nom)&nbsp;
                             </td>
 
                             <td class="hide-on-small-and-down">
-                                @Html.DisplayFor(modelItem => item.Description)
+                                @Html.DisplayFor(modelItem => item.Description)&nbsp;
                             </td>
                             <td>
                                 @(item.Prix * item.Quantite)&nbsp;€
@@ -52,13 +55,13 @@
 
                     }
                     <tr class="card-panel">
-                        <td class="hide-on-small-and-down"></td>
-                        <td class="hide-on-small-and-down"></td>
+                        <td class="hide-on-small-and-down">&nbsp;</td>
+                        <td class="hide-on-small-and-down">&nbsp;</td>
                         <td class="right"><h5><strong>TOTAL :</strong></h5></td>
                         <td><h5><span class="total"></span>&nbsp;€</h5></td>
-                        <td class="hide-on-small-and-down"></td>
-                        <td class="hide-on-small-and-down"></td>
-                        <td class="hide-on-small-and-down"></td>
+                        <td class="hide-on-small-and-down">&nbsp;</td>
+                        <td class="hide-on-small-and-down">&nbsp;</td>
+                        <td class="hide-on-small-and-down">&nbsp;</td>
                     </tr>
 
                 </table>

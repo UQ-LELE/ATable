@@ -41,6 +41,7 @@ namespace ATable.Models
                 {
                     //on vérifie si le produit ajouté est déjà présent dans le panier
                     isSameItem = this.FirstOrDefault(p => p.GetIdProduit() == idProduit);
+                    sameValidation = 3;
                 }
                 else if (itemToAdd is MenuPanier && idMenu > 0) //Si l'item est un menu
                 {
@@ -98,7 +99,6 @@ namespace ATable.Models
             else if (idMenu != null && idMenu > 0)
             {
                 itemPanier = this.FirstOrDefault(p => p.GetIdMenu() == idMenu);
-
             }
 
             if (itemPanier != null)

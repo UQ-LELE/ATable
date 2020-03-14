@@ -388,11 +388,6 @@
     <Content Include="Views\Restaurants\Carte.cshtml" />
     <Content Include="Views\Restaurants\Index.cshtml" />
     <Content Include="Views\Restaurants\ParSpecialite.cshtml" />
-    <Content Include="Views\Commandes\Create.cshtml" />
-    <Content Include="Views\Commandes\Delete.cshtml" />
-    <Content Include="Views\Commandes\Details.cshtml" />
-    <Content Include="Views\Commandes\Edit.cshtml" />
-    <Content Include="Views\Commandes\Index.cshtml" />
     <Content Include="Views\Commandes\Panier.cshtml" />
     <Content Include="Views\Shared\_NavbarOn.cshtml" />
     <Content Include="Views\Shared\_NavbarOff.cshtml" />
