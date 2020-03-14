@@ -1,14 +1,14 @@
 # ATable
 Project : 
 
-A'Table est une Web Application effectué dans le cadre d'un formation.
+A'Table est une Web Application effectué dans le cadre d'une formation.
 L'objectif est de proposer aux stagiaires d'un Centre de formation une application pour qu'ils puissent commander des repas parmis des restaurateurs prochent du lieu de formation. Chaque stagiaire dispose d'un solde alimenté par les administrateurs (backoffice comptable du Centre). Les restaurants, produits et menus sont ajoutés par les restaurateurs (backoffice restaurateur).
 
 Langage : C#, JavaScript, JQuery, HTML5, CSS3;
 Framework de programmation : ASP.Net MVC
 Framework d'interface : Materialize;
 ORM : Entity Framework;
-Base de donnée : SQL Server
+Base de données : SQL Server
 
 Exemples fonctionnalités interessantes :
 - barre de recherche dynamique
