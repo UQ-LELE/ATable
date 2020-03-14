@@ -239,7 +239,7 @@ namespace ATable.Controllers
             PanierModel panierModel = null;
 
             //à faire : gérer les messages associés au déroulé de l'action (succes, solde insufisant, panier vide...)
-            string message = "Une erreur est survenue dans votre commande";
+            string statementReturn = "errorProcess";
 
             SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(idSession);
 
@@ -262,10 +262,13 @@ namespace ATable.Controllers
 
 
                 //on vérifie si le montant est inférieur au solde avant d'enregistrer la commande
-                if (prixTotal <= utilisateur.Solde)
+                if (prixTotal > utilisateur.Solde)
                 {
-                    //on créé la commande
-                    Commande commande = new Commande();
+                    statementReturn = "soldeError";
+                    return Json(statementReturn, JsonRequestBehavior.AllowGet); 
+                }
+                //on créé la commande
+                Commande commande = new Commande();
                     commande.IdUtilisateur = utilisateur.IdUtilisateur;
                     commande.IdRestaurant = panierModel.IdRestaurant;
                     commande.Date = DateTime.Now;
@@ -320,12 +323,13 @@ namespace ATable.Controllers
                     //le panier est vidé
                     panierModel.Clear();
 
-                    message = "Votre commande a bien été enregistré !";
-                }
+                statementReturn = "commmandeOk";
+                
             }
-            return Json(message, JsonRequestBehavior.AllowGet);
+            return Json(statementReturn, JsonRequestBehavior.AllowGet);
         }
 
+        //vider le Panier
         public JsonResult ClearPanier(string idSession)
         {
             //gérer message
@@ -346,6 +350,7 @@ namespace ATable.Controllers
 
         }
 
+        //ajout une commande aux Clic Eat
         public JsonResult AddClicEat(int id)
         {
 
@@ -358,6 +363,7 @@ namespace ATable.Controllers
 
         }
 
+        //supprimer une commande des Clic Eat
         public JsonResult RemoveClicEat(int id)
         {
             Commande commandeToAdd = db.Commandes.Find(id);
@@ -369,37 +375,99 @@ namespace ATable.Controllers
             return Json(message, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult AddClicEatPanier(int idCommande, int idSession)
+        //ajout d'une commande Clic Eat au panier
+        public JsonResult AddClicEatPanier(int idCommande, string idSession)
         {
             PanierHtml panierHtml = new PanierHtml();
 
             panierHtml.hmtl = "";
             panierHtml.total = 0;
+            string message = "Une erreur est survenue !";
 
+            //récupération de la session de l'utilisateur
             SessionUtilisateur sessionUtilisateur = db.SessionUtilisateurs.Find(idSession);
 
             //récupération du panier || création d'un panier
             PanierModel panierModel = (PanierModel)HttpContext.Application[idSession] ?? new PanierModel();
 
+
             if (sessionUtilisateur != null && idCommande > 0)
             {
+                //on récupère la commande en bdd
                 Commande ClicEat = db.Commandes.Find(idCommande);
 
-                if(ClicEat != null)
-                {
-                    foreach(CommandeProduit commandeProduit in ClicEat)
-                    {
-                        if(commandeProduit.Menus.Count > 0)
-                        {
-                            List<int> produit = new List<int>();
-                        }
+                //si la commande n'existe pas, stopper la méthode
+                if (ClicEat == null){return Json(new { toast = message }, JsonRequestBehavior.AllowGet);}
 
-                    }
+                //si l'idRestaurant de la commande ne correspond pas aux produits du panier, stopper la méthode
+                if (panierModel.IdRestaurant > 0 && panierModel.IdRestaurant != ClicEat.IdRestaurant)
+                {
+                    message = "Votre panier contient des produits d'un autre restaurant !";
+                    return Json(new { toast = message }, JsonRequestBehavior.AllowGet);
                 }
+
+                //on instancie un MenuPanier vide pour les menus
+                MenuPanier menuPanier = new MenuPanier();
+
+                foreach (CommandeProduit commandeProduit in ClicEat.CommandeProduits)
+                {
+                    //si ma commande est un menu
+                    if (commandeProduit.Menus.Count > 0)
+                    {
+                        //on récupère le produit
+                        ProduitPanier produitPanier = FindProduit(commandeProduit.IdProduit);
+
+                        //on ajoute le produit au menu
+                        if (produitPanier != null) menuPanier.produits.Add(produitPanier);
+
+                        //une fois le menu complet (3 produits), j'ajoute l'ajoute au panier
+                        if (menuPanier.produits.Count == 3)
+                        {
+                            menuPanier.IdMenu = commandeProduit.Menus.FirstOrDefault().IdMenu;
+                            menuPanier.Nom = commandeProduit.Menus.FirstOrDefault().Nom;
+                            menuPanier.Prix = commandeProduit.Menus.FirstOrDefault().Prix;
+                            menuPanier.Quantite = commandeProduit.Quantite;
+                            menuPanier.IdRestaurant = commandeProduit.Menus.FirstOrDefault().IdRestaurant;
+                            panierModel.IdRestaurant = menuPanier.IdRestaurant;
+                            panierModel.AddItem(menuPanier);
+
+                            //on réinitialise le MenuPanier au cas où il y a d'autres menus dans la commande
+                            menuPanier = new MenuPanier();
+                        }
+                    }
+                    else if (commandeProduit.Menus.Count == 0)
+                    {
+                        ProduitPanier produitPanier = FindProduit(commandeProduit.IdProduit);
+                        produitPanier.Quantite = commandeProduit.Quantite;
+
+
+                        if (produitPanier != null)
+                        {
+                            //si le panier est vide
+                            if (panierModel.IdRestaurant == 0)
+                            {
+                                panierModel.IdRestaurant = produitPanier.IdRestaurant;
+                                panierModel.AddItem(produitPanier);
+                            }
+                            //si le panier n'est pas vide
+                            else if (panierModel.IdRestaurant == produitPanier.IdRestaurant)
+                            {
+                                panierModel.AddItem(produitPanier);
+                            }
+                        }
+                    }
+                    message = "Commande ajoutée au panier !";
+                }
+
             }
 
+            //enregistrement du panier
+            HttpContext.Application[idSession] = panierModel;
 
-            return Json(new { panier = panierHtml.hmtl, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
+            //creation html du panier, necessaire pour prix total sur navbar
+            panierHtml = ShowPanier(panierModel);
+
+            return Json(new { toast = message, total = string.Format("{0:0.00}", panierHtml.total) }, JsonRequestBehavior.AllowGet);
         }
     }
 }

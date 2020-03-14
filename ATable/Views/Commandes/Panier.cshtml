@@ -21,7 +21,7 @@
             @if (Model != null && Model.Count() > 0)
             {
                 <a class="waves-effect waves-light btn-large col s12 m6 offset-m3" href="@Url.Action("Carte","Restaurants", new { id = Model.FirstOrDefault().IdRestaurant})">
-                    <i class="fas fa-arrow-left fa-lg"></i>&nbsp;&nbsp;Retour à ma commande&nbsp;&nbsp;
+                    <i class="fas fa-arrow-left fa-lg"></i>&nbsp;&nbsp;Retour à la carte&nbsp;&nbsp;
                 </a>
                 <table class="table table-panier">
 
@@ -65,9 +65,15 @@
                     </tr>
 
                 </table>
-                <a class="waves-effect waves-light btn-large col s12 m6 offset-m3" id="payer">
-                    <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
-                </a>
+                <div class="row">
+                        <a class=" customred waves-effect waves-light btn-large" onclick="openModal()" id="vider">
+                            <i class="far fa-trash-alt fa-lg"></i>&nbsp;&nbsp;Vider mon panier&nbsp;&nbsp;
+                        </a>
+                        <a class=" waves-effect waves-light btn-large" id="payer">
+                            <i class="fas fa-check fa-lg"></i>&nbsp;&nbsp;Payer&nbsp;&nbsp;
+                        </a>
+                </div>
+
             }
         </div>
     </div>
@@ -84,6 +90,19 @@
             {
                 <a href="@Url.Action("MonCompte","Utilisateurs", new {id = utilisateur.IdUtilisateur })" class="modal-close waves-effect waves-green btn">Voir ma commande</a>
             }
+        </div>
+    </div>
+</div>
+
+<!-- Modal vider panier -->
+
+<div id="modalRemovePanier" class="modal">
+    <div class="modal-content center-align">
+        <h4>Vider votre panier ?</h4>
+        <div class="divider"></div>
+        <div class="modal-footer">
+            <button class="modal-close btn-flat left"><i class="fas fa-arrow-left fa-lg"></i>&nbsp;&nbsp;Continuer ma commande&nbsp;&nbsp;</button>
+            <button class="modal-close customred waves-effect waves-light btn-large right" onclick="clearPanier()"><i class="far fa-trash-alt fa-lg"></i>&nbsp;&nbsp;Vider mon panier&nbsp;&nbsp;</button>
         </div>
     </div>
 </div>
@@ -111,12 +130,16 @@
                     data: JSON.stringify(data),
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
-                    success: function (data) {
-                        $('#modalValidation').openModal({ dismissible: false });
-                        console.log('succes function saveCommandeWS')
+                    success: function (statementReturn) {
+                        if (statementReturn = "soldeError") {
+                            Materialize.toast("Votre solde est insuffisant !", 5000);
+                        } else if (statementReturn = "commmandeOk") {
+                            $('#modalValidation').openModal({ dismissible: false });
+                        } else if (statementReturn = "errorProcess") {
+                            Materialize.toast("Une erreur est survenue !", 5000);
+                        }
                     },
                     error: function () {
-                        //show message error
                         alert('Error');
                     }
             });
@@ -169,12 +192,37 @@
                          $('.total').html(data.total);
                         if ($('.total').html() == "0,00") {
                             $('a#payer').remove('a#payer');
+                            $('a#vider').remove('a#vider');
+
                         }
                     },
                     error: function () {
                         alert('Error');
                     }
                 });
-            });
+        });
+
+        function openModal() {
+            $('#modalRemovePanier').openModal();
+        }
+
+        function clearPanier() {
+                let data = {'idSession': '@Session.SessionID' };
+
+                $.ajax({
+                    url: '@Url.Action("ClearPanier", "WebService")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=utf-8',
+                    DataType: 'json',
+                    success: function (data) {
+                        $('a#payer').remove('a#payer');
+                        $('a#vider').remove('a#vider');
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+        };
     </script>
 }

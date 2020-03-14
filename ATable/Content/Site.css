@@ -105,7 +105,7 @@ main {
 
 /*Colorisation*/
 
-nav, .user-view  {
+nav, .user-view, .customred {
     background-color: #FF7C7C;
 }
 
@@ -113,7 +113,7 @@ nav, .user-view  {
     background-color: #2ECCC1;
 }
 
-.card, .card-panel, .tabs .tab a, .categorie-collapsible, .modal {
+.card, .card-panel, .tabs .tab a, .categorie-collapsible, .modal, .modal.modal-footer {
     background-color: #FFFAF7;
 }
 /*.menu .side-nav a, .menu .side-nav.fixed a*/

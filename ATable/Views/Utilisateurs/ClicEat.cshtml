@@ -10,15 +10,15 @@
 
 
 <div class="container body-content center-align">
-    <h2 class="courgette">Mes commandes Clic'Eat !</h2>
+    <h2 class="courgette"><span class="hide-on-med-and-down">Mes commandes</span> Clic'Eat !</h2>
     <div class="divider"></div>
     <div class="row">
         @foreach (var commande in Model)
         {
-            <div id="@commande.IdCommande" class="col s12 m6 offset-m3 ">
+            <div id="@commande.IdCommande" class="col s12 m10 offset-m1 ">
                 <div class="card z-depth-1 hoverable">
                     <h5 class="center-align pt-1 courgette">
-                        @commande.Restaurant.Nom <a class=" right waves-effect waves-light btn-floating btn-large red tooltipped" onclick="AddClicEatPanier(@commande.IdCommande)" data-position="bottom" data-tooltip="Ajouter au panier !"><i class="material-icons">add</i></a>
+                        <a href="@Url.Action("Carte", "Restaurants", new { id= commande.IdRestaurant}))">@commande.Restaurant.Nom </a> <a class=" right waves-effect waves-light btn-floating btn-large red tooltipped" onclick="AddClicEatPanier(@commande.IdCommande)" data-position="bottom" data-tooltip="Ajouter au panier !"><i class="material-icons">add</i></a>
                     </h5>
                     <div class="divider"></div>
                     <table class="bordered">
@@ -29,36 +29,37 @@
                                 {
                                     if (countMenu % 3 == 0)
                                     {
-                                        <tr>
-                                            <td class="hide-on-small-and-down">
-                                                <img src="~/Images/plats/default_image(p).png" style="height:75px;" />
-                                            </td>
-                                            <td>@commandeProduit.Menus.FirstOrDefault().Nom</td>
-                                            <td>x @commandeProduit.Quantite</td>
-                                            <td>@commandeProduit.Menus.FirstOrDefault().Prix €</td>
-                                        </tr>
+                            <tr>
+                                <td class="hide-on-small-and-down">
+                                    <img src="~/Images/plats/default_image(p).png" style="height:75px;" />
+                                </td>
+                                <td>@commandeProduit.Quantite x</td>
+                                <td>@commandeProduit.Menus.FirstOrDefault().Nom</td>
+                                <td>@commandeProduit.Menus.FirstOrDefault().Prix €</td>
+                            </tr>
                                     }
                                     countMenu++;
 
                                 }
                                 else if (commandeProduit.Menus.Count == 0)
                                 {
-                                    <tr>
-                                        <td class="hide-on-small-and-down">
-                                            <img src="~/Images/plats/@commandeProduit.Produit.Photos.FirstOrDefault().Nom" style="height:75px;" />
-                                        </td>
-                                        <td>@commandeProduit.Produit.Nom</td>
-                                        <td>x @commandeProduit.Quantite</td>
-                                        <td>@commandeProduit.Prix €</td>
-                                    </tr>
+                        <tr>
+                            <td class="hide-on-small-and-down">
+                                <img src="~/Images/plats/@commandeProduit.Produit.Photos.FirstOrDefault().Nom" style="height:75px;" />
+                            </td>
+                            <td>@commandeProduit.Quantite x</td>
+                            <td>@commandeProduit.Produit.Nom</td>
+                            <td>@commandeProduit.Prix €</td>
+                        </tr>
                                 }
                             }
-                            <tr>
-                                <td class="hide-on-small-and-down"></td>
-                                <td>Total :</td>
-                                <td>@commande.Prix €</td>
-                                <td><button class="btn" onclick="removeClicEat(@commande.IdCommande)">Supprimer</button></td>
-                            </tr>
+                        <tr>
+                            <td class="hide-on-small-and-down"></td>
+                            <td class="hide-on-small-and-down"><button class="btn" onclick="removeClicEat(@commande.IdCommande)">Supprimer</button></td>
+                            <td class="hide-on-med-and-up"><a class="btn-floating teal" onclick="removeClicEat(@commande.IdCommande)"><i class="material-icons">remove</i></a></td>
+                            <td>Total :</td>
+                            <td>@commande.Prix €</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -77,7 +78,7 @@
         }
 
         function AddClicEatPanier(idCommande) {
-             let data = { 'id': idCommande };
+             let data = { 'idCommande': idCommande, 'idSession': '@Session.SessionID' };
             $.ajax({
                 url: '@Url.Action("AddClicEatPanier", "WebService")',
                 type: 'POST',
@@ -85,7 +86,7 @@
                 contentType: 'application/json; charset=utf-8',
                 DataType: 'json',
                 success: function (data) {
-                   Materialize.toast("Commande ajoutée au panier !", 5000);
+                   Materialize.toast(data.toast, 5000);
                    $('.total').html(data.total);
                 },
                 error: function () {

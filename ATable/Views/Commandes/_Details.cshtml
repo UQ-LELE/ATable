@@ -25,11 +25,11 @@
             {
                 <div class='col s12 m4 l3'>
                     <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
-                        <img src='~/Images/plats/default_image(p).png' class='responsive-img' style="height: 125px;" />
+                        <img src='~/Images/plats/default_image(p).png' class='responsive-img' style="height: 100px;" />
                         <div class="divider"></div>
                         <p><strong>@commandeProduit.Menus.FirstOrDefault().Nom</strong></p>
                         <div class="divider"></div>
-                        <p>@commandeProduit.Menus.FirstOrDefault().Prix</p>
+                        <p>@commandeProduit.Menus.FirstOrDefault().Prix €</p>
                     </div>
                 </div>
             }
@@ -40,7 +40,7 @@
         {
             <div class='col s12 m4 l3'>
                 <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
-                    <img src='~/Images/plats/@commandeProduit.Produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
+                    <img src='~/Images/plats/@commandeProduit.Produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 100px;" />
                     <div class="divider"></div>
                     <p><strong>@commandeProduit.Quantite x @commandeProduit.Produit.Nom</strong></p>
                     <div class="divider"></div>
