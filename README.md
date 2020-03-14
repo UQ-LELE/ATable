@@ -8,6 +8,7 @@ Langage : C#, JavaScript, JQuery, HTML5, CSS3;
 Framework de programmation : ASP.Net MVC
 Framework d'interface : Materialize;
 ORM : Entity Framework;
+Base de donnée : SQL Server
 
 Exemples fonctionnalités interessantes :
 - barre de recherche dynamique
