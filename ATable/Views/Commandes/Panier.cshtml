@@ -131,11 +131,11 @@
                     contentType: 'application/json; charset=utf-8',
                     DataType: 'json',
                     success: function (statementReturn) {
-                        if (statementReturn = "soldeError") {
+                        if (statementReturn == "soldeError") {
                             Materialize.toast("Votre solde est insuffisant !", 5000);
-                        } else if (statementReturn = "commmandeOk") {
+                        } else if (statementReturn == "commmandeOk") {
                             $('#modalValidation').openModal({ dismissible: false });
-                        } else if (statementReturn = "errorProcess") {
+                        } else if (statementReturn == "errorProcess") {
                             Materialize.toast("Une erreur est survenue !", 5000);
                         }
                     },

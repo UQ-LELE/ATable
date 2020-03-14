@@ -274,6 +274,7 @@ namespace ATable.Controllers
                     commande.Date = DateTime.Now;
                     commande.Prix = prixTotal;
                     commande.IdEtatCommande = 1;
+                    commande.ClicEat = false;
 
                     utilisateur.Solde -= prixTotal;
 
