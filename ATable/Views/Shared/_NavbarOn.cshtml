@@ -4,7 +4,7 @@
 <!--Dropdown user-->
     <ul id='dropdown-user' class='dropdown-content'>
         <li><a href="@Url.Action("MonCompte","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="far fa-user-circle fa-lg"></i>&nbsp;&nbsp;Compte</a></li>
-        <li><a href="#"><i class="fas fa-utensils"></i>&nbsp;&nbsp;Clic'Eat !</a></li>
+        <li><a href="@Url.Action("ClicEat","Utilisateurs", new { id = utilisateur.IdUtilisateur})"><i class="fas fa-utensils"></i>&nbsp;&nbsp;Clic'Eat !</a></li>
         <li class="divider"></li>
         <li><a href="@Url.Action("Deconnexion","Utilisateurs", new {id = utilisateur.IdUtilisateur })"><i class="fas fa-power-off"></i>&nbsp;&nbsp;Sign Out</a></li>
     </ul>

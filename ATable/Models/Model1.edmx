@@ -23,6 +23,7 @@
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Prix" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="IdEtatCommande" Type="int" Nullable="false" />
+          <Property Name="ClicEat" Type="bit" />
         </EntityType>
         <EntityType Name="CommandeProduit">
           <Key>
@@ -571,6 +572,7 @@
           <NavigationProperty Name="Restaurant" Relationship="Self.FK_Commande_Restaurant" FromRole="Commande" ToRole="Restaurant" />
           <NavigationProperty Name="Utilisateur" Relationship="Self.FK_Commande_Utilisateur" FromRole="Commande" ToRole="Utilisateur" />
           <NavigationProperty Name="CommandeProduits" Relationship="Self.FK_CommandeProduit_Commande" FromRole="Commande" ToRole="CommandeProduit" />
+          <Property Name="ClicEat" Type="Boolean" />
         </EntityType>
         <EntityType Name="CommandeProduit">
           <Key>
@@ -970,6 +972,7 @@
           <EntitySetMapping Name="Commandes">
             <EntityTypeMapping TypeName="AfpEatModel.Commande">
               <MappingFragment StoreEntitySet="Commande">
+                <ScalarProperty Name="ClicEat" ColumnName="ClicEat" />
                 <ScalarProperty Name="IdCommande" ColumnName="IdCommande" />
                 <ScalarProperty Name="IdUtilisateur" ColumnName="IdUtilisateur" />
                 <ScalarProperty Name="IdRestaurant" ColumnName="IdRestaurant" />

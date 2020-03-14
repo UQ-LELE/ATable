@@ -2,35 +2,52 @@
 
 @{
     ViewBag.Title = "Details";
+
+    List<ATable.Models.Menu> menus = new List<ATable.Models.Menu>();
+
+    List<ATable.Models.Produit> produits = new List<ATable.Models.Produit>();
+
+    int countMenu = 0;
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Commande</h4>
-    <hr />
-    <table>
-        <tbody>
-
-            @foreach(var commandeProduit in Model)
-            {
-                if(commandeProduit.Menus.Count > 0)
-                {  
-                    <tr>
-                        <td>@commandeProduit.Menus.FirstOrDefault().Nom</td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                    </tr>
-
-
-                }
-
-            }
-
-        </tbody>
-    </table>
+<div class="center-align">
+    <h4>Commande du @(String.Format("{0:dd/MM/yyyy}", @Model.FirstOrDefault().Commande.Date)) </h4>
+    <h5>Total : @Model.FirstOrDefault().Commande.Prix €</h5>
 </div>
+<div class="divider"></div>
+<div class='row'>
+    @foreach (var commandeProduit in Model)
+    {
 
+        if (commandeProduit.Menus.Count > 0)
+        {
+            if (countMenu % 3 == 0)
+            {
+                <div class='col s12 m4 l3'>
+                    <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
+                        <img src='~/Images/plats/default_image(p).png' class='responsive-img' style="height: 125px;" />
+                        <div class="divider"></div>
+                        <p><strong>@commandeProduit.Menus.FirstOrDefault().Nom</strong></p>
+                        <div class="divider"></div>
+                        <p>@commandeProduit.Menus.FirstOrDefault().Prix</p>
+                    </div>
+                </div>
+            }
+            countMenu++;
 
+        }
+        else if (commandeProduit.Menus.Count == 0)
+        {
+            <div class='col s12 m4 l3'>
+                <div class='card-panel hoverable p-1 center-align' style="height: 235px;">
+                    <img src='~/Images/plats/@commandeProduit.Produit.Photos.FirstOrDefault().Nom' class='responsive-img' style="height: 125px;" />
+                    <div class="divider"></div>
+                    <p><strong>@commandeProduit.Quantite x @commandeProduit.Produit.Nom</strong></p>
+                    <div class="divider"></div>
+                    <p>@commandeProduit.Prix €/unité</p>
+                </div>
+            </div>
+
+        }
+    }
+</div>

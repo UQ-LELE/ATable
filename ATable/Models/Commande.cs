@@ -26,6 +26,7 @@ namespace ATable.Models
         public System.DateTime Date { get; set; }
         public decimal Prix { get; set; }
         public int IdEtatCommande { get; set; }
+        public Nullable<bool> ClicEat { get; set; }
     
         public virtual EtatCommande EtatCommande { get; set; }
         public virtual Restaurant Restaurant { get; set; }

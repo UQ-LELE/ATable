@@ -26,25 +26,44 @@ namespace ATable.Models
 
         }
 
-        public bool AddItem(ItemPanier item)
+        public bool AddItem(ItemPanier itemToAdd)
         {
-            int idProduit = item.GetIdProduit();
-            int idMenu = item.GetIdMenu();
+            int idProduit = itemToAdd.GetIdProduit();
+            int idMenu = itemToAdd.GetIdMenu();
             bool isReturnOk = true;
-            ItemPanier itemPanier = null;
+            ItemPanier isSameItem = null;
 
-            if (item != null)
+            if (itemToAdd != null)
             {
+                int sameValidation = 0;
                 //Si l'item est un produit simple
-                if ((item is ProduitPanier || item is ProduitComposePanier) && idProduit > 0)
+                if ((itemToAdd is ProduitPanier || itemToAdd is ProduitComposePanier) && idProduit > 0)
                 {
                     //on vérifie si le produit ajouté est déjà présent dans le panier
-                    itemPanier = this.FirstOrDefault(p => p.GetIdProduit() == idProduit);
+                    isSameItem = this.FirstOrDefault(p => p.GetIdProduit() == idProduit);
+                    sameValidation = 3;
                 }
-                else if (item is MenuPanier && idMenu > 0) //Si l'item est un menu
+                else if (itemToAdd is MenuPanier && idMenu > 0) //Si l'item est un menu
                 {
                     //on vérifie si le produit ajouté est déjà présent dans le panier
-                    itemPanier = this.FirstOrDefault(p => p.GetIdMenu() == idMenu);
+                    isSameItem = this.FirstOrDefault(p => p.GetIdMenu() == idMenu);
+
+                    if(isSameItem != null)
+                    {
+                        MenuPanier menuSame = (MenuPanier)isSameItem;
+                        MenuPanier menuToAdd = (MenuPanier)itemToAdd;
+                        foreach (ProduitPanier itemSame in menuSame.produits)
+                        {
+                           foreach(ProduitPanier itemMenu in menuToAdd.produits)
+                            {
+                                if (itemSame.IdProduit == itemMenu.IdProduit)
+                                {
+                                    sameValidation += 1;
+                                }
+                            }
+                        }
+                    }
+
                 }
                 else //si l'item n'est ni un produit ni un menu
                 {
@@ -52,13 +71,13 @@ namespace ATable.Models
                 }
 
                 //si le menu ou le produit n'est pas null, cela signifie qu'il est déjà présent dans le paniermodel et donc Qte++
-                if (itemPanier != null && isReturnOk == true)
+                if (isSameItem != null && isReturnOk == true && sameValidation == 3)
                 {
-                    itemPanier.Quantite++;
+                    isSameItem.Quantite++;
                 }
                 else
                 {
-                    this.Add(item);
+                    this.Add(itemToAdd);
                 }
             }
             else //gérer l'erreur si l'item est null
@@ -80,7 +99,6 @@ namespace ATable.Models
             else if (idMenu != null && idMenu > 0)
             {
                 itemPanier = this.FirstOrDefault(p => p.GetIdMenu() == idMenu);
-
             }
 
             if (itemPanier != null)

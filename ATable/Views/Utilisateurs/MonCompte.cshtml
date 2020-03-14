@@ -37,33 +37,44 @@
                             <td>Total</td>
                             <td class="center-align">Etat</td>
                             <td></td>
+                            <td></td>
                         </tr>
 
                         @foreach (var item in Model)
                         {
-                            <tr class="card-panel hoverable" onclick="detailCommande(@item.IdCommande);">
-                                <td class="hide-on-small-and-down">
-                                    <img src="~/Images/restaurants/@item.Restaurant.Photos.FirstOrDefault().Nom" style="max-width:140px;" />
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Restaurant.Nom)
-                                </td>
+                    <tr class="card-panel hoverable">
+                        <td class="hide-on-small-and-down">
+                            <img src="~/Images/restaurants/@item.Restaurant.Photos.FirstOrDefault().Nom" style="max-width:140px;" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Restaurant.Nom)
+                        </td>
 
-                                <td class="hide-on-small-and-down">
-                                    @(String.Format("{0:dd/MM/yyyy}", item.Date))
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Prix)&nbsp;€
-                                </td>
-                                <td class="center-align">
-                                    @Html.DisplayFor(modelItem => item.EtatCommande.Nom)
-                                </td>
-                                <td class="center-align">
-                                    <a class="waves-effect waves-light btn-floating red tooltipped" data-position="bottom" data-tooltip="Ajouter aux Clic'Eat !"><i class="fas fa-utensils"></i></a>
-
-                                    
-                                </td>
-                            </tr>
+                        <td class="hide-on-small-and-down">
+                            @(String.Format("{0:dd/MM/yyyy}", item.Date))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prix)&nbsp;€
+                        </td>
+                        <td class="center-align">
+                            @Html.DisplayFor(modelItem => item.EtatCommande.Nom)
+                        </td>
+                        <td class="center-align">
+                            <a href="#" onclick="detailCommande(@item.IdCommande);">Voir le détail</a>
+                        </td>
+                        <td  class="center-align">
+                            @if (item.ClicEat == false)
+                            {
+                            <div id="@item.IdCommande">
+                                <a class="waves-effect waves-light btn-floating red tooltipped scale-transition addClicEat" onclick="addClicEat(@item.IdCommande)" data-position="bottom" data-tooltip="Ajouter aux Clic'Eat !"><i class="fas fa-utensils"></i></a>
+                            </div>
+                            }
+                            else
+                            {
+                                @:&nbsp;
+                            }
+                        </td>
+                    </tr>
 
                         }
                     </table>
@@ -73,45 +84,45 @@
                     {
                         @Html.AntiForgeryToken()
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            <div class="row mt-2">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">
-                                        lock_outline
-                                    </i>
-                                    @Html.Password("oldPassword")
-                                    @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
-                                    <label for="password">Mot de Passe</label>
-                                </div>
+                        <div class="row mt-2">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">
+                                    lock_outline
+                                </i>
+                                @Html.Password("oldPassword")
+                                @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
+                                <label for="password">Mot de Passe</label>
                             </div>
+                        </div>
 
 
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">
-                                        lock_outline
-                                    </i>
-                                    @Html.Password("newPassword")
-                                    @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
-                                    <label for="password">Nouveau Mot de Passe</label>
-                                </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">
+                                    lock_outline
+                                </i>
+                                @Html.Password("newPassword")
+                                @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
+                                <label for="password">Nouveau Mot de Passe</label>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">
-                                        lock_outline
-                                    </i>
-                                    @Html.Password("confirmPassword")
-                                    @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
-                                    <label for="password">Confirmez votre nouveau Mot de Passe</label>
-                                </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">
+                                    lock_outline
+                                </i>
+                                @Html.Password("confirmPassword")
+                                @Html.ValidationMessage(utilisateur.Password, "", new { @class = "text-danger" })
+                                <label for="password">Confirmez votre nouveau Mot de Passe</label>
                             </div>
+                        </div>
 
-                                <div class="row">
-                                    <input type="submit" value="Modifier" class="btn btn-default" />
-                                </div>
+                        <div class="row">
+                            <input type="submit" value="Modifier" class="btn btn-default" />
+                        </div>
                     }
                 </div>
             </div>
@@ -133,6 +144,28 @@
             $('#modalDetail').openModal();
             $('#contentDetail').load('/Commandes/Details/' + idCommande);
         }
+
+        function addClicEat(idCommande) {
+             let data = { 'id': idCommande };
+
+            $.ajax({
+                url: '@Url.Action("AddClicEat", "WebService")',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json; charset=utf-8',
+                DataType: 'json',
+                success: function (data) {
+                    $('#' + idCommande).addClass('scale-out');
+                    $('#' + idCommande).empty();
+
+                    Materialize.toast("Commande ajoutée aux Clic'Eat !", 5000);
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        };
+
     </script>
 
 }
